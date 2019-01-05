@@ -8,8 +8,8 @@ class TodoApp extends Component {
   constructor() {
     super()
     this.state = {
-      loggedIn: true,
-      loggedInAs: '5c2f76ec8b04b60c754df0d',
+      loggedIn: false,
+      loggedInAs: '',
       todo: '',
       todos: [],
       editing: false,
@@ -113,6 +113,7 @@ class TodoApp extends Component {
         const { _id } = res.data.user
         this.setState({ loggedInAs: _id, loggedIn: true })
         this.clearInput()
+        this.refresh()
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
