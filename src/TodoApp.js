@@ -18,7 +18,8 @@ class TodoApp extends Component {
       username: '',
       password: '',
       userError: false,
-      errorMessage: ''
+      errorMessage: '',
+      token: ''
     }
   }
 
@@ -26,6 +27,8 @@ class TodoApp extends Component {
     if (this.state.loggedInAs && this.state.loggedIn) {
       axios.post('/todos', {
         userId: this.state.loggedInAs
+      }, {
+        headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
         console.log(res)
         if (res.data.todos) {
@@ -111,7 +114,7 @@ class TodoApp extends Component {
       console.log(res)
       if (res.status === 200) {
         const { _id } = res.data.user
-        this.setState({ loggedInAs: _id, loggedIn: true })
+        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token })
         this.clearInput()
         this.refresh()
       } else {
