@@ -22,7 +22,7 @@
     "server": "nodemon lib/server.js  --ignore src/",
     "run:development": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "run:production": "concurrently --kill-others-on-fail \"npm run server\" \"npm run build\"",
-    "heroku-postbuild": "npm install && npm install && npm run build"
+    "heroku-postbuild": "npm install && npm run build"
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
