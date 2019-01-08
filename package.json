@@ -8,6 +8,7 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.0.8",
+    "nodemon": "^1.18.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
@@ -18,7 +19,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "node lib/server.js  --ignore src/",
+    "server": "nodemon lib/server.js  --ignore src/",
+    "run:development": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "run:production": "concurrently --kill-others-on-fail \"npm run server\" \"npm run build\"",
     "heroku-postbuild": "npm install && npm install && npm run build"
   },
   "proxy": "http://localhost:8080",
