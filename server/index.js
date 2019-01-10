@@ -4,13 +4,9 @@ const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const path = require('path');
 
-const Todo = require('./models/todo')
+const Comment = require('./models/comment')
 const User = require('./models/user')
-
-const PORT = process.env.PORT || 5000
-const key = "tracy su"
-const uri = process.env.MONGODB_URI || 'mongodb://localhost/todoApp'
-
+const { uri, PORT, key } = require('./config/serverSetup')
 
 mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
@@ -47,14 +43,23 @@ function verifyToken(req, res, next) {
 
 }
 
+app.get('/all-comments', (req, res) => {
+      Comment.find()
+        .then(docs => {
+          res.status(200).json({ payload: docs })
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
+})
+
 app.post('/todos', verifyToken, (req, res) => {
 
   jwt.verify(req.token, key, (err, decodedData) => {
-
     if(err) {
       res.sendStatus(403);
     } else {
-      Todo.find({ userId: req.body.userId})
+      Comment.find({ userId: req.body.userId})
         .then(docs => {
           res.status(200).json({ todos: docs, message: 'token verified.' })
         })
@@ -66,20 +71,36 @@ app.post('/todos', verifyToken, (req, res) => {
   });
 })
 
-app.post('/addTodo', (req, res) => {
-  const { todo, userId } = req.body
-  const newTodo = new Todo({
-    userId,
-    description: todo
-  })
-  newTodo
-    .save()
-    .then(doc => {
-      res.status(201).json({ todo: doc })
-    })
-    .catch(err => {
-      res.status(500).json({ message: err.message })
-    })
+app.post('/addTodo', verifyToken, (req, res) => {
+  jwt.verify(req.token, key, (err, decodedData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      const { todo, userId } = req.body
+      const { username } = decodedData.userInfo
+      const newComment = new Comment({
+        userId,
+        userPosted: username,
+        description: todo
+      })
+      newComment
+        .save()
+        .then(doc => {
+          res.status(201).json({ todo: doc })
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
+
+      Comment.find({ userId: req.body.userId })
+        .then(docs => {
+          res.status(200).json({ todos: docs, message: 'token verified.' })
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
+    }
+  });
 })
 
 // new user
@@ -93,7 +114,8 @@ app.post('/newuser', async (req, res) => {
     user
       .save()
       .then(doc => {
-        res.status(200).json({ user: doc })
+        const token = jwt.sign({ userInfo: doc }, key);
+        res.status(200).json({ user: { _id: doc._id }, token: token })
       })
       .catch(err => {
         res.status(500).json({ message: err.message })
@@ -105,14 +127,12 @@ app.post('/newuser', async (req, res) => {
 
 // login 
 app.post('/login', (req, res) => {
-  console.assert('connected')
   const { username, password } = req.body;
-  User.find({ username, password })
+  User.findOne({ username, password })
     .then(doc => {
-      if(doc.length) {
-        const token = jwt.sign( { _id: doc[0]._id }, key );
-
-        res.status(200).json({ user: { _id: doc[0]._id }, token: token })
+      if(doc) {
+        const token = jwt.sign({ userInfo: doc }, key );
+        res.status(200).json({ user: { _id: doc._id }, token: token })
       } else {
         res.status(203).json({ user: doc, message: 'Wrong username or password' })
       }
@@ -124,7 +144,7 @@ app.post('/login', (req, res) => {
 
 app.put('/todos/edit', (req, res) => {
   const { id, description } = req.body;
-  Todo.findByIdAndUpdate(id, { description })
+  Comment.findByIdAndUpdate(id, { description })
     .then(doc => {
       res.status(200).json({ todo: doc })
     })
@@ -150,7 +170,7 @@ app.put('/todos/edit', (req, res) => {
 app.patch('/todos/complete/:id', (req, res) => {
   const { id } = req.params
 
-  Todo.findByIdAndUpdate(id, { completed: true })
+  Comment.findByIdAndUpdate(id, { completed: true })
     .then(doc => {
       res.status(200).json({ todo: doc })
     })
@@ -162,7 +182,7 @@ app.patch('/todos/complete/:id', (req, res) => {
 app.delete('/todos/:id', (req, res) => {
   const { id, nextTodo } = req.params
 
-  Todo.findByIdAndRemove(id)
+  Comment.findByIdAndRemove(id)
     .then(doc => {
       res.status(200).json({ todo: doc })
     })
