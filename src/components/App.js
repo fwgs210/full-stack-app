@@ -26,6 +26,10 @@ const AppContainer = styled.section.attrs({})`
   padding: 20px 40px;
   border-radius: 5px;
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;  
+  
+  * {
+    box-sizing: border-box;
+  } 
 `;
 
 const UserLogin = styled.div`
