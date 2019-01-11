@@ -12,6 +12,24 @@ mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
 const env = app.get('env');
 
+// mailer
+const mailer = require('express-mailer');
+
+mailer.extend(app, {
+  from: 'no-reply@tracysu.fullstackapp.com',
+  host: 'smtp.gmail.com', // hostname
+  secureConnection: true, // use SSL
+  port: 465, // port for secure SMTP
+  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+  auth: {
+    user: 'tracysu1990@gmail.com',
+    pass: '87532998'
+  }
+});
+
+app.set('views', __dirname + '/mailer');
+app.set('view engine', 'jade');
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -43,6 +61,25 @@ function verifyToken(req, res, next) {
 
 }
 
+app.post('/retrieve-user-info', function (req, res, next) {
+
+  const { email } = req.body;
+
+  app.mailer.send('email', {
+    to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field. 
+    subject: 'User information', // REQUIRED.
+    otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables.
+  }, (err) => {
+    if (err) {
+      // handle error
+      console.log(err);
+      res.status(500).json({ message: 'There was an error sending the email' })
+    } else {
+      res.status(200).json({ todos: docs, message: 'Your username and password are sent to your email.' })
+    }
+  });
+});
+
 app.get('/all-comments', (req, res) => {
       Comment.find()
         .then(docs => {
@@ -53,7 +90,7 @@ app.get('/all-comments', (req, res) => {
         })
 })
 
-app.post('/todos', verifyToken, (req, res) => {
+app.post('/user-comments', verifyToken, (req, res) => {
 
   jwt.verify(req.token, key, (err, decodedData) => {
     if(err) {
@@ -71,7 +108,7 @@ app.post('/todos', verifyToken, (req, res) => {
   });
 })
 
-app.post('/addTodo', verifyToken, (req, res) => {
+app.post('/addComment', verifyToken, (req, res) => {
   jwt.verify(req.token, key, (err, decodedData) => {
     if (err) {
       res.sendStatus(403);
@@ -105,12 +142,12 @@ app.post('/addTodo', verifyToken, (req, res) => {
 
 // new user
 app.post('/newuser', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
-  const userExist = await User.find({ username }).then(res => res.length)
+  const userExist = await User.findOne({ username, email })
 
   if (!userExist) {
-    const user = new User({ username, password })
+    const user = new User({ username, password, email })
     user
       .save()
       .then(doc => {
@@ -125,16 +162,38 @@ app.post('/newuser', async (req, res) => {
   }
 })
 
+// SSO login 
+app.post('/login/sso', verifyToken, (req, res) => {
+  jwt.verify(req.token, key, (err, decodedData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      const { username, password } = decodedData.userInfo
+      User.findOne({ username, password })
+        .then(doc => {
+          if (doc) {
+            res.status(200).json({ user: { _id: doc._id } })
+          } else {
+            res.status(203).json({ user: doc, message: 'Authentication failed' })
+          }
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
+    }
+  });
+})
+
 // login 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username, password })
     .then(doc => {
       if(doc) {
-        const token = jwt.sign({ userInfo: doc }, key );
+        const token = jwt.sign({ userInfo: doc }, key ); // user token structure
         res.status(200).json({ user: { _id: doc._id }, token: token })
       } else {
-        res.status(203).json({ user: doc, message: 'Wrong username or password' })
+        res.status(203).json({ user: doc, message: 'Authentication failed' })
       }
     })
     .catch(err => {
@@ -142,7 +201,7 @@ app.post('/login', (req, res) => {
     })
 })
 
-app.put('/todos/edit', (req, res) => {
+app.put('/user-comments/edit', (req, res) => {
   const { id, description } = req.body;
   Comment.findByIdAndUpdate(id, { description })
     .then(doc => {
@@ -167,20 +226,20 @@ app.put('/todos/edit', (req, res) => {
 //   }
 // })
 
-app.patch('/todos/complete/:id', (req, res) => {
+// app.patch('/todos/complete/:id', (req, res) => {
+//   const { id } = req.params
+
+//   Comment.findByIdAndUpdate(id, { completed: true })
+//     .then(doc => {
+//       res.status(200).json({ todo: doc })
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: err })
+//     })
+// })
+
+app.delete('/user-comments/:id', (req, res) => {
   const { id } = req.params
-
-  Comment.findByIdAndUpdate(id, { completed: true })
-    .then(doc => {
-      res.status(200).json({ todo: doc })
-    })
-    .catch(err => {
-      res.status(500).json({ message: err })
-    })
-})
-
-app.delete('/todos/:id', (req, res) => {
-  const { id, nextTodo } = req.params
 
   Comment.findByIdAndRemove(id)
     .then(doc => {

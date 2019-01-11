@@ -5,7 +5,6 @@ import avatar from '../assets/images/avatar-default.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   InputGroup,
-  InputLabel,
   InputButton,
   InputTextarea
 } from './Input'
@@ -57,6 +56,7 @@ const Icon = styled.span`
   color: #4285F4;
   margin-right: 1rem;
   text-decoration: none;
+  font-size: 0.875rem;
 
   &:hover {
     color:#2c5aa7;
