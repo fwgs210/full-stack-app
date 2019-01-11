@@ -69,3 +69,18 @@ export const InputButton = styled.button`
     text-transform: uppercase;
     cursor: pointer;
 `
+
+export const LineButton = styled.a.attrs({ type: 'button' })`
+    width: 100%;
+    background: none;
+    border: none;
+    color: #999;
+    text-decoration: underline;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 20px 10px 5px;
+    text-align: center;
+`

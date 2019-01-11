@@ -22,7 +22,7 @@ mailer.extend(app, {
   port: 465, // port for secure SMTP
   transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
   auth: {
-    user: 'tracysu1990@gmail.com',
+    user: 'tracywebconsultant@gmail.com',
     pass: '87532998'
   }
 });
@@ -61,23 +61,36 @@ function verifyToken(req, res, next) {
 
 }
 
-app.post('/retrieve-user-info', function (req, res, next) {
+app.post('/retrieve-user-info', function (req, res) {
 
   const { email } = req.body;
 
-  app.mailer.send('email', {
-    to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field. 
-    subject: 'User information', // REQUIRED.
-    otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables.
-  }, (err) => {
-    if (err) {
-      // handle error
-      console.log(err);
-      res.status(500).json({ message: 'There was an error sending the email' })
-    } else {
-      res.status(200).json({ todos: docs, message: 'Your username and password are sent to your email.' })
-    }
-  });
+  User.findOne({ email })
+    .then(doc => {
+      if (doc) {
+        app.mailer.send('email', {
+          to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field. 
+          from: 'no-reply@tracysu.fullstackapp.com',
+          subject: 'Password Reset', // REQUIRED.
+          username: doc.username,
+          password: doc.password,
+          otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables.
+        }, (err) => {
+          if (err) {
+            res.status(500).json({ message: 'There was an error sending the email' })
+          } else {
+            res.status(200).json({ message: 'Your username and password are sent to your email.' })
+          }
+        });
+      } else {
+        res.status(203).json({ message: 'Your email does not exist in our database.' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
+
+
 });
 
 app.get('/all-comments', (req, res) => {
@@ -211,32 +224,6 @@ app.put('/user-comments/edit', (req, res) => {
       res.status(500).json({ message: err.message })
     })
 })
-
-// app.put('/todos/:index/:nextTodo', (req, res) => {
-//   const { index, nextTodo } = req.params
-//   let todo = todos[index]
-
-//   if (todo) {
-//     todos[index] = nextTodo
-//     res.status(200).json({ todo: todos[index] })
-//   } else {
-//     res.status(404).json({
-//       message: 'The todo does not exist.'
-//     })
-//   }
-// })
-
-// app.patch('/todos/complete/:id', (req, res) => {
-//   const { id } = req.params
-
-//   Comment.findByIdAndUpdate(id, { completed: true })
-//     .then(doc => {
-//       res.status(200).json({ todo: doc })
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: err })
-//     })
-// })
 
 app.delete('/user-comments/:id', (req, res) => {
   const { id } = req.params

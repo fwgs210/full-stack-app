@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import ShowComments from './ShowComments'
 import AddComment from './AddComment'
+import UserForm from './UserForm'
 import axios from 'axios'
 import styled from 'styled-components'
-import {
-  InputGroup,
-  InputLabel,
-  InputField,
-  InputButton
-} from './Input'
+import { LineButton } from './Input'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -28,12 +24,6 @@ const AppContainer = styled.section.attrs({})`
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;  
 `;
 
-const UserLogin = styled.div`
-  width: 100%;
-  max-width: 450px;
-  margin: 40px auto 0;
-`;
-
 const NewPostContainer = styled.div`
   margin-top: 3rem;
 `;
@@ -43,20 +33,6 @@ const ErrorMessage = styled.div`
   text-align: center;
   font-size: .875rem;
 `;
-
-const LineButton = styled.button`
-    width: 100%;
-    background: none;
-    border: none;
-    color: #999;
-    text-decoration: underline;
-    font-size: inherit;
-    font-weight: 500;
-    line-height: inherit;
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 12px 20px;
-`
 
 const defaultState = {
   registering: false,
@@ -73,7 +49,8 @@ const defaultState = {
   rePassword: '',
   userError: false,
   errorMessage: '',
-  token: ''
+  token: '',
+  forgetPass: false
 }
 
 class App extends Component {
@@ -89,14 +66,12 @@ class App extends Component {
       }, {
         headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
-        console.log(res)
         if (res.data.todos) {
           this.setState({ todos: res.data.todos })
         }
       })
     } else {
       axios.get('/all-comments').then(res => {
-        console.log(res.data.payload)
         if (res.data.payload) {
           this.setState({ todos: res.data.payload })
         }
@@ -116,7 +91,8 @@ class App extends Component {
       password: '',
       rePassword: '',
       userError: false,
-      errorMessage: ''
+      errorMessage: '',
+      forgetPass: false
     })
   }
 
@@ -159,17 +135,13 @@ class App extends Component {
     this.clearInput()
   }
 
-  forgetPass = () => {
+  forgetPassRequest = (e) => {
+    e.preventDefault()
     axios.post('/retrieve-user-info', {
-      email: 'tracysu1990@hotmail.com'
+      email: this.state.email
     }).then(res => {
-      console.log(res)
       if (res.status === 200) {
-        console.log(res)
-        // const { _id } = res.data.user
-        // this.setState({ loggedInAs: _id, loggedIn: true, token })
-        // this.clearInput()
-        // this.loadComments()
+        this.setState({ userError: true, errorMessage: res.data.message, email: '' })
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -190,7 +162,6 @@ class App extends Component {
       email: stripSpaces(this.state.email),
       password: stripSpaces(this.state.password)
     }).then(res => {
-      console.log(res)
       if (res.status === 200) {
         const { _id } = res.data.user
         this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token })
@@ -224,7 +195,6 @@ class App extends Component {
       username: stripSpaces(this.state.username),
       password: stripSpaces(this.state.password)
     }).then(res => {
-      console.log(res)
       if (res.status === 200) {
         const { _id } = res.data.user
         window.sessionStorage.setItem('token', res.data.token);
@@ -255,8 +225,6 @@ class App extends Component {
     } else {
       this.loadComments()
     }
-
-    this.forgetPass()
   }
 
   render() {
@@ -275,50 +243,13 @@ class App extends Component {
           updateTodo={this.updateTodo}
         />
         { !this.state.loggedIn ? (
-          <UserLogin>
-            {
-              this.state.registering ? (
-                <form onSubmit={this.createNewUser}>
-                  <InputGroup>
-                    <InputLabel>username</InputLabel>
-                    <InputField value={this.state.username} onChange={(e) => this.handleChange('username', e.target.value)} type="text" required />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLabel>email</InputLabel>
-                    <InputField value={this.state.email} onChange={(e) => this.handleChange('email', e.target.value)} type="email" required />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLabel>password</InputLabel>
-                    <InputField value={this.state.password} onChange={(e) => this.handleChange('password', e.target.value)} type="password" required />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLabel>Re-type password</InputLabel>
-                    <InputField value={this.state.rePassword} onChange={(e) => this.handleChange('rePassword', e.target.value)} type="password" required />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputButton type="submit">Register</InputButton>
-                    <LineButton onClick={() => this.setState({ registering: false })}>Login</LineButton>
-                  </InputGroup>
-                </form>
-              ) : (
-                <form onSubmit={this.userLogin}>
-                  <InputGroup>
-                  <InputLabel>username</InputLabel>
-                  <InputField value={this.state.username} onChange={(e) => this.handleChange('username', e.target.value)} type="text" required />
-                </InputGroup>
-                <InputGroup>
-                  <InputLabel>password</InputLabel>
-                  <InputField value={this.state.password} onChange={(e) => this.handleChange('password', e.target.value)} type="password" required />
-                </InputGroup>
-                <InputGroup>
-                  <InputButton type="submit">login</InputButton>
-                  <LineButton onClick={() => this.setState({registering: true})}>Register here</LineButton>
-                </InputGroup>
-                </form>
-              )
-            }
-
-          </UserLogin>
+          <UserForm 
+            handleChange = {this.handleChange} 
+            createNewUser={this.createNewUser}
+            userLogin={this.userLogin}
+            forgetPassRequest={this.forgetPassRequest}
+            state={this.state}
+          />
         ) : (
           <NewPostContainer>
               <AddComment
