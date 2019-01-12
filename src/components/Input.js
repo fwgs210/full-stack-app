@@ -83,4 +83,5 @@ export const LineButton = styled.a.attrs({ type: 'button' })`
     cursor: pointer;
     margin: 20px 10px 5px;
     text-align: center;
+    display: inline-block;
 `
