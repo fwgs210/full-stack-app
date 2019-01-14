@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const path = require('path');
+const http = require('http');
+const enforce = require('express-sslify');
 
 const Comment = require('./models/comment')
 const User = require('./models/user')
@@ -14,7 +16,6 @@ const env = app.get('env');
 
 // mailer
 const nodemailer = require("nodemailer");
-
 const mailConnectionAuth = {
   host: "smtp.gmail.com",
   port: 465,
@@ -31,9 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-if (env === 'production') {
-  app.use(express.static(path.join(__dirname, '../build')));
-}
+
 
 // Verify Token
 function verifyToken(req, res, next) {
@@ -252,7 +251,18 @@ app.delete('/user-comments/:id', (req, res) => {
     })
 })
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}.`)
-  console.log(env)
-})
+if (env === 'production') { // PROD setup
+  app.use(express.static(path.join(__dirname, '../build')));
+  app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
+
+  http.createServer(app).listen(PORT, function () {
+    console.log('Express server listening on port ' + PORT);
+  });
+}
+
+if (env === 'development') { // DEV setup
+  http.createServer(app).listen(PORT, function () {
+    console.log(`Server listening on port ${PORT}.`)
+    console.log(env)
+  });
+}
