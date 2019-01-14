@@ -13,22 +13,17 @@ const app = express()
 const env = app.get('env');
 
 // mailer
-const mailer = require('express-mailer');
+const nodemailer = require("nodemailer");
 
-mailer.extend(app, {
-  from: 'no-reply@tracysu.fullstackapp.com',
-  host: 'smtp.gmail.com', // hostname
-  secureConnection: true, // use SSL
-  port: 465, // port for secure SMTP
-  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+const mailConnectionAuth = {
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true for 465, false for other ports
   auth: {
-    user: 'tracywebconsultant@gmail.com',
-    pass: '87532998'
+    user: 'tracywebconsultant@gmail.com', // generated ethereal user
+    pass: '87532998' // generated ethereal password
   }
-});
-
-app.set('views', __dirname + '/mailer');
-app.set('view engine', 'jade');
+}
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -61,27 +56,47 @@ function verifyToken(req, res, next) {
 
 }
 
-app.post('/retrieve-user-info', function (req, res) {
+app.post('/retrieve-user-info', (req, res) => {
 
   const { email } = req.body;
 
   User.findOne({ email })
     .then(doc => {
       if (doc) {
-        app.mailer.send('email', {
-          to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field. 
-          from: 'no-reply@tracysu.fullstackapp.com',
-          subject: 'Password Reset', // REQUIRED.
-          username: doc.username,
-          password: doc.password,
-          otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables.
-        }, (err) => {
-          if (err) {
-            res.status(500).json({ message: 'There was an error sending the email' })
-          } else {
-            res.status(200).json({ message: 'Your username and password are sent to your email.' })
-          }
-        });
+        async function setupMailer() {
+          // create reusable transporter object using the default SMTP transport
+          const transporter = nodemailer.createTransport(mailConnectionAuth);
+
+          // setup email data with unicode symbols
+          const mailOptions = {
+            from: '"Password Recovery" <donotreply@tracy-su-full-stack-app.com>', // sender address
+            to: email, // list of receivers
+            subject: "User Information", // Subject line
+            text: `Here are your login info
+            Username: ${doc.username}
+            Password: ${doc.password}
+            `, // plain text body
+            html: `<h1>Here are your login info</h1>
+            <p>Username: ${doc.username}</p>
+            <p>Password: ${doc.password}</p>
+            ` // html body
+          };
+
+          // send mail with defined transport object
+          await transporter.sendMail(mailOptions)
+
+          // verify connection configuration
+          transporter.verify(error => {
+            if (error) {
+              res.status(203).json({ message: 'There was an error sending the email' })
+            } else {
+              res.status(200).json({ message: 'Your username and password are sent to your email.' })
+            }
+          });
+        }
+
+        setupMailer().catch(console.error);
+
       } else {
         res.status(203).json({ message: 'Your email does not exist in our database.' })
       }
@@ -206,7 +221,7 @@ app.post('/login', (req, res) => {
         const token = jwt.sign({ userInfo: doc }, key ); // user token structure
         res.status(200).json({ user: { _id: doc._id }, token: token })
       } else {
-        res.status(203).json({ user: doc, message: 'Authentication failed' })
+        res.status(203).json({ message: 'Authentication failed' })
       }
     })
     .catch(err => {

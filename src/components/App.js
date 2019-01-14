@@ -142,7 +142,8 @@ class App extends Component {
     }).then(res => {
       if (res.status === 200) {
         this.setState({ userError: true, errorMessage: res.data.message, email: '' })
-      } else {
+      }
+      if (res.status === 203) {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
     })
