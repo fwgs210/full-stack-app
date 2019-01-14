@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path');
 const http = require('http');
 const enforce = require('express-sslify');
+const cors = require('cors')
 
 const Comment = require('./models/comment')
 const User = require('./models/user')
@@ -32,7 +33,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-
+// allow CORS
+app.use(cors())
 
 // Verify Token
 function verifyToken(req, res, next) {
