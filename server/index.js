@@ -24,9 +24,6 @@ const mailConnectionAuth = {
   auth: {
     user: 'tracywebconsultant@gmail.com', // generated ethereal user
     pass: '87532998' // generated ethereal password
-  },
-  tls: {
-    rejectUnauthorized: false
   }
 }
 
@@ -260,9 +257,12 @@ if (env === 'production') { // PROD setup
   app.use(express.static(path.join(__dirname, '../build')));
   app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
 
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
+
   http.createServer(app).listen(PORT, function () {
     console.log('Express server listening on port ' + PORT);
   });
+
 }
 
 if (env === 'development') { // DEV setup
