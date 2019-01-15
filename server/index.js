@@ -24,6 +24,9 @@ const mailConnectionAuth = {
   auth: {
     user: 'tracywebconsultant@gmail.com', // generated ethereal user
     pass: '87532998' // generated ethereal password
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 }
 
