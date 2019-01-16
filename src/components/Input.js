@@ -5,6 +5,7 @@ export const InputGroup = styled.label`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 0 20px;
+  align-items: center;
 `
 
 export const InputLabel = styled.label`

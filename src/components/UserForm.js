@@ -14,6 +14,22 @@ const UserLogin = styled.div`
   margin: 40px auto 0;
 `;
 
+const RadioOption = styled.span`
+  display: flex;
+  justify-content: center;
+  flex-wrap:wrap;
+  align-items: center;
+
+  [type="radio"] {
+      width: 100%;
+      margin-top: .5rem;
+  }
+
+  img {
+      width: 48px;
+  }
+`;
+
 const UserForm = props => {
     const { registering, username, email, password, rePassword, forgetPass } = props.state
     const { handleChange, createNewUser, userLogin, forgetPassRequest } = props;
@@ -21,6 +37,15 @@ const UserForm = props => {
     const registerForm =
         <UserLogin>
             <form onSubmit={createNewUser}>
+                <InputGroup>
+                    <InputLabel>choose your avatar</InputLabel>
+                    <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-default.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-yellow.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-1.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-2.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-beared.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-brown.png')} /></RadioOption>
+                </InputGroup>
                 <InputGroup>
                     <InputLabel>username</InputLabel>
                     <InputField value={username} onChange={(e) => handleChange('username', e.target.value)} type="text" required />

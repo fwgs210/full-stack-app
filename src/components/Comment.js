@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import avatar from '../assets/images/avatar-default.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   InputGroup,
@@ -81,7 +80,8 @@ EditTodo.propTypes = {
 }
 
 const Comment = props => {
-  const { description, id, removeTodo, editTodo, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn } = props
+  const { description, id, removeTodo, editTodo, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn, profileImg } = props
+  
   return (
     <CommentContainer key={description}>
       {
@@ -102,7 +102,7 @@ const Comment = props => {
     }
       </IconContainer>
       <AuthorContainer>
-        <img width="32" src={avatar} />&nbsp;&nbsp;By {userPosted}
+        <img width="32" src={profileImg ? profileImg : '/assets/images/avatar-default.png'} />&nbsp;&nbsp;By {userPosted}
       </AuthorContainer>
     </CommentContainer>
   )

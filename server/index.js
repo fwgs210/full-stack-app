@@ -136,7 +136,8 @@ app.post('/user-comments', verifyToken, (req, res) => {
     if(err) {
       res.sendStatus(403);
     } else {
-      Comment.find({ userId: req.body.userId})
+      console.log(decodedData)
+      Comment.find({ userId: decodedData.userInfo._id})
         .then(docs => {
           res.status(200).json({ todos: docs, message: 'token verified.' })
         })
@@ -154,24 +155,17 @@ app.post('/addComment', verifyToken, (req, res) => {
       res.sendStatus(403);
     } else {
       const { todo, userId } = req.body
-      const { username } = decodedData.userInfo
+      const { username, profileImg } = decodedData.userInfo
       const newComment = new Comment({
         userId,
         userPosted: username,
-        description: todo
+        description: todo,
+        userProfileImg: profileImg ? profileImg : ''
       })
       newComment
         .save()
         .then(doc => {
-          res.status(201).json({ todo: doc })
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
-
-      Comment.find({ userId: req.body.userId })
-        .then(docs => {
-          res.status(200).json({ todos: docs, message: 'token verified.' })
+          res.status(201).json({ comment: doc })
         })
         .catch(err => {
           res.status(500).json({ message: err.message })
@@ -182,12 +176,12 @@ app.post('/addComment', verifyToken, (req, res) => {
 
 // new user
 app.post('/newuser', async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email, profileImg } = req.body;
 
   const userExist = await User.findOne({ username, email })
 
   if (!userExist) {
-    const user = new User({ username, password, email })
+    const user = new User({ username, password, email, profileImg })
     user
       .save()
       .then(doc => {
@@ -231,7 +225,7 @@ app.post('/login', (req, res) => {
     .then(doc => {
       if(doc) {
         const token = jwt.sign({ userInfo: doc }, key ); // user token structure
-        res.status(200).json({ user: { _id: doc._id }, token: token })
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg }, token: token })
       } else {
         res.status(203).json({ message: 'Authentication failed' })
       }

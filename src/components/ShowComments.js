@@ -15,6 +15,7 @@ const ShowComments = props => {
           loggedIn={loggedIn}
           removeTodo={removeTodo}
           description={todo.description}
+          profileImg={todo.userProfileImg ? todo.userProfileImg : ''}
           id={todo._id}
           key={todo._id}
           completed={todo.completed}

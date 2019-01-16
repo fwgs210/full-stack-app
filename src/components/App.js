@@ -35,6 +35,7 @@ const ErrorMessage = styled.div`
 `;
 
 const defaultState = {
+  profileImg: null,
   registering: false,
   loggedIn: false,
   loggedInAs: '',
@@ -61,9 +62,7 @@ class App extends Component {
 
   loadComments = () => {
     if (this.state.loggedInAs && this.state.loggedIn) {
-      axios.post('/user-comments', {
-        userId: this.state.loggedInAs
-      }, {
+      axios.post('/user-comments', {}, {
         headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
         if (res.data.todos) {
@@ -161,7 +160,8 @@ class App extends Component {
     axios.post('/newuser', {
       username: stripSpaces(this.state.username),
       email: stripSpaces(this.state.email),
-      password: stripSpaces(this.state.password)
+      password: stripSpaces(this.state.password),
+      profileImg: this.state.profileImage
     }).then(res => {
       if (res.status === 200) {
         const { _id } = res.data.user
@@ -178,7 +178,6 @@ class App extends Component {
     axios.post('/login/sso', {}, {
       headers: { 'Authorization': 'bearer ' + token }
     }).then(res => {
-      console.log(res)
       if (res.status === 200) {
         const { _id } = res.data.user
         this.setState({ loggedInAs: _id, loggedIn: true, token })
@@ -197,9 +196,9 @@ class App extends Component {
       password: stripSpaces(this.state.password)
     }).then(res => {
       if (res.status === 200) {
-        const { _id } = res.data.user
+        const { _id, profileImg } = res.data.user
         window.sessionStorage.setItem('token', res.data.token);
-        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token })
+        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg })
         this.clearInput()
         this.loadComments()
       } else {

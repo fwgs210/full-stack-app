@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
   userId: { type: String, required: true },
+  userProfileImg: { type: String, required: false },
   userPosted: { type: String, required: true },
   description: { type: String, required: true }
 })
