@@ -17,15 +17,70 @@ const env = app.get('env');
 
 // mailer
 const nodemailer = require("nodemailer");
+const { google } = require('googleapis');
+// const mailConnectionAuth = {
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true, // true for 465, false for other ports
+//   auth: {
+//     user: 'tracywebconsultant@gmail.com', // generated ethereal user
+//     pass: '87532998' // generated ethereal password
+//   }
+// }
+
 const mailConnectionAuth = {
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // true for 465, false for other ports
+  service: "gmail",
   auth: {
-    user: 'tracywebconsultant@gmail.com', // generated ethereal user
-    pass: '87532998' // generated ethereal password
+    type: "OAuth2",
+    user: "tracywebconsultant@gmail.com",
+    clientId: "902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com",
+    clientSecret: "Ptuzd373hZGgUFoWH9B9wLVk",
+    accessToken: 'ya29.GluTBv3QHQWuGTVLoGHCbZNqtWtRrMqnN-RnDjzlzjGWrvfn_oGUgHAjbYo2ojXKLVl_O2aKER3poVPYXHUYtzEeP-jPGHoPKpSGb9fBoh147QuFSX-NGpm83VRK'
   }
-}
+};
+
+// const oauth2Client = new google.auth.OAuth2(
+//   "902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com",
+//   "Ptuzd373hZGgUFoWH9B9wLVk",
+//   "https://developers.google.com/oauthplayground"
+// );
+
+// async function getAccessToken() {
+//   const oauth2Client = new google.auth.OAuth2(
+//     '902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com',
+//     'Ptuzd373hZGgUFoWH9B9wLVk',
+//     'https://developers.google.com/oauthplayground'
+//   );
+//   await oauth2Client.setCredentials({
+//     getRequestHeaders: 'y_4xUDo5HEpUWz1agrNVmKKwnWwblYMWAE7COz9FJ7Q'
+//   });
+//   const { tokens } = await oauth2Client.getToken()
+//   oauth2Client.setCredentials(tokens);
+//   const accToken = await tokens.credentials.access_token
+//   return accToken;
+// }
+
+
+// Each API may support multiple version. With this sample, we're getting
+// v3 of the blogger API, and using an API key to authenticate.
+// const blogger = google.blogger({
+//   version: 'v3',
+//   auth: '902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com'
+// });
+
+// const params = {
+//   blogId: 3213900
+// };
+
+// // get the blog details
+// blogger.blogs.get(params)
+//   .then(res => {
+//     console.log(`The blog url is ${res.data.url}`);
+//   })
+//   .catch(error => {
+//     console.error(error);
+//   });
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -66,17 +121,14 @@ app.post('/retrieve-user-info', (req, res) => {
       if (doc) {
         async function setupMailer() {
           // create reusable transporter object using the default SMTP transport
-          const transporter = nodemailer.createTransport(mailConnectionAuth);
+          const transporter = await nodemailer.createTransport(mailConnectionAuth);
 
           // setup email data with unicode symbols
           const mailOptions = {
             from: '"Password Recovery" <donotreply@tracy-su-full-stack-app.com>', // sender address
             to: email, // list of receivers
             subject: "User Information", // Subject line
-            text: `Here are your login info
-            Username: ${doc.username}
-            Password: ${doc.password}
-            `, // plain text body
+            generateTextFromHTML: true,
             html: `<h1>Here are your login info</h1>
             <p>Username: ${doc.username}</p>
             <p>Password: ${doc.password}</p>
