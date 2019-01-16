@@ -10,6 +10,7 @@ const cors = require('cors')
 const Comment = require('./models/comment')
 const User = require('./models/user')
 const { uri, PORT, key } = require('./config/serverSetup')
+const token = require('./config/emailToken')
 
 mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
@@ -17,7 +18,7 @@ const env = app.get('env');
 
 // mailer
 const nodemailer = require("nodemailer");
-const { google } = require('googleapis');
+// const { google } = require('googleapis');
 // const mailConnectionAuth = {
 //   host: "smtp.gmail.com",
 //   port: 465,
@@ -33,54 +34,12 @@ const mailConnectionAuth = {
   auth: {
     type: "OAuth2",
     user: "tracywebconsultant@gmail.com",
-    clientId: "902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com",
-    clientSecret: "Ptuzd373hZGgUFoWH9B9wLVk",
-    accessToken: 'ya29.GluTBv3QHQWuGTVLoGHCbZNqtWtRrMqnN-RnDjzlzjGWrvfn_oGUgHAjbYo2ojXKLVl_O2aKER3poVPYXHUYtzEeP-jPGHoPKpSGb9fBoh147QuFSX-NGpm83VRK'
+    clientId: token.clientId,
+    clientSecret: token.clientSecret,
+    refreshToken: token.refreshToken,
+    accessToken: token.accessToken
   }
 };
-
-// const oauth2Client = new google.auth.OAuth2(
-//   "902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com",
-//   "Ptuzd373hZGgUFoWH9B9wLVk",
-//   "https://developers.google.com/oauthplayground"
-// );
-
-// async function getAccessToken() {
-//   const oauth2Client = new google.auth.OAuth2(
-//     '902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com',
-//     'Ptuzd373hZGgUFoWH9B9wLVk',
-//     'https://developers.google.com/oauthplayground'
-//   );
-//   await oauth2Client.setCredentials({
-//     getRequestHeaders: 'y_4xUDo5HEpUWz1agrNVmKKwnWwblYMWAE7COz9FJ7Q'
-//   });
-//   const { tokens } = await oauth2Client.getToken()
-//   oauth2Client.setCredentials(tokens);
-//   const accToken = await tokens.credentials.access_token
-//   return accToken;
-// }
-
-
-// Each API may support multiple version. With this sample, we're getting
-// v3 of the blogger API, and using an API key to authenticate.
-// const blogger = google.blogger({
-//   version: 'v3',
-//   auth: '902571204161-s52ks7r8rh0pgtrdv325m3u71rq6um68.apps.googleusercontent.com'
-// });
-
-// const params = {
-//   blogId: 3213900
-// };
-
-// // get the blog details
-// blogger.blogs.get(params)
-//   .then(res => {
-//     console.log(`The blog url is ${res.data.url}`);
-//   })
-//   .catch(error => {
-//     console.error(error);
-//   });
-
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
