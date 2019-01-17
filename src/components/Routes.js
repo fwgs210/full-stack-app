@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
+import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
 
 const Routes = App => props=> {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Switch>
                 <Route path="/user/:username" component={App} />
                 <Route path="/register" component={App} />
@@ -11,7 +11,7 @@ const Routes = App => props=> {
                 <Route path="/login" component={App} />
                 <Redirect to="/login" />
             </Switch>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 
