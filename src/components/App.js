@@ -9,7 +9,7 @@ import { LineButton } from '../utils/Input'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { stripSpaces, confirmPopUp } from '../utils/globalFunc'
+import { stripSpaces, confirmPopUp, validatePassword, validateEmail } from '../utils/globalFunc'
 
 // init fontAwesome
 library.add(fas, far)
@@ -158,6 +158,21 @@ class App extends Component {
       })
       return null
     }
+    if (!validatePassword(this.state.password)) {
+      this.setState({
+        userError: true,
+        errorMessage: `Please make sure your password has uppercase, lowercase letter, number, special character and no space.`
+      })
+      return null
+    } 
+    if (!validateEmail(this.state.email)) {
+      this.setState({
+        userError: true,
+        errorMessage: `this email address ${this.state.email} is not valid.`
+      })
+      return null
+    } 
+
     axios.post('/newuser', {
       username: stripSpaces(this.state.username),
       email: stripSpaces(this.state.email),
