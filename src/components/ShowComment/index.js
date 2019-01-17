@@ -1,5 +1,5 @@
 import React from 'react'
-import Comment from './Comment'
+import Comment from '../Comment/index'
 
 const ShowComments = props => {
   const { loggedIn, todos, removeTodo, editTodo, editing, editingTodo, editingTodoId, updateTodo, handleChange } = props

@@ -6,7 +6,7 @@ import {
   InputGroup,
   InputButton,
   InputTextarea
-} from './Input'
+} from '../../utils/Input'
 
 const CommentContainer = styled.summary`
   width: 100%;

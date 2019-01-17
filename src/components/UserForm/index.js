@@ -6,7 +6,7 @@ import {
     InputField,
     InputButton,
     LineButton
-} from './Input'
+} from '../../utils/Input'
 
 const UserLogin = styled.div`
   width: 100%;
@@ -16,12 +16,12 @@ const UserLogin = styled.div`
 
 const RadioOption = styled.span`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   flex-wrap:wrap;
   align-items: center;
 
   [type="radio"] {
-      width: 100%;
       margin-top: .5rem;
   }
 
@@ -32,19 +32,18 @@ const RadioOption = styled.span`
 
 const UserForm = props => {
     const { registering, username, email, password, rePassword, forgetPass } = props.state
-    const { handleChange, createNewUser, userLogin, forgetPassRequest } = props;
-
+    const { handleChange, createNewUser, userLogin, forgetPassRequest, history } = props;
     const registerForm =
         <UserLogin>
             <form onSubmit={createNewUser}>
                 <InputGroup>
                     <InputLabel>choose your avatar</InputLabel>
-                    <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-default.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-yellow.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-1.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-2.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-beared.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><br /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-brown.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-default.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-yellow.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-1.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-2.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-beared.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-brown.png')} /></RadioOption>
                 </InputGroup>
                 <InputGroup>
                     <InputLabel>username</InputLabel>
@@ -64,7 +63,10 @@ const UserForm = props => {
                 </InputGroup>
                 <InputGroup>
                     <InputButton type="submit">Register</InputButton>
-                    <LineButton onClick={() => handleChange('registering', false)}>Login</LineButton>
+                    <LineButton onClick={() => {
+                        handleChange('registering', false);
+                        history.push('/login')
+                    }}>Login</LineButton>
                 </InputGroup>
             </form>
         </UserLogin>
@@ -83,8 +85,14 @@ const UserForm = props => {
                 </InputGroup>
                 <InputGroup>
                     <InputButton type="submit">login</InputButton>
-                    <LineButton onClick={() => handleChange('registering', true)}>Register here</LineButton>
-                    <LineButton onClick={(e) => { e.preventDefault(); handleChange('forgetPass', true) }}>forgot password?</LineButton>
+                    <LineButton onClick={() => {
+                        handleChange('registering', true)
+                        history.push('/register')
+                    }}>Register here</LineButton>
+                    <LineButton onClick={(e) => { 
+                        e.preventDefault(); handleChange('forgetPass', true) 
+                        history.push('/forget-password')
+                    }}>forgot password?</LineButton>
                 </InputGroup>
             </form>
         </UserLogin>
@@ -99,7 +107,10 @@ const UserForm = props => {
                 </InputGroup>
                 <InputGroup>
                     <InputButton type="submit">Submit</InputButton>
-                    <LineButton onClick={() => handleChange('forgetPass', false)}>Login</LineButton>
+                    <LineButton onClick={() => {
+                        handleChange('forgetPass', false)
+                        history.push('/login')
+                    }}>Login</LineButton>
                 </InputGroup>
             </form>
         </UserLogin>

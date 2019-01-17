@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import ShowComments from './ShowComments'
+import ShowComments from './ShowComment'
 import AddComment from './AddComment'
 import UserForm from './UserForm'
 import axios from 'axios'
 import styled from 'styled-components'
-import { LineButton } from './Input'
+import Routes from './Routes'
+import { LineButton } from '../utils/Input'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { stripSpaces, confirmPopUp } from "../utils/globalFunc"
+import { stripSpaces, confirmPopUp } from '../utils/globalFunc'
 
 // init fontAwesome
 library.add(fas, far)
@@ -183,6 +184,7 @@ class App extends Component {
         this.setState({ loggedInAs: _id, loggedIn: true, token })
         this.clearInput()
         this.loadComments()
+        this.props.history.push(`/user/${this.state.loggedInAs}`)
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -201,6 +203,7 @@ class App extends Component {
         this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg })
         this.clearInput()
         this.loadComments()
+        this.props.history.push(`/user/${this.state.loggedInAs}`)
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -216,6 +219,7 @@ class App extends Component {
       })
       await window.sessionStorage.setItem('token', '');
       this.loadComments()
+      this.props.history.push(`/login`)
     }
   }
 
@@ -249,6 +253,7 @@ class App extends Component {
             userLogin={this.userLogin}
             forgetPassRequest={this.forgetPassRequest}
             state={this.state}
+            history={this.props.history}
           />
         ) : (
           <NewPostContainer>
@@ -266,4 +271,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default Routes(App)

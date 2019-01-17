@@ -4,7 +4,7 @@ import {
   InputLabel,
   InputButton,
   InputTextarea
-} from './Input'
+} from '../../utils/Input'
 
 const AddComment = props => {
   const { handleChange, addTodo, todo } = props;
