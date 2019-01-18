@@ -136,7 +136,6 @@ app.post('/user-comments', verifyToken, (req, res) => {
     if(err) {
       res.sendStatus(403);
     } else {
-      console.log(decodedData)
       Comment.find({ userId: decodedData.userInfo._id})
         .then(docs => {
           res.status(200).json({ todos: docs, message: 'token verified.' })
@@ -166,6 +165,26 @@ app.post('/addComment', verifyToken, (req, res) => {
         .save()
         .then(doc => {
           res.status(201).json({ comment: doc })
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
+    }
+  });
+})
+
+// change password
+app.post('/user/change-password', verifyToken, (req, res) => {
+  jwt.verify(req.token, key, (err, decodedData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      const { userId, oldPassword, newPassword } = req.body;
+      const { username } = decodedData.userInfo
+
+      User.findOneAndUpdate({ _id: userId, username, password: oldPassword }, { password: newPassword })
+        .then(doc => {
+          res.status(200).json({ message: 'Password updated' })
         })
         .catch(err => {
           res.status(500).json({ message: err.message })

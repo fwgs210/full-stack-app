@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import ShowComments from './ShowComment'
 import AddComment from './AddComment'
 import UserForm from './UserForm'
+import UserPortal from './UserPortal'
 import axios from 'axios'
 import styled from 'styled-components'
 import Routes from './Routes'
-import { LineButton } from '../utils/Input'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -36,7 +36,7 @@ const ErrorMessage = styled.div`
 `;
 
 const defaultState = {
-  profileImg: null,
+  profileImg: '',
   registering: false,
   loggedIn: false,
   loggedInAs: '',
@@ -249,6 +249,14 @@ class App extends Component {
   render() {
     return (
       <AppContainer>
+        <UserPortal
+          loggedIn={this.state.loggedIn}
+          loggedInAs={this.state.loggedInAs}
+          userProfileImg={this.state.userProfileImg}
+          username={this.state.todos[0] ? this.state.todos[0] : ''}
+          userLogout={this.userLogout}
+          token={this.state.token}
+        />
         <ShowComments
           loggedIn={this.state.loggedIn}
           handleChange={this.handleChange}
@@ -277,7 +285,6 @@ class App extends Component {
                 addTodo={this.addTodo}
                 todo={this.state.todo}
               />
-              <LineButton onClick={this.userLogout}>logout</LineButton>
           </NewPostContainer>
         ) }
         { this.state.userError ? <ErrorMessage>{this.state.errorMessage}</ErrorMessage> : '' }
