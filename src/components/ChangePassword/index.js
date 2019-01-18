@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { LineButton, InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
+import { LineButton, WhiteLink, InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
 import { stripSpaces, validatePassword } from '../../utils/globalFunc'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ErrorMessage = styled.div`
   color: #D31C1D;
@@ -114,7 +115,9 @@ class ChangePassword extends React.Component {
                     {this.state.userError ? <ErrorMessage>{this.state.errorMessage}</ErrorMessage> : ''}
                 </FormContainer>
             ) : (
-                <LineButton style={{ "display": "inline" }} onClick={() => this.handleChange('changingPass', true)}>Change Password</LineButton>
+                    <WhiteLink onClick={() => this.handleChange('changingPass', true)}>
+                        <FontAwesomeIcon prefix="fas" icon="unlock-alt" /> Change Password
+                    </WhiteLink>
             )            
         )
     }

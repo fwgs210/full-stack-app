@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChangePassword from '../ChangePassword'
-import { LineButton } from '../../utils/Input'
+import { WhiteLink } from '../../utils/Input'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const UserPortalContainer = styled.summary`
   width: 100%;
@@ -12,22 +13,36 @@ const UserPortalContainer = styled.summary`
   flex-wrap:wrap;
   justify-content: space-between;
   align-items: center;
+  background: #34495e;
+  border-radius: .5rem;
+  padding: 1rem;
 `;
 
 const LeftPanel = styled.aside` 
   display:flex;
   align-items: center;
   width: 50%;
-  text-align:left;
+  color:#fff;
 
   img {
       margin-right: 10px;
+  }
+
+  @media all and (max-width:640px) {
+    width: 100%;
+    justify-content: left;
+    margin-bottom: 1.5rem;
   }
 `;
 
 const RightPanel = styled.aside`
   width: 50%;
   text-align:right;
+
+  @media all and (max-width:640px) {
+    width: 100%;
+    text-align:left;
+  }
 `;
 
 
@@ -43,7 +58,9 @@ const UserPortal = props => {
                 </LeftPanel>
                 <RightPanel>
                     <ChangePassword loggedInAs={loggedInAs} token={token} />
-                    <LineButton onClick={userLogout} style={{"display": "inline"}}>logout</LineButton>
+                    <WhiteLink onClick={userLogout}>
+                        <FontAwesomeIcon prefix="fas" icon="sign-out-alt" /> Logout
+                    </WhiteLink>
                 </RightPanel>
             </UserPortalContainer>
         )

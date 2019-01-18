@@ -53,12 +53,16 @@ const UpdateContentContainer = styled.div`
 const Icon = styled.span`
   cursor: pointer;
   color: #4285F4;
+  padding: .375rem .75rem;
+  border-radius: 100px;
+  border: 1px solid;
   margin-right: 1rem;
   text-decoration: none;
   font-size: 0.875rem;
 
   &:hover {
-    color:#2c5aa7;
+    color:#fff;
+    background-color: #4285F4;
   }
 `;
 
