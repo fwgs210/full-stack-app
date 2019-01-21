@@ -84,7 +84,7 @@ EditTodo.propTypes = {
 }
 
 const Comment = props => {
-  const { description, id, removeTodo, editTodo, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn, profileImg } = props
+  const { description, id, removeTodo, editTodo, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn, profileImg, userRole } = props
   
   return (
     <CommentContainer key={description}>
@@ -97,7 +97,7 @@ const Comment = props => {
       }
       <IconContainer>
       {
-        loggedIn && !editing ? (
+          (loggedIn || userRole === 'administrator' ) && !editing  ? (
           <React.Fragment>
             <Icon onClick={() => removeTodo(id)}><FontAwesomeIcon prefix="far" icon="trash-alt" /> delete</Icon>
             <Icon onClick={() => editTodo(id, description)}><FontAwesomeIcon prefix="fas" icon="edit" /> edit</Icon>

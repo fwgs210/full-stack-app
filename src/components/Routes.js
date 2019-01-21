@@ -9,6 +9,7 @@ const Routes = App => props=> {
                 <Route path="/register" component={App} />
                 <Route path="/forget-password" component={App} />
                 <Route path="/login" component={App} />
+                <Route path="/dashboard" component={App} />
                 <Redirect to="/login" />
             </Switch>
         </HashRouter>

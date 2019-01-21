@@ -10,7 +10,6 @@ const AddComment = props => {
   const { handleChange, addTodo, todo } = props;
   return (
     <article>
-      {/* <input onChange={handleChange} value={todo} /> */}
       <InputGroup>
         <InputLabel>New Comment:</InputLabel>
         <InputTextarea onChange={(e) => handleChange('todo', e.target.value)} value={todo}></InputTextarea>

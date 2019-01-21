@@ -5,7 +5,7 @@ import { LineButton } from '../../utils/Input'
 
 
 const ShowComments = props => {
-  const { loggedIn, todos, removeTodo, editTodo, editing, editingTodo, editingTodoId, updateTodo, handleChange } = props
+  const { loggedIn, todos, removeTodo, editTodo, editing, editingTodo, editingTodoId, updateTodo, handleChange, userRole } = props
   let { displayComments } = props
 
   if (loggedIn && !todos.length) {
@@ -17,6 +17,7 @@ const ShowComments = props => {
       {todos.slice(0, displayComments).map(todo => (
         <Comment
           loggedIn={loggedIn}
+          userRole={userRole}
           removeTodo={removeTodo}
           description={todo.description}
           profileImg={todo.userProfileImg ? todo.userProfileImg : ''}

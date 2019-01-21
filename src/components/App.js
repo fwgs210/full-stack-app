@@ -6,6 +6,7 @@ import AddComment from './AddComment'
 import UserForm from './UserForm'
 import UserPortal from './UserPortal'
 import Routes from './Routes'
+import Dashboard from './Dashboard'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -54,7 +55,8 @@ const defaultState = {
   userError: false,
   errorMessage: '',
   token: '',
-  forgetPass: false
+  forgetPass: false,
+  userRole: ''
 }
 
 class App extends Component {
@@ -64,18 +66,23 @@ class App extends Component {
   }
 
   loadComments = () => {
-    if (this.state.loggedInAs && this.state.loggedIn) {
+    
+    if ((this.state.loggedInAs && this.state.loggedIn) || this.state.role === 'administrator') {
       axios.post('/api/user-comments', {}, {
         headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
-        if (res.data.todos) {
+        if (res.data.todos && res.status === 200) {
           this.setState({ todos: res.data.todos, loaded: true  })
+        } else {
+          this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
       })
     } else {
       axios.get('/api/all-comments').then(res => {
-        if (res.data.payload) {
+        if (res.data.payload && res.status === 200) {
           this.setState({ todos: res.data.payload, loaded: true  })
+        } else {
+          this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
       })
     }
@@ -186,8 +193,8 @@ class App extends Component {
       profileImg: this.state.profileImage
     }).then(res => {
       if (res.status === 200) {
-        const { _id } = res.data.user
-        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token })
+        const { _id, role } = res.data.user
+        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, userRole: role })
         this.clearInput()
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
@@ -201,8 +208,8 @@ class App extends Component {
       headers: { 'Authorization': 'bearer ' + token }
     }).then(res => {
       if (res.status === 200) {
-        const { _id } = res.data.user
-        this.setState({ loggedInAs: _id, loggedIn: true, token })
+        const { _id, profileImg, role} = res.data.user
+        this.setState({ loggedInAs: _id, loggedIn: true, token, profileImg, userRole: role })
         this.clearInput()
         this.loadComments()
         this.props.history.push(`/user/${this.state.loggedInAs}`)
@@ -219,9 +226,9 @@ class App extends Component {
       password: stripSpaces(this.state.password)
     }).then(res => {
       if (res.status === 200) {
-        const { _id, profileImg } = res.data.user
+        const { _id, profileImg, role} = res.data.user
         window.sessionStorage.setItem('token', res.data.token);
-        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg })
+        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg, userRole: role })
         this.clearInput()
         this.loadComments()
         this.props.history.push(`/user/${this.state.loggedInAs}`)
@@ -258,12 +265,14 @@ class App extends Component {
         <UserPortal
           loggedIn={this.state.loggedIn}
           loggedInAs={this.state.loggedInAs}
-          userProfileImg={this.state.userProfileImg}
+          userProfileImg={this.state.profileImg}
           username={this.state.todos[0] ? this.state.todos[0] : ''}
           userLogout={this.userLogout}
           token={this.state.token}
         />
+        <Dashboard userRole={this.state.userRole} token={this.state.token} />
         <ShowComments
+          userRole={this.state.userRole}
           loaded={this.state.loaded}
           loggedIn={this.state.loggedIn}
           handleChange={this.handleChange}
@@ -278,15 +287,18 @@ class App extends Component {
           displayComments={this.state.displayComments}
         />
         { !this.state.loggedIn ? (
-          <UserForm 
-            loaded={this.state.loaded}
-            handleChange = {this.handleChange} 
-            createNewUser={this.createNewUser}
-            userLogin={this.userLogin}
-            forgetPassRequest={this.forgetPassRequest}
-            state={this.state}
-            history={this.props.history}
-          />
+          <React.Fragment>
+            <UserForm 
+              loaded={this.state.loaded}
+              handleChange = {this.handleChange} 
+              createNewUser={this.createNewUser}
+              userLogin={this.userLogin}
+              forgetPassRequest={this.forgetPassRequest}
+              state={this.state}
+              history={this.props.history}
+            / >
+            <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
+          </React.Fragment>
         ) : (
           <NewPostContainer>
               <AddComment
@@ -296,9 +308,7 @@ class App extends Component {
               />
           </NewPostContainer>
         ) }
-        { this.state.userError ? <ErrorMessage>{this.state.errorMessage}</ErrorMessage> : '' }
       </AppContainer>
-      
     )
   }
 }

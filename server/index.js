@@ -10,8 +10,10 @@ const Comment = require('./models/comment')
 const User = require('./models/user')
 const token = require('./config/emailToken')
 const auth = require('./middleware/auth')
+const verifyAdmin = require('./middleware/verifyAdmin')
 const { uri, PORT } = require('./config/serverSetup')
 const { sign } = require('./utils/tokenService')
+const initAdminUser = require('./utils/initAdminUser')
 
 mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
@@ -20,6 +22,7 @@ const env = app.get('env');
 
 // mailer
 const nodemailer = require("nodemailer");
+
 // const { google } = require('googleapis');
 // const mailConnectionAuth = {
 //   host: "smtp.gmail.com",
@@ -44,6 +47,8 @@ const mailConnectionAuth = {
 };
 
 if (env === 'production') { // PROD setup
+  initAdminUser()
+
   app.use(express.static(path.join(__dirname, '../build')));
   app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
 
@@ -72,8 +77,6 @@ app.use(bodyParser.json())
 // app.use(cors())
 
 app.use('/api', router);
-
-// Verify Token
 
 router.route('/retrieve-user-info').post( (req, res) => {
 
@@ -189,7 +192,7 @@ router.route('/newuser').post( async (req, res) => {
       .save()
       .then(doc => {
         const token = sign({ userInfo: doc });
-        res.status(200).json({ user: { _id: doc._id }, token: token })
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
       })
       .catch(err => {
         res.status(500).json({ message: err.message })
@@ -204,8 +207,8 @@ router.route('/login/sso').post( auth, (req, res) => {
   const { username, password } = req.token.userInfo
   User.findOne({ username, password })
     .then(doc => {
-      if (doc) {
-        res.status(200).json({ user: { _id: doc._id } })
+      if (doc) { 
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role } })
       } else {
         res.status(203).json({ user: doc, message: 'Authentication failed' })
       }
@@ -222,7 +225,7 @@ router.route('/login').post( (req, res) => {
     .then(doc => {
       if(doc) {
         const token = sign({ userInfo: doc }); // user token structure
-        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg }, token: token })
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
       } else {
         res.status(203).json({ message: 'Authentication failed' })
       }
@@ -255,3 +258,42 @@ router.route('/user-comments/:id').delete( (req, res) => {
     })
 })
 
+router.route('/users').get( verifyAdmin, (req, res) => {
+  User.find().select({password: 0})
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({ users: doc })
+      } else {
+        res.status(203).json({ message: 'No user found' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
+})
+
+router.route('/users/:userId')
+  .put( verifyAdmin, (req, res) => {
+    const { userId } = req.params;
+    const { username, email, profileImg, role } = req.body
+    
+    User.findByIdAndUpdate(userId, { username, email, profileImg, role })
+      .then(doc => {
+        res.status(200).json({ message: `${username}'s profile updated by ${req.token.userInfo.username}` })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
+  })
+  .delete(verifyAdmin, (req, res) => {
+    const { userId } = req.params;
+
+    User.findByIdAndRemove(userId)
+      .then(doc => {
+        res.status(200).json({ message: `${doc.username} is removed` })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
+  })
+  
