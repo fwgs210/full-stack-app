@@ -1,7 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
 const path = require('path');
 const http = require('http');
 const enforce = require('express-sslify');
@@ -9,11 +8,14 @@ const cors = require('cors')
 
 const Comment = require('./models/comment')
 const User = require('./models/user')
-const { uri, PORT, key } = require('./config/serverSetup')
 const token = require('./config/emailToken')
+const auth = require('./middleware/auth')
+const { uri, PORT } = require('./config/serverSetup')
+const { sign } = require('./utils/tokenService')
 
 mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
+const router = express.Router();
 const env = app.get('env');
 
 // mailer
@@ -41,6 +43,25 @@ const mailConnectionAuth = {
   }
 };
 
+if (env === 'production') { // PROD setup
+  app.use(express.static(path.join(__dirname, '../build')));
+  app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
+
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
+
+  http.createServer(app).listen(PORT, function () {
+    console.log('Express server listening on port ' + PORT);
+  });
+
+}
+
+if (env === 'development') { // DEV setup
+  http.createServer(app).listen(PORT, function () {
+    console.log(`Server listening on port ${PORT}.`)
+    console.log(env)
+  });
+}
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -48,30 +69,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // allow CORS
-app.use(cors())
+// app.use(cors())
+
+app.use('/api', router);
 
 // Verify Token
-function verifyToken(req, res, next) {
-  // Get auth header value
-  const bearerHeader = req.headers['authorization'];
-  // Check if bearer is undefined
-  if(typeof bearerHeader !== 'undefined') {
-    // Split at the space
-    const bearer = bearerHeader.split(' ');
-    // Get token from array
-    const bearerToken = bearer[1];
-    // Set the token
-    req.token = bearerToken;
-    // Next middleware
-    next();
-  } else {
-    // Forbidden
-    res.sendStatus(403);
-  }
 
-}
-
-app.post('/retrieve-user-info', (req, res) => {
+router.route('/retrieve-user-info').post( (req, res) => {
 
   const { email } = req.body;
 
@@ -120,7 +124,7 @@ app.post('/retrieve-user-info', (req, res) => {
 
 });
 
-app.get('/all-comments', (req, res) => {
+router.route('/all-comments').get( (req, res) => {
       Comment.find()
         .then(docs => {
           res.status(200).json({ payload: docs })
@@ -130,71 +134,51 @@ app.get('/all-comments', (req, res) => {
         })
 })
 
-app.post('/user-comments', verifyToken, (req, res) => {
-
-  jwt.verify(req.token, key, (err, decodedData) => {
-    if(err) {
-      res.sendStatus(403);
-    } else {
-      Comment.find({ userId: decodedData.userInfo._id})
-        .then(docs => {
-          res.status(200).json({ todos: docs, message: 'token verified.' })
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
-    }
-
-  });
+router.route('/user-comments').post( auth, (req, res) => {
+  Comment.find({ userId: req.token.userInfo._id })
+    .then(docs => {
+      res.status(200).json({ todos: docs, message: 'token verified.' })
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
 
-app.post('/addComment', verifyToken, (req, res) => {
-  jwt.verify(req.token, key, (err, decodedData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const { todo, userId } = req.body
-      const { username, profileImg } = decodedData.userInfo
-      const newComment = new Comment({
-        userId,
-        userPosted: username,
-        description: todo,
-        userProfileImg: profileImg ? profileImg : ''
-      })
-      newComment
-        .save()
-        .then(doc => {
-          res.status(201).json({ comment: doc })
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
-    }
-  });
+router.route('/addComment').post( auth, (req, res) => {
+  const { todo, userId } = req.body
+  const { username, profileImg } = req.token.userInfo
+  const newComment = new Comment({
+    userId,
+    userPosted: username,
+    description: todo,
+    userProfileImg: profileImg ? profileImg : ''
+  })
+  newComment
+    .save()
+    .then(doc => {
+      res.status(201).json({ comment: doc })
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
 
 // change password
-app.post('/user/change-password', verifyToken, (req, res) => {
-  jwt.verify(req.token, key, (err, decodedData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const { userId, oldPassword, newPassword } = req.body;
-      const { username } = decodedData.userInfo
+router.route('/user/change-password').post(auth, (req, res) => {
+  const { userId, oldPassword, newPassword } = req.body;
+  const { username } = req.token.userInfo
 
-      User.findOneAndUpdate({ _id: userId, username, password: oldPassword }, { password: newPassword })
-        .then(doc => {
-          res.status(200).json({ message: 'Password updated' })
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
-    }
-  });
+  User.findOneAndUpdate({ _id: userId, username, password: oldPassword }, { password: newPassword })
+    .then(doc => {
+      res.status(200).json({ message: 'Password updated' })
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
 
 // new user
-app.post('/newuser', async (req, res) => {
+router.route('/newuser').post( async (req, res) => {
   const { username, password, email, profileImg } = req.body;
 
   const userExist = await User.findOne({ username, email })
@@ -204,7 +188,7 @@ app.post('/newuser', async (req, res) => {
     user
       .save()
       .then(doc => {
-        const token = jwt.sign({ userInfo: doc }, key);
+        const token = sign({ userInfo: doc });
         res.status(200).json({ user: { _id: doc._id }, token: token })
       })
       .catch(err => {
@@ -216,34 +200,28 @@ app.post('/newuser', async (req, res) => {
 })
 
 // SSO login 
-app.post('/login/sso', verifyToken, (req, res) => {
-  jwt.verify(req.token, key, (err, decodedData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const { username, password } = decodedData.userInfo
-      User.findOne({ username, password })
-        .then(doc => {
-          if (doc) {
-            res.status(200).json({ user: { _id: doc._id } })
-          } else {
-            res.status(203).json({ user: doc, message: 'Authentication failed' })
-          }
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
-    }
-  });
+router.route('/login/sso').post( auth, (req, res) => {
+  const { username, password } = req.token.userInfo
+  User.findOne({ username, password })
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({ user: { _id: doc._id } })
+      } else {
+        res.status(203).json({ user: doc, message: 'Authentication failed' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
 
 // login 
-app.post('/login', (req, res) => {
+router.route('/login').post( (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username, password })
     .then(doc => {
       if(doc) {
-        const token = jwt.sign({ userInfo: doc }, key ); // user token structure
+        const token = sign({ userInfo: doc }); // user token structure
         res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg }, token: token })
       } else {
         res.status(203).json({ message: 'Authentication failed' })
@@ -254,7 +232,7 @@ app.post('/login', (req, res) => {
     })
 })
 
-app.put('/user-comments/edit', (req, res) => {
+router.route('/user-comments/edit').put( (req, res) => {
   const { id, description } = req.body;
   Comment.findByIdAndUpdate(id, { description })
     .then(doc => {
@@ -265,7 +243,7 @@ app.put('/user-comments/edit', (req, res) => {
     })
 })
 
-app.delete('/user-comments/:id', (req, res) => {
+router.route('/user-comments/:id').delete( (req, res) => {
   const { id } = req.params
 
   Comment.findByIdAndRemove(id)
@@ -277,21 +255,3 @@ app.delete('/user-comments/:id', (req, res) => {
     })
 })
 
-if (env === 'production') { // PROD setup
-  app.use(express.static(path.join(__dirname, '../build')));
-  app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
-
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
-
-  http.createServer(app).listen(PORT, function () {
-    console.log('Express server listening on port ' + PORT);
-  });
-
-}
-
-if (env === 'development') { // DEV setup
-  http.createServer(app).listen(PORT, function () {
-    console.log(`Server listening on port ${PORT}.`)
-    console.log(env)
-  });
-}

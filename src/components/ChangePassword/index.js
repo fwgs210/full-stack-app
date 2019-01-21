@@ -66,7 +66,7 @@ class ChangePassword extends React.Component {
             return null
         } 
 
-        axios.post('/user/change-password', {
+        axios.post('/api/user/change-password', {
             userId: this.state.loggedInAs,
             oldPassword: stripSpaces(this.state.currentPass),
             newPassword: stripSpaces(this.state.newPass)

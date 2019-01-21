@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import StyledLoader from '../Loader'
 import {
     InputGroup,
     InputLabel,
@@ -126,4 +127,4 @@ const UserForm = props => {
     return loginForm
 }
 
-export default UserForm
+export default StyledLoader(UserForm)

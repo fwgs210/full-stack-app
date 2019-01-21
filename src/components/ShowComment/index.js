@@ -1,8 +1,12 @@
 import React from 'react'
-import Comment from '../Comment/index'
+import Comment from '../Comment'
+import StyledLoader from '../Loader'
+import { LineButton } from '../../utils/Input'
+
 
 const ShowComments = props => {
   const { loggedIn, todos, removeTodo, editTodo, editing, editingTodo, editingTodoId, updateTodo, handleChange } = props
+  let { displayComments } = props
 
   if (loggedIn && !todos.length) {
     return <h3>You don't have any comments yet!</h3>
@@ -10,7 +14,7 @@ const ShowComments = props => {
 
   return (
     <section className="ShowTodos">
-      {todos.map(todo => (
+      {todos.slice(0, displayComments).map(todo => (
         <Comment
           loggedIn={loggedIn}
           removeTodo={removeTodo}
@@ -28,7 +32,8 @@ const ShowComments = props => {
           handleChange={handleChange}
         />
       ))}
+      {displayComments >= todos.length ? '' : <LineButton onClick={() => handleChange('displayComments', displayComments += 5)}>Load More</LineButton> }
     </section>
   )
 }
-export default ShowComments
+export default StyledLoader(ShowComments)

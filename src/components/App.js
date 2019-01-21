@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
 import ShowComments from './ShowComment'
 import AddComment from './AddComment'
 import UserForm from './UserForm'
 import UserPortal from './UserPortal'
-import axios from 'axios'
-import styled from 'styled-components'
 import Routes from './Routes'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -36,12 +36,14 @@ const ErrorMessage = styled.div`
 `;
 
 const defaultState = {
+  loaded: false,
   profileImg: '',
   registering: false,
   loggedIn: false,
   loggedInAs: '',
   todo: '',
   todos: [],
+  displayComments: 5,
   editing: false,
   editingTodo: '',
   editingTodoId: null,
@@ -63,23 +65,24 @@ class App extends Component {
 
   loadComments = () => {
     if (this.state.loggedInAs && this.state.loggedIn) {
-      axios.post('/user-comments', {}, {
+      axios.post('/api/user-comments', {}, {
         headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
         if (res.data.todos) {
-          this.setState({ todos: res.data.todos })
+          this.setState({ todos: res.data.todos, loaded: true  })
         }
       })
     } else {
-      axios.get('/all-comments').then(res => {
+      axios.get('/api/all-comments').then(res => {
         if (res.data.payload) {
-          this.setState({ todos: res.data.payload })
+          this.setState({ todos: res.data.payload, loaded: true  })
         }
       })
     }
   }
   clearInput = () => {
     this.setState({
+      loaded: true,
       registering: false,
       todo: '', 
       todos: [],
@@ -98,7 +101,7 @@ class App extends Component {
 
   addTodo = (e) => {
     e.preventDefault();
-    axios.post(`/addComment`, {
+    axios.post(`/api/addComment`, {
       todo: this.state.todo,
       userId: this.state.loggedInAs
     }, {
@@ -109,13 +112,15 @@ class App extends Component {
 
   removeTodo = id => {
     if (confirmPopUp("Want to delete?")) {
-      axios.delete(`/user-comments/${id}`).then(this.loadComments)
+      axios.delete(`/api/user-comments/${id}`).then(this.loadComments)
     }
   }
 
   handleChange = (nameToUpdate, value) => {
     this.setState({
-      [nameToUpdate]: value
+      [nameToUpdate]: value,
+      userError: false,
+      errorMessage: ''
     })
   }
 
@@ -128,7 +133,7 @@ class App extends Component {
   }
 
   updateTodo = () => {
-    axios.put('/user-comments/edit', {
+    axios.put('/api/user-comments/edit', {
       id: this.state.editingTodoId,
       description: this.state.editingTodo
     }).then(this.loadComments)
@@ -137,14 +142,15 @@ class App extends Component {
 
   forgetPassRequest = (e) => {
     e.preventDefault()
-    axios.post('/retrieve-user-info', {
+    this.setState({loaded:false})
+    axios.post('/api/retrieve-user-info', {
       email: this.state.email
     }).then(res => {
       if (res.status === 200) {
-        this.setState({ userError: true, errorMessage: res.data.message, email: '' })
+        this.setState({ userError: true, errorMessage: res.data.message, email: '', loaded:true })
       }
       if (res.status === 203) {
-        this.setState({ userError: true, errorMessage: res.data.message })
+        this.setState({ userError: true, errorMessage: res.data.message, loaded:true })
       }
     })
   }
@@ -173,7 +179,7 @@ class App extends Component {
       return null
     } 
 
-    axios.post('/newuser', {
+    axios.post('/api/newuser', {
       username: stripSpaces(this.state.username),
       email: stripSpaces(this.state.email),
       password: stripSpaces(this.state.password),
@@ -191,7 +197,7 @@ class App extends Component {
 
   sessionLogin = () => {
     const token = window.sessionStorage['token']
-    axios.post('/login/sso', {}, {
+    axios.post('/api/login/sso', {}, {
       headers: { 'Authorization': 'bearer ' + token }
     }).then(res => {
       if (res.status === 200) {
@@ -208,7 +214,7 @@ class App extends Component {
 
   userLogin = (e) => {
     e.preventDefault();
-    axios.post('/login', {
+    axios.post('/api/login', {
       username: stripSpaces(this.state.username),
       password: stripSpaces(this.state.password)
     }).then(res => {
@@ -258,6 +264,7 @@ class App extends Component {
           token={this.state.token}
         />
         <ShowComments
+          loaded={this.state.loaded}
           loggedIn={this.state.loggedIn}
           handleChange={this.handleChange}
           completeTodo={this.completeTodo}
@@ -268,9 +275,11 @@ class App extends Component {
           editingTodo={this.state.editingTodo}
           editingTodoId={this.state.editingTodoId}
           updateTodo={this.updateTodo}
+          displayComments={this.state.displayComments}
         />
         { !this.state.loggedIn ? (
           <UserForm 
+            loaded={this.state.loaded}
             handleChange = {this.handleChange} 
             createNewUser={this.createNewUser}
             userLogin={this.userLogin}
@@ -289,6 +298,7 @@ class App extends Component {
         ) }
         { this.state.userError ? <ErrorMessage>{this.state.errorMessage}</ErrorMessage> : '' }
       </AppContainer>
+      
     )
   }
 }
