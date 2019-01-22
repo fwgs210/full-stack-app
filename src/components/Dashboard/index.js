@@ -9,6 +9,7 @@ class Dashboard extends Component {
         super();
         this.token = props.token
         this.userRole = props.userRole
+        this.history = props.history
     }
 
     state = {

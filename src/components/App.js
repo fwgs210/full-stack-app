@@ -212,7 +212,7 @@ class App extends Component {
         this.setState({ loggedInAs: _id, loggedIn: true, token, profileImg, userRole: role })
         this.clearInput()
         this.loadComments()
-        this.props.history.push(`/user/${this.state.loggedInAs}`)
+        role === 'administrator' ? this.props.history.push(`/dashboard/${_id}`) : this.props.history.push(`/user/${this.state.loggedInAs}`)
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -231,7 +231,8 @@ class App extends Component {
         this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg, userRole: role })
         this.clearInput()
         this.loadComments()
-        this.props.history.push(`/user/${this.state.loggedInAs}`)
+        console.log(role)
+        role === 'administrator' ? this.props.history.push(`/dashboard/${_id}`) : this.props.history.push(`/user/${this.state.loggedInAs}`)
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -296,7 +297,6 @@ class App extends Component {
               userLogin={this.userLogin}
               forgetPassRequest={this.forgetPassRequest}
               state={this.state}
-              history={this.props.history}
             / >
             <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
           </React.Fragment>

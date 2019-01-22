@@ -32,7 +32,6 @@ const StyleTable = styled.table`
     }
     td, th {
         display: table-cell;
-        padding: 4px 56px 4px 24px;
         text-align: left;
         border-bottom: 1px solid rgba(224, 224, 224, 1);
         vertical-align: inherit;
