@@ -66,7 +66,7 @@ const UserEditor = props => {
         editingProfileImg,
         editingRole } = props
 
-    const availableRoles = ['member', 'editer', 'administrator']
+    const availableRoles = ['member', 'editor', 'administrator']
 
     if(editingUser) {
         return (

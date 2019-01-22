@@ -184,9 +184,14 @@ router.route('/user/change-password').post(auth, (req, res) => {
 router.route('/newuser').post( async (req, res) => {
   const { username, password, email, profileImg } = req.body;
 
-  const userExist = await User.findOne({ username, email })
+  const userExist = await User.findOne({ username })
+  const emailExist = await User.findOne({ email })
 
-  if (!userExist) {
+  if (userExist) {
+    res.status(203).json({ message: 'User already exists' })
+  } else if (emailExist) {
+    res.status(203).json({ message: 'Email already exists' })
+  } else {
     const user = new User({ username, password, email, profileImg })
     user
       .save()
@@ -197,8 +202,6 @@ router.route('/newuser').post( async (req, res) => {
       .catch(err => {
         res.status(500).json({ message: err.message })
       })
-  } else {
-    res.status(203).json({ message: 'User already exist' })
   }
 })
 
@@ -258,6 +261,7 @@ router.route('/user-comments/:id').delete( (req, res) => {
     })
 })
 
+// admin API
 router.route('/users').get( verifyAdmin, (req, res) => {
   User.find().select({password: 0})
     .then(doc => {
