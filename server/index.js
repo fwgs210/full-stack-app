@@ -14,7 +14,6 @@ const verifyAdmin = require('./middleware/verifyAdmin')
 const { uri, PORT } = require('./config/serverSetup')
 const { sign } = require('./utils/tokenService')
 const initAdminUser = require('./utils/initAdminUser')
-const setup = require('./middleware/serverSideRender');
 
 mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
@@ -49,23 +48,15 @@ const mailConnectionAuth = {
 
 if (env === 'production') { // PROD setup
   initAdminUser()
-  setup(app, {
-    outputPath: path.resolve(process.cwd(), '../build'),
-    publicPath: '/',
+
+  app.use(express.static(path.join(__dirname, '../build')));
+  app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
+
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
+
+  http.createServer(app).listen(PORT, function () {
+    console.log('Express server listening on port ' + PORT);
   });
-
-  router.use(
-    express.static(path.resolve(__dirname, '..', 'build'), { maxAge: '30d' })
-  )
-
-  // app.use(express.static(path.join(__dirname, '../build')));
-  // app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
-
-  // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
-
-  // http.createServer(app).listen(PORT, function () {
-  //   console.log('Express server listening on port ' + PORT);
-  // });
 
 }
 
@@ -87,7 +78,7 @@ app.use(bodyParser.json())
 
 app.use('/api', router);
 
-router.route('/retrieve-user-info').post( (req, res) => {
+router.route('/retrieve-user-info').post((req, res) => {
 
   const { email } = req.body;
 
@@ -136,17 +127,17 @@ router.route('/retrieve-user-info').post( (req, res) => {
 
 });
 
-router.route('/all-comments').get( (req, res) => {
-      Comment.find()
-        .then(docs => {
-          res.status(200).json({ payload: docs })
-        })
-        .catch(err => {
-          res.status(500).json({ message: err.message })
-        })
+router.route('/all-comments').get((req, res) => {
+  Comment.find()
+    .then(docs => {
+      res.status(200).json({ payload: docs })
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.message })
+    })
 })
 
-router.route('/user-comments').post( auth, (req, res) => {
+router.route('/user-comments').post(auth, (req, res) => {
   Comment.find({ userId: req.token.userInfo._id })
     .then(docs => {
       res.status(200).json({ todos: docs, message: 'token verified.' })
@@ -156,7 +147,7 @@ router.route('/user-comments').post( auth, (req, res) => {
     })
 })
 
-router.route('/addComment').post( auth, (req, res) => {
+router.route('/addComment').post(auth, (req, res) => {
   const { todo, userId } = req.body
   const { username, profileImg } = req.token.userInfo
   const newComment = new Comment({
@@ -190,7 +181,7 @@ router.route('/user/change-password').post(auth, (req, res) => {
 })
 
 // new user
-router.route('/newuser').post( async (req, res) => {
+router.route('/newuser').post(async (req, res) => {
   const { username, password, email, profileImg } = req.body;
 
   const userExist = await User.findOne({ username, email })
@@ -212,11 +203,11 @@ router.route('/newuser').post( async (req, res) => {
 })
 
 // SSO login 
-router.route('/login/sso').post( auth, (req, res) => {
+router.route('/login/sso').post(auth, (req, res) => {
   const { username, password } = req.token.userInfo
   User.findOne({ username, password })
     .then(doc => {
-      if (doc) { 
+      if (doc) {
         res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role } })
       } else {
         res.status(203).json({ user: doc, message: 'Authentication failed' })
@@ -228,11 +219,11 @@ router.route('/login/sso').post( auth, (req, res) => {
 })
 
 // login 
-router.route('/login').post( (req, res) => {
+router.route('/login').post((req, res) => {
   const { username, password } = req.body;
   User.findOne({ username, password })
     .then(doc => {
-      if(doc) {
+      if (doc) {
         const token = sign({ userInfo: doc }); // user token structure
         res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
       } else {
@@ -244,7 +235,7 @@ router.route('/login').post( (req, res) => {
     })
 })
 
-router.route('/user-comments/edit').put( (req, res) => {
+router.route('/user-comments/edit').put((req, res) => {
   const { id, description } = req.body;
   Comment.findByIdAndUpdate(id, { description })
     .then(doc => {
@@ -255,7 +246,7 @@ router.route('/user-comments/edit').put( (req, res) => {
     })
 })
 
-router.route('/user-comments/:id').delete( (req, res) => {
+router.route('/user-comments/:id').delete((req, res) => {
   const { id } = req.params
 
   Comment.findByIdAndRemove(id)
@@ -267,8 +258,8 @@ router.route('/user-comments/:id').delete( (req, res) => {
     })
 })
 
-router.route('/users').get( verifyAdmin, (req, res) => {
-  User.find().select({password: 0})
+router.route('/users').get(verifyAdmin, (req, res) => {
+  User.find().select({ password: 0 })
     .then(doc => {
       if (doc) {
         res.status(200).json({ users: doc })
@@ -282,10 +273,10 @@ router.route('/users').get( verifyAdmin, (req, res) => {
 })
 
 router.route('/users/:userId')
-  .put( verifyAdmin, (req, res) => {
+  .put(verifyAdmin, (req, res) => {
     const { userId } = req.params;
     const { username, email, profileImg, role } = req.body
-    
+
     User.findByIdAndUpdate(userId, { username, email, profileImg, role })
       .then(doc => {
         res.status(200).json({ message: `${username}'s profile updated by ${req.token.userInfo.username}` })
@@ -305,4 +296,3 @@ router.route('/users/:userId')
         res.status(500).json({ message: err.message })
       })
   })
-  
