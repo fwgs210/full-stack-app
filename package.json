@@ -3,7 +3,6 @@
   "author": "Tracy Su",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/fwgs210/full-stack-app",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
     "@fortawesome/free-regular-svg-icons": "^5.6.3",

@@ -66,13 +66,13 @@ class App extends Component {
   }
 
   loadComments = () => {
-    
+
     if (this.state.loggedInAs && this.state.loggedIn && this.state.userRole !== 'administrator') {
       axios.post('/api/user-comments', {}, {
-        headers: {'Authorization': 'bearer ' + this.state.token}
+        headers: { 'Authorization': 'bearer ' + this.state.token }
       }).then(res => {
         if (res.data.todos && res.status === 200) {
-          this.setState({ todos: res.data.todos, loaded: true  })
+          this.setState({ todos: res.data.todos, loaded: true })
         } else {
           this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
@@ -80,7 +80,7 @@ class App extends Component {
     } else {
       axios.get('/api/all-comments').then(res => {
         if (res.data.payload && res.status === 200) {
-          this.setState({ todos: res.data.payload, loaded: true  })
+          this.setState({ todos: res.data.payload, loaded: true })
         } else {
           this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
@@ -91,7 +91,7 @@ class App extends Component {
     this.setState({
       loaded: true,
       registering: false,
-      todo: '', 
+      todo: '',
       todos: [],
       editing: false,
       editingTodo: '',
@@ -113,7 +113,7 @@ class App extends Component {
       userId: this.state.loggedInAs
     }, {
         headers: { 'Authorization': 'bearer ' + this.state.token }
-    }).then(this.loadComments)
+      }).then(this.loadComments)
     this.clearInput()
   }
 
@@ -149,15 +149,15 @@ class App extends Component {
 
   forgetPassRequest = (e) => {
     e.preventDefault()
-    this.setState({loaded:false})
+    this.setState({ loaded: false })
     axios.post('/api/retrieve-user-info', {
       email: this.state.email
     }).then(res => {
       if (res.status === 200) {
-        this.setState({ userError: true, errorMessage: res.data.message, email: '', loaded:true })
+        this.setState({ userError: true, errorMessage: res.data.message, email: '', loaded: true })
       }
       if (res.status === 203) {
-        this.setState({ userError: true, errorMessage: res.data.message, loaded:true })
+        this.setState({ userError: true, errorMessage: res.data.message, loaded: true })
       }
     })
   }
@@ -177,14 +177,14 @@ class App extends Component {
         errorMessage: `Please make sure your password has uppercase, lowercase letter, number, special character and no space.`
       })
       return null
-    } 
+    }
     if (!validateEmail(this.state.email)) {
       this.setState({
         userError: true,
         errorMessage: `this email address ${this.state.email} is not valid.`
       })
       return null
-    } 
+    }
 
     axios.post('/api/newuser', {
       username: stripSpaces(this.state.username),
@@ -211,7 +211,7 @@ class App extends Component {
       headers: { 'Authorization': 'bearer ' + token }
     }).then(res => {
       if (res.status === 200) {
-        const { _id, profileImg, role} = res.data.user
+        const { _id, profileImg, role } = res.data.user
         this.setState({ loggedInAs: _id, loggedIn: true, token, profileImg, userRole: role })
         this.clearInput()
         this.loadComments()
@@ -229,7 +229,7 @@ class App extends Component {
       password: stripSpaces(this.state.password)
     }).then(res => {
       if (res.status === 200) {
-        const { _id, profileImg, role} = res.data.user
+        const { _id, profileImg, role } = res.data.user
         window.sessionStorage.setItem('token', res.data.token);
         this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg, userRole: role })
         this.clearInput()
@@ -291,7 +291,7 @@ class App extends Component {
           updateTodo={this.updateTodo}
           displayComments={this.state.displayComments}
         />
-        <AddCommentContainer 
+        <AddCommentContainer
           state={this.state}
           handleChange={this.handleChange}
           createNewUser={this.createNewUser}
@@ -306,7 +306,7 @@ class App extends Component {
 }
 
 const AddCommentContainer = props => {
-  if (props.state.loggedIn) {
+  if (!props.state.loggedIn) {
     return (
       <React.Fragment>
         <UserForm
