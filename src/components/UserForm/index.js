@@ -39,12 +39,12 @@ const UserForm = props => {
             <form onSubmit={createNewUser}>
                 <InputGroup>
                     <InputLabel>choose your avatar</InputLabel>
-                    <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-default.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-yellow.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-1.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-glasses-2.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-beared.png')} /></RadioOption>
-                    <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImage', '../assets/images/avatar-brown.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-default.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-yellow.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-glasses-1.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-glasses-2.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-beared.png')} /></RadioOption>
+                    <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => handleChange('profileImg', '../assets/images/avatar-brown.png')} /></RadioOption>
                 </InputGroup>
                 <InputGroup>
                     <InputLabel>username</InputLabel>

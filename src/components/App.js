@@ -190,12 +190,15 @@ class App extends Component {
       username: stripSpaces(this.state.username),
       email: stripSpaces(this.state.email),
       password: stripSpaces(this.state.password),
-      profileImg: this.state.profileImage
+      profileImg: this.state.profileImg
     }).then(res => {
       if (res.status === 200) {
-        const { _id, role } = res.data.user
-        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, userRole: role })
+        const { _id, role, profileImg } = res.data.user
+        this.setState({ loggedInAs: _id, loggedIn: true, token: res.data.token, profileImg, userRole: role })
+        window.sessionStorage.setItem('token', res.data.token);
         this.clearInput()
+        this.loadComments()
+        this.props.history.push(`/user/${this.state.loggedInAs}`)
       } else {
         this.setState({ userError: true, errorMessage: res.data.message })
       }
@@ -297,6 +300,7 @@ class App extends Component {
               userLogin={this.userLogin}
               forgetPassRequest={this.forgetPassRequest}
               state={this.state}
+              history={this.props.history}
             / >
             <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
           </React.Fragment>

@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { LineButton, InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
 
 const UserTableContainer = styled.div`
@@ -36,6 +38,7 @@ const StyleTable = styled.table`
         border-bottom: 1px solid rgba(224, 224, 224, 1);
         vertical-align: inherit;
         font-size: .875rem;
+        padding: 0 5px;
     }
     th {
         font-weight: bold;
@@ -53,6 +56,51 @@ const FormContainer = styled.form`
     background-color: #fff;
 `
 
+const UserEditor = props => {
+
+    const { editingUser,
+        handleChange,
+        updateUser,
+        editingUsername,
+        editingEmail,
+        editingProfileImg,
+        editingRole } = props
+
+    const availableRoles = ['member', 'editer', 'administrator']
+
+    if(editingUser) {
+        return (
+            <FormContainer onSubmit = { updateUser } >
+                <InputGroup>
+                    <InputLabel>User Role</InputLabel>
+                    <Select style={{'padding-left': '16px'}} value={editingRole} onChange={(e) => handleChange('editingRole', e.target.value)}>
+                        {
+                            availableRoles.map(each => <MenuItem value={each} key={each}>{each}</MenuItem>)
+                        }
+                    </Select>
+                </InputGroup>
+                <InputGroup>
+                    <InputLabel>Username</InputLabel>
+                    <InputField value={editingUsername} onChange={(e) => handleChange('editingUsername', e.target.value)} type="text" required />
+                </InputGroup>
+                <InputGroup>
+                    <InputLabel>User Email</InputLabel>
+                    <InputField value={editingEmail} onChange={(e) => handleChange('editingEmail', e.target.value)} type="email" required />
+                </InputGroup>
+                <InputGroup>
+                    <InputLabel>User Profile Image</InputLabel>
+                    <InputField value={editingProfileImg} onChange={(e) => handleChange('editingProfileImg', e.target.value)} type="text" required />
+                </InputGroup>
+                <InputGroup>
+                    <InputButton type="submit">Update User</InputButton>
+                    <LineButton onClick={() => handleChange('editingUser', false)}>Cancel</LineButton>
+                </InputGroup>
+            </FormContainer >
+        )
+    }
+    return null
+}
+
 const UserTable = props => {
     const { users, editingUser,
             editingUsername,
@@ -68,32 +116,15 @@ const UserTable = props => {
 
     return (
         <UserTableContainer>
-            {
-                editingUser?(
-                    <FormContainer onSubmit = { updateUser } >
-                        <InputGroup>
-                            <InputLabel>User Role</InputLabel>
-                            <InputField value={editingRole} onChange={(e) => handleChange('editingRole', e.target.value)} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>Username</InputLabel>
-                            <InputField value={editingUsername} onChange={(e) => handleChange('editingUsername', e.target.value)} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>User Email</InputLabel>
-                            <InputField value={editingEmail} onChange={(e) => handleChange('editingEmail', e.target.value)} type="email" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>User Profile Image</InputLabel>
-                            <InputField value={editingProfileImg} onChange={(e) => handleChange('editingProfileImg', e.target.value)} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputButton type="submit">Update User</InputButton>
-                            <LineButton onClick={() => handleChange('editingUser', false)}>Cancel</LineButton>
-                        </InputGroup>
-                    </FormContainer >
-                ) : ''
-            }
+            <UserEditor 
+                editingUser={editingUser}
+                editingUsername={editingUsername}
+                editingEmail={editingEmail}
+                editingProfileImg={editingProfileImg}
+                editingRole={editingRole}
+                handleChange={handleChange}
+                updateUser={updateUser}
+            />
             <TableContainer>
                 <StyleTable>
                     <thead>
