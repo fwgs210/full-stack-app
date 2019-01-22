@@ -291,31 +291,46 @@ class App extends Component {
           updateTodo={this.updateTodo}
           displayComments={this.state.displayComments}
         />
-        { !this.state.loggedIn ? (
-          <React.Fragment>
-            <UserForm 
-              loaded={this.state.loaded}
-              handleChange = {this.handleChange} 
-              createNewUser={this.createNewUser}
-              userLogin={this.userLogin}
-              forgetPassRequest={this.forgetPassRequest}
-              state={this.state}
-              history={this.props.history}
-            / >
-            <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
-          </React.Fragment>
-        ) : (
-          <NewPostContainer>
-              <AddComment
-                handleChange={this.handleChange}
-                addTodo={this.addTodo}
-                todo={this.state.todo}
-              />
-          </NewPostContainer>
-        ) }
+        <AddCommentContainer 
+          state={this.state}
+          handleChange={this.handleChange}
+          createNewUser={this.createNewUser}
+          userLogin={this.userLogin}
+          forgetPassRequest={this.forgetPassRequest}
+          history={this.props.history}
+          addTodo={this.addTodo}
+        />
       </AppContainer>
     )
   }
+}
+
+const AddCommentContainer = props => {
+  if (props.state.loggedIn) {
+    return (
+      <React.Fragment>
+        <UserForm
+          loaded={props.state.loaded}
+          handleChange={props.handleChange}
+          createNewUser={props.createNewUser}
+          userLogin={props.userLogin}
+          forgetPassRequest={props.forgetPassRequest}
+          state={props.state}
+          history={props.history}
+        />
+        <ErrorMessage>{props.state.errorMessage}</ErrorMessage>
+      </React.Fragment>
+    )
+  }
+  return (
+    <NewPostContainer>
+      <AddComment
+        handleChange={props.handleChange}
+        addTodo={props.addTodo}
+        todo={props.state.todo}
+      />
+    </NewPostContainer>
+  )
 }
 
 export default Routes(App)
