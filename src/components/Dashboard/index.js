@@ -30,7 +30,7 @@ class Dashboard extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.userRole !== this.props.userRole) {
+        if (prevProps.userRole !== this.props.userRole && this.props.userRole === 'administrator' && this.props.token) {
             this.loadUsers()
         }
     }

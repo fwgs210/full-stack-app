@@ -79,7 +79,7 @@ const EditTodo = props => (
 
 EditTodo.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  editingTodo: PropTypes.func.isRequired,
+  editingTodo: PropTypes.string.isRequired,
   updateTodo: PropTypes.func.isRequired
 }
 

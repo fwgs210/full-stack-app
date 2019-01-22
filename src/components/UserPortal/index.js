@@ -47,14 +47,14 @@ const RightPanel = styled.aside`
 
 
 const UserPortal = props => {
-    const { loggedInAs, loggedIn, userProfileImg, username, userLogout, token } = props;
+    const { loggedInAs, loggedIn, userProfileImg, username, userLogout, token, userRole } = props;
 
     if (loggedInAs && loggedIn) {
         return (
             <UserPortalContainer>
                 <LeftPanel>
                     <img width="64" alt="Profile Image" src={userProfileImg ? userProfileImg : '/assets/images/avatar-default.png'} />
-                    <h3>{username.userPosted}</h3>
+                    <h3>{ userRole === 'administrator' ? 'Tracy Su' : username.userPosted}</h3>
                 </LeftPanel>
                 <RightPanel>
                     <ChangePassword loggedInAs={loggedInAs} token={token} />

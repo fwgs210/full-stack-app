@@ -67,7 +67,7 @@ class App extends Component {
 
   loadComments = () => {
     
-    if ((this.state.loggedInAs && this.state.loggedIn) || this.state.role === 'administrator') {
+    if (this.state.loggedInAs && this.state.loggedIn && this.state.userRole !== 'administrator') {
       axios.post('/api/user-comments', {}, {
         headers: {'Authorization': 'bearer ' + this.state.token}
       }).then(res => {
@@ -263,6 +263,7 @@ class App extends Component {
     return (
       <AppContainer>
         <UserPortal
+          userRole={this.state.userRole}
           loggedIn={this.state.loggedIn}
           loggedInAs={this.state.loggedInAs}
           userProfileImg={this.state.profileImg}

@@ -4,6 +4,10 @@ import { LineButton, InputGroup, InputLabel, InputField, InputButton } from '../
 
 const UserTableContainer = styled.div`
     width:100%;
+`
+
+const TableContainer = styled.div`
+    width:100%;
     overflow-x: auto;
 `
 
@@ -46,7 +50,7 @@ const FormContainer = styled.form`
     width: 100%;
     padding: 1rem;
     box-shadow: 0 0 8px 2px rgba(65,64,66,.1);
-    margin-bottom: 1.5rem;
+    margin: 1.5rem 0;
     background-color: #fff;
 `
 
@@ -91,56 +95,57 @@ const UserTable = props => {
                     </FormContainer >
                 ) : ''
             }
-            <StyleTable>
-                <thead>
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { users.map(user => (
-                        <tr key={user._id}>
-                            <td>
-                                <img src={user.profileImg} width="32" alt="avatar" />
-                            </td>
-                            <td>
-                                {user.username}
-                            </td>
-                            <td>
-                                {user.email}
-                            </td>
-                            <td>
-                                {user.role}
-                            </td>
-                            <td>
-                                <LineButton style={{'display': 'inline'}} onClick={() => {
-                                    handleChange('editingUser', true)
-                                    handleChange('editingUserId', user._id)
-                                    handleChange('editingUsername', user.username)
-                                    handleChange('editingEmail', user.email)
-                                    handleChange('editingProfileImg', user.profileImg)
-                                    handleChange('editingRole', user.role)
-                                    }}>
-                                    Edit
-                                </LineButton>
-                            </td>
-                            <td>
-                                <LineButton style={{ 'display': 'inline' }} onClick={() => {
-                                    deleteUser(user._id)
-                                }}>
-                                    Delete
-                                </LineButton>
-                            </td>
+            <TableContainer>
+                <StyleTable>
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th></th>
+                            <th></th>
                         </tr>
-                    )) }
-                </tbody>
-                
-            </StyleTable>
+                    </thead>
+                    <tbody>
+                        { users.map(user => (
+                            <tr key={user._id}>
+                                <td>
+                                    <img src={user.profileImg} width="32" alt="avatar" />
+                                </td>
+                                <td>
+                                    {user.username}
+                                </td>
+                                <td>
+                                    {user.email}
+                                </td>
+                                <td>
+                                    {user.role}
+                                </td>
+                                <td>
+                                    <LineButton style={{'display': 'inline'}} onClick={() => {
+                                        handleChange('editingUser', true)
+                                        handleChange('editingUserId', user._id)
+                                        handleChange('editingUsername', user.username)
+                                        handleChange('editingEmail', user.email)
+                                        handleChange('editingProfileImg', user.profileImg)
+                                        handleChange('editingRole', user.role)
+                                        }}>
+                                        Edit
+                                    </LineButton>
+                                </td>
+                                <td>
+                                    <LineButton style={{ 'display': 'inline' }} onClick={() => {
+                                        deleteUser(user._id)
+                                    }}>
+                                        Delete
+                                    </LineButton>
+                                </td>
+                            </tr>
+                        )) }
+                    </tbody>
+                </StyleTable>
+            </TableContainer>
         </UserTableContainer>
     )
 }
