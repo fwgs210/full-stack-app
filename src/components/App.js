@@ -5,12 +5,13 @@ import ShowComments from './ShowComment'
 import AddComment from './AddComment'
 import UserForm from './UserForm'
 import UserPortal from './UserPortal'
-import Routes from './Routes'
 import Dashboard from './Dashboard'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { connect } from 'react-redux';
 import { stripSpaces, confirmPopUp, validatePassword, validateEmail } from '../utils/globalFunc'
+import { loadComments } from '../controllers/Actions'
 
 // init fontAwesome
 library.add(fas, far)
@@ -37,13 +38,13 @@ const ErrorMessage = styled.div`
 `;
 
 const defaultState = {
-  loaded: false,
+  loaded: true,
   profileImg: '',
   registering: false,
   loggedIn: false,
   loggedInAs: '',
-  todo: '',
-  todos: [],
+  comment: '',
+  allComments: [],
   displayComments: 5,
   editing: false,
   editingTodo: '',
@@ -60,9 +61,11 @@ const defaultState = {
 }
 
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    console.log('props', props)
     this.state = defaultState
+    this.allComments = []
   }
 
   loadComments = () => {
@@ -72,7 +75,7 @@ class App extends Component {
         headers: { 'Authorization': 'bearer ' + this.state.token }
       }).then(res => {
         if (res.data.todos && res.status === 200) {
-          this.setState({ todos: res.data.todos, loaded: true })
+          this.setState({ allComments: res.data.todos, loaded: true })
         } else {
           this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
@@ -80,8 +83,10 @@ class App extends Component {
     } else {
       axios.get('/api/all-comments').then(res => {
         if (res.data.payload && res.status === 200) {
-          this.setState({ todos: res.data.payload, loaded: true })
-        } else {
+          this.setState({ allComments: res.data.payload, loaded: true })
+          this.props.load(res.data.payload)
+        } 
+        else {
           this.setState({ userError: true, errorMessage: 'Server Error', loaded: true })
         }
       })
@@ -91,8 +96,8 @@ class App extends Component {
     this.setState({
       loaded: true,
       registering: false,
-      todo: '',
-      todos: [],
+      comment: '',
+      allComments: [],
       editing: false,
       editingTodo: '',
       editingTodoId: '',
@@ -106,10 +111,10 @@ class App extends Component {
     })
   }
 
-  addTodo = (e) => {
+  newComment = (e) => {
     e.preventDefault();
     axios.post(`/api/addComment`, {
-      todo: this.state.todo,
+      todo: this.state.comment,
       userId: this.state.loggedInAs
     }, {
         headers: { 'Authorization': 'bearer ' + this.state.token }
@@ -131,7 +136,7 @@ class App extends Component {
     })
   }
 
-  editTodo = (id, description) => {
+  editComment = (id, description) => {
     this.setState({
       editing: true,
       editingTodo: description,
@@ -263,6 +268,11 @@ class App extends Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    this.allComments = props.user.allComments
+
+  }
+
   render() {
     return (
       <AppContainer>
@@ -271,7 +281,7 @@ class App extends Component {
           loggedIn={this.state.loggedIn}
           loggedInAs={this.state.loggedInAs}
           userProfileImg={this.state.profileImg}
-          username={this.state.todos[0] ? this.state.todos[0] : ''}
+          username={this.state.allComments[0] ? this.state.allComments[0] : ''}
           userLogout={this.userLogout}
           token={this.state.token}
         />
@@ -282,9 +292,9 @@ class App extends Component {
           loggedIn={this.state.loggedIn}
           handleChange={this.handleChange}
           completeTodo={this.completeTodo}
-          todos={this.state.todos}
+          allComments={this.allComments}
           removeTodo={this.removeTodo}
-          editTodo={this.editTodo}
+          editComment={this.editComment}
           editing={this.state.editing}
           editingTodo={this.state.editingTodo}
           editingTodoId={this.state.editingTodoId}
@@ -298,7 +308,7 @@ class App extends Component {
           userLogin={this.userLogin}
           forgetPassRequest={this.forgetPassRequest}
           history={this.props.history}
-          addTodo={this.addTodo}
+          newComment={this.newComment}
         />
       </AppContainer>
     )
@@ -326,11 +336,34 @@ const AddCommentContainer = props => {
     <NewPostContainer>
       <AddComment
         handleChange={props.handleChange}
-        addTodo={props.addTodo}
-        todo={props.state.todo}
+        newComment={props.newComment}
+        comment={props.state.comment}
       />
     </NewPostContainer>
   )
 }
 
-export default Routes(App)
+const mapStateToProps = state => {console.log('state',state)
+   return state 
+} //this method is used to pass state down functions
+
+const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
+  load: (allComments) => {
+    console.log('pass',allComments)
+    dispatch(loadComments(allComments)) 
+  }
+})
+
+// const mapDispatchToProps = (dispatch) => ({
+//   doTodo(id) {
+//     const action = mutations.completeTodos(id)
+//     dispatch(action)
+//   },
+//   deleteTodo(id) {
+//     console.log(id)
+//     const action = mutations.deleteTodo(id)
+//     dispatch(action)
+//   }
+// });
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

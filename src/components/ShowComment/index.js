@@ -5,35 +5,34 @@ import { LineButton } from '../../utils/Input'
 
 
 const ShowComments = props => {
-  const { loggedIn, todos, removeTodo, editTodo, editing, editingTodo, editingTodoId, updateTodo, handleChange, userRole } = props
+  const { loggedIn, allComments, removeTodo, editComment, editing, editingTodo, editingTodoId, updateTodo, handleChange, userRole } = props
   let { displayComments } = props
 
-  if (loggedIn && !todos.length) {
+  if (loggedIn && !allComments.length) {
     return <h3>You don't have any comments yet!</h3>
   }
 
   return (
-    <section className="ShowTodos">
-      {todos.slice(0, displayComments).map(todo => (
+    <section>
+      {allComments.slice(0, displayComments).map(comment => (
         <Comment
           loggedIn={loggedIn}
           userRole={userRole}
           removeTodo={removeTodo}
-          description={todo.description}
-          profileImg={todo.userProfileImg ? todo.userProfileImg : ''}
-          id={todo._id}
-          key={todo._id}
-          completed={todo.completed}
-          editTodo={editTodo}
+          description={comment.description}
+          profileImg={comment.userProfileImg ? comment.userProfileImg : ''}
+          id={comment._id}
+          key={comment._id}
+          editComment={editComment}
           editing={editing}
           editingTodo={editingTodo}
           editingTodoId={editingTodoId}
-          userPosted={todo.userPosted}
+          userPosted={comment.userPosted}
           updateTodo={updateTodo}
           handleChange={handleChange}
         />
       ))}
-      {displayComments >= todos.length ? '' : <LineButton onClick={() => handleChange('displayComments', displayComments += 5)}>Load More</LineButton> }
+      {displayComments >= allComments.length ? '' : <LineButton onClick={() => handleChange('displayComments', displayComments += 5)}>Load More</LineButton> }
     </section>
   )
 }

@@ -66,7 +66,7 @@ const Icon = styled.span`
   }
 `;
 
-const EditTodo = props => (
+const EditComment = props => (
   <UpdateContentContainer>
     <InputGroup>
       <InputTextarea onChange={(e) => props.handleChange('editingTodo', e.target.value)} value={props.editingTodo}></InputTextarea>
@@ -77,20 +77,20 @@ const EditTodo = props => (
   </UpdateContentContainer>
 )
 
-EditTodo.propTypes = {
+EditComment.propTypes = {
   handleChange: PropTypes.func.isRequired,
   editingTodo: PropTypes.string.isRequired,
   updateTodo: PropTypes.func.isRequired
 }
 
 const Comment = props => {
-  const { description, id, removeTodo, editTodo, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn, profileImg, userRole } = props
+  const { description, id, removeTodo, editComment, userPosted, editing, editingTodo, editingTodoId, handleChange, updateTodo, loggedIn, profileImg, userRole } = props
   
   return (
     <CommentContainer key={description}>
       {
         editing && editingTodoId === id ? (
-          <EditTodo handleChange={handleChange} editingTodo={editingTodo} updateTodo={updateTodo} />
+          <EditComment handleChange={handleChange} editingTodo={editingTodo} updateTodo={updateTodo} />
         ) : (
           <ContentContainer>{description}</ContentContainer>
         )
@@ -100,7 +100,7 @@ const Comment = props => {
           (loggedIn || userRole === 'administrator' ) && !editing  ? (
           <React.Fragment>
             <Icon onClick={() => removeTodo(id)}><FontAwesomeIcon prefix="far" icon="trash-alt" /> delete</Icon>
-            <Icon onClick={() => editTodo(id, description)}><FontAwesomeIcon prefix="fas" icon="edit" /> edit</Icon>
+            <Icon onClick={() => editComment(id, description)}><FontAwesomeIcon prefix="fas" icon="edit" /> edit</Icon>
           </React.Fragment>
       ) : ('')
     }

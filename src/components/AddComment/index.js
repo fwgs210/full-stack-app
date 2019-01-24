@@ -7,15 +7,15 @@ import {
 } from '../../utils/Input'
 
 const AddComment = props => {
-  const { handleChange, addTodo, todo } = props;
+  const { handleChange, newComment, comment } = props;
   return (
     <article>
       <InputGroup>
         <InputLabel>New Comment:</InputLabel>
-        <InputTextarea onChange={(e) => handleChange('todo', e.target.value)} value={todo}></InputTextarea>
+        <InputTextarea onChange={(e) => handleChange('comment', e.target.value)} value={comment}></InputTextarea>
       </InputGroup>
       <InputGroup>
-        <InputButton type="button" onClick={addTodo}>Post Comment</InputButton>
+        <InputButton type="button" onClick={newComment}>Post Comment</InputButton>
       </InputGroup>
     </article>
   );
