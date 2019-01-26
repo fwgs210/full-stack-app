@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import App from "./views/App";
 import { Provider } from 'react-redux';
-import { store } from './controllers/Store'
+import { store } from './Store'
 import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
 
 const WrappedApp = () => (

@@ -1,10 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import combinedReducers from './Reducers';
+import combinedReducers from './models/Reducers';
 import thunk from 'redux-thunk';
 
 const defaultState = {
     user: {
-        loaded: false,
         profileImg: '',
         registering: false,
         loggedIn: false,
@@ -13,14 +12,12 @@ const defaultState = {
         allComments: [],
         displayComments: 5,
         editing: false,
-        editingTodo: '',
-        editingTodoId: null,
+        editingComment: '',
+        editingCommentId: null,
         username: '',
         email: '',
         password: '',
         rePassword: '',
-        userError: false,
-        errorMessage: '',
         token: '',
         forgetPass: false,
         userRole: ''
@@ -34,6 +31,11 @@ const defaultState = {
         editingEmail: '',
         editingProfileImg: '',
         editingRole: '' 
+    },
+    loading: {
+        loaded: false,
+        userError: false,
+        errorMessage: ''
     }
 }
 

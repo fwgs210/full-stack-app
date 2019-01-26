@@ -140,7 +140,7 @@ router.route('/all-comments').get( (req, res) => {
 router.route('/user-comments').post( auth, (req, res) => {
   Comment.find({ userId: req.token.userInfo._id })
     .then(docs => {
-      res.status(200).json({ todos: docs, message: 'token verified.' })
+      res.status(200).json({ payload: docs, message: 'token verified.' })
     })
     .catch(err => {
       res.status(500).json({ message: err.message })
@@ -159,7 +159,7 @@ router.route('/addComment').post( auth, (req, res) => {
   newComment
     .save()
     .then(doc => {
-      res.status(201).json({ comment: doc })
+      res.status(201).json({ payload: doc })
     })
     .catch(err => {
       res.status(500).json({ message: err.message })
