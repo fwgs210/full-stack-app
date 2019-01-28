@@ -24,32 +24,6 @@ const AppContainer = styled.section.attrs({})`
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;  
 `;
 
-// const App = ({ loggedIn, errorMessage, history }) => (
-//   <AppContainer>
-//     <UserPortal history={history} />
-//     <Dashboard history={history} />
-//     <ShowComments />
-//     {
-//       !loggedIn ? (
-//         <React.Fragment>
-//           <UserForm
-//             history={history}
-//           />
-//           <ErrorMessage>{errorMessage}</ErrorMessage>
-//         </React.Fragment>
-//       ) : (
-//           <NewPostContainer>
-//             <AddComment />
-//           </NewPostContainer>
-//         )
-//     }
-//   </AppContainer>
-// )
-
-// const mapStateToProps = state => ({ ...state.user, ...state.loading })
-
-// export default connect(mapStateToProps)(App)
-
 const App = () => (
   <AppContainer>
     <Provider store={store}>
