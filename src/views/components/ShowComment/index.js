@@ -68,7 +68,6 @@ class ShowComments extends Component {
       this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
     }
 
-    console.log(nextProps)
     // this.loadAllComments()
   }
 

@@ -114,7 +114,6 @@ class UserForm extends Component {
 
     userLogin = e => {
         e.preventDefault();
-        this.loadingStart()
         axios.post('/api/login', {
             username: stripSpaces(this.username),
             password: stripSpaces(this.password)
@@ -131,13 +130,10 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
-                this.loadingEnd()
                 role === 'administrator' ? this.history.push(`/dashboard/${_id}`) : this.history.push(`/user/${this.loggedInAs}`)
             } else {
                 this.setError(res.data.message)
-                this.loadingEnd()
             }
-
         })
     }
 
@@ -242,9 +238,9 @@ class UserForm extends Component {
 
     render() {
         
-        // if (this.loggedIn || !this.loaded) {
-        //     return null
-        // }
+        if (this.loggedIn || !this.loaded) {
+            return null
+        }
 
         if (this.registering) {
             return (
