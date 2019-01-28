@@ -8,8 +8,8 @@ import {
   InputGroup,
   InputButton,
   InputTextarea
-} from '../../utils/Input'
-import { confirmPopUp } from '../../utils/globalFunc'
+} from '../../../utils/Input'
+import { confirmPopUp } from '../../../utils/globalFunc'
 import { editingComment, typeComment, updateComment, deleteComment } from './actions'
 
 const CommentContainer = styled.summary`

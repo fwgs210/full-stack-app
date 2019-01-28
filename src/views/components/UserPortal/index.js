@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import ChangePassword from '../ChangePassword'
-import { WhiteLink } from '../../utils/Input'
+import { WhiteLink } from '../../../utils/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux';
-import { confirmPopUp } from '../../utils/globalFunc'
+import { confirmPopUp } from '../../../utils/globalFunc'
 import { logout } from './actions'
 
 const UserPortalContainer = styled.summary`

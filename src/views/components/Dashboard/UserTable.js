@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { LineButton, InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
+import { LineButton, InputGroup, InputLabel, InputField, InputButton } from '../../../utils/Input'
 
 const UserTableContainer = styled.div`
     width:100%;
@@ -109,10 +109,6 @@ const UserTable = props => {
             editingRole } = props.state
 
     const { handleChange, updateUser, deleteUser } = props
-
-    if (!users.length) {
-        return <h3>You don't have any comments yet!</h3>
-    }
 
     return (
         <UserTableContainer>

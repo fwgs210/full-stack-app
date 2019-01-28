@@ -7,7 +7,7 @@ import {
     InputField,
     InputButton,
     LineButton
-} from '../../utils/Input'
+} from '../../../utils/Input'
 import { connect } from 'react-redux';
 import {
     login,
@@ -21,8 +21,8 @@ import {
     setForgetPass
 } from './actions'
 import { loadComments } from '../ShowComment/actions';
-import { setError, startLoading, finishLoading, clearError, clearInput } from '../../controllers/Actions'
-import { stripSpaces, validatePassword, validateEmail } from '../../utils/globalFunc'
+import { setError, startLoading, finishLoading, clearError, clearInput } from '../../../controllers/Actions'
+import { stripSpaces, validatePassword, validateEmail } from '../../../utils/globalFunc'
 
 const UserLogin = styled.div`
   width: 100%;
@@ -66,11 +66,6 @@ class UserForm extends Component {
         this.setRegistering = props.setRegistering
         this.setForgetPass = props.setForgetPass
         this.loadComments = props.loadComments
-        this.sessionLogin = this.sessionLogin.bind(this)
-        this.userLogin = this.userLogin.bind(this)
-        this.createNewUser = this.createNewUser.bind(this)
-        this.forgetPassRequest = this.forgetPassRequest.bind(this)
-        this.loadAllComments = this.loadAllComments.bind(this)
 
         this.history = props.history
 
@@ -87,11 +82,11 @@ class UserForm extends Component {
         this.loggedInAs = props.loggedInAs
         this.loggedIn = props.loggedIn
         this.userRole = props.userRole
-
+        this.loaded = props.loaded
     }
 
-    sessionLogin() {
-        this.loadingStart()
+    sessionLogin = () => {
+        this.loadingStart();
         const token = window.sessionStorage['token']
         axios.post('/api/login/sso', {}, {
             headers: { 'Authorization': 'bearer ' + token }
@@ -115,7 +110,7 @@ class UserForm extends Component {
         })
     }
 
-    userLogin(e) {
+    userLogin = e => {
         e.preventDefault();
         this.loadingStart()
         axios.post('/api/login', {
@@ -134,8 +129,8 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
-                role === 'administrator' ? this.history.push(`/dashboard/${_id}`) : this.history.push(`/user/${this.loggedInAs}`)
                 this.loadingEnd()
+                role === 'administrator' ? this.history.push(`/dashboard/${_id}`) : this.history.push(`/user/${this.loggedInAs}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -144,9 +139,8 @@ class UserForm extends Component {
         })
     }
 
-    createNewUser(e) {
+    createNewUser = e => {
         e.preventDefault()
-        this.loadingStart()
         if (this.password !== this.rePassword) {
             this.setError(`You passwords don't match`)
             return null
@@ -159,7 +153,7 @@ class UserForm extends Component {
             this.setError(`this email address ${this.email} is not valid.`)
             return null
         }
-
+        this.loadingStart()
         axios.post('/api/newuser', {
             username: stripSpaces(this.username),
             email: stripSpaces(this.email),
@@ -178,8 +172,8 @@ class UserForm extends Component {
                 window.sessionStorage.setItem('token', res.data.token);
                 this.clearInput()
                 this.clearError()
-                this.history.push(`/user/${this.loggedInAs}`)
                 this.loadingEnd()
+                this.history.push(`/user/${this.loggedInAs}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -188,7 +182,7 @@ class UserForm extends Component {
     }
 
 
-    forgetPassRequest(e) {
+    forgetPassRequest = e => {
         e.preventDefault()
         this.loadingStart()
         axios.post('/api/retrieve-user-info', {
@@ -206,12 +200,11 @@ class UserForm extends Component {
         })
     }
 
-    loadAllComments() {
+    loadAllComments = () => {
         this.loadingStart();
-        axios.get('/api/all-comments').then(res => {
+        axios.get('/api/all-comments').then(async res => {
             if (res.data.payload && res.status === 200) {
-                this.loadComments(res.data.payload)
-                this.loadingEnd();
+                await this.loadComments(res.data.payload)
             }
             else {
                 this.setError('Server Error')
@@ -239,12 +232,17 @@ class UserForm extends Component {
         // this.token = nextProps.token
         this.profileImg = nextProps.profileImg
         this.loggedInAs = nextProps.loggedInAs
-        this.loggedIn = nextProps.loggedIn
+        this.loggedIn = nextProps.loggedIn 
         this.userRole = nextProps.userRole
+        this.loaded = nextProps.loaded
     }
 
 
     render() {
+        
+        if (this.loggedIn || !this.loaded) {
+            return null
+        }
 
         if (this.registering) {
             return (

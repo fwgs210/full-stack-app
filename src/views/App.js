@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import ShowComments from './ShowComment'
-import AddComment from './AddComment'
-import UserForm from './UserForm'
-import UserPortal from './UserPortal'
-import Dashboard from './Dashboard'
+import UserDashboard from './containers/UserDashboard';
+import Home from './containers/Home';
+import AdminDashboard from './containers/AdminDashboard';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { connect } from 'react-redux';
+import { Provider } from 'react-redux';
+import { store } from '../Store'
+import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
 
 // init fontAwesome
 library.add(fas, far)
@@ -24,73 +24,47 @@ const AppContainer = styled.section.attrs({})`
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;  
 `;
 
-const NewPostContainer = styled.div`
-  margin-top: 3rem;
-`;
+// const App = ({ loggedIn, errorMessage, history }) => (
+//   <AppContainer>
+//     <UserPortal history={history} />
+//     <Dashboard history={history} />
+//     <ShowComments />
+//     {
+//       !loggedIn ? (
+//         <React.Fragment>
+//           <UserForm
+//             history={history}
+//           />
+//           <ErrorMessage>{errorMessage}</ErrorMessage>
+//         </React.Fragment>
+//       ) : (
+//           <NewPostContainer>
+//             <AddComment />
+//           </NewPostContainer>
+//         )
+//     }
+//   </AppContainer>
+// )
 
-const ErrorMessage = styled.div`
-  color: #D31C1D;
-  text-align: center;
-  font-size: .875rem;
-`;
+// const mapStateToProps = state => ({ ...state.user, ...state.loading })
 
-class App extends Component {
+// export default connect(mapStateToProps)(App)
 
-  render() {
-    const { loggedIn, errorMessage, userRole, token, history } = this.props
+const App = () => (
+  <AppContainer>
+    <Provider store={store}>
+      <HashRouter>
+        <Switch>
+          <Route path="/user/:username" component={UserDashboard} />
+          <Route path="/dashboard/:username" component={AdminDashboard} />
+          <Route path="/register" component={Home} />
+          <Route path="/forget-password" component={Home} />
+          <Route path="/login" component={Home} />
+          <Redirect to="/login" />
+        </Switch>
+      </HashRouter>
+    </Provider>
+  </AppContainer>
+)
 
-    return (
-      <AppContainer>
-        <UserPortal history={history} />
-        <Dashboard userRole={userRole} token={token} />
-        <ShowComments />
-        {
-          !loggedIn ? (
-              <React.Fragment>
-                <UserForm
-                  history={history}
-                />
-                <ErrorMessage>{errorMessage}</ErrorMessage>
-              </React.Fragment>
-            ) : (
-              <NewPostContainer>
-                <AddComment />
-              </NewPostContainer>
-            )
-        }
-      </AppContainer>
-    )
-  }
-}
-
-// const AddCommentContainer = props => {
-//   if (!props.loggedIn) {
-//     return (
-//       <React.Fragment>
-//         <UserForm
-//           history={props.history}
-//           loaded={props.loaded}
-//         />
-//         <ErrorMessage>{props.errorMessage}</ErrorMessage>
-//       </React.Fragment>
-//     )
-//   }
-//   return (
-//     <NewPostContainer>
-//       <AddComment />
-//     </NewPostContainer>
-//   )
-// }
-
-const mapStateToProps = state => ({ ...state.user, ...state.loading })
- //this method is used to pass state down functions
-
-// const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
-//   loadComments: allComments => dispatch(loadComments(allComments)),
-//   loadingStart: () => dispatch(startLoading()),
-//   loadingEnd: () => dispatch(finishLoading()),
-//   setError: errorMessage => dispatch(setError(errorMessage)),
-//   clearError: () => dispatch(clearError())
-// })
-
-export default connect(mapStateToProps)(App)
+export default App

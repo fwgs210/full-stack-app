@@ -1,45 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
 import Comment from '../Comment'
-import StyledLoader from '../Loader'
-import { LineButton } from '../../utils/Input'
+import { LineButton } from '../../../utils/Input'
 import { connect } from 'react-redux';
 import { loadMoreComments, loadComments } from './actions';
-import { startLoading, finishLoading, setError, clearError } from '../../controllers/Actions'
-
-// const ShowComments = props => {
-//   const { loggedIn, allComments, removeTodo, editComment, editing, editingTodo, editingTodoId, 
-//     updateTodo, handleChange, userRole, displayComments, loadMoreComments } = props
-
-//   if (loggedIn && !allComments.length) {
-//     return <h3>You don't have any comments yet!</h3>
-//   }
-  
-
-//     return (
-//       <section>
-//         {allComments.slice(0, displayComments).map(comment => (
-//           <Comment
-//             loggedIn={loggedIn}
-//             userRole={userRole}
-//             removeTodo={removeTodo}
-//             description={comment.description}
-//             profileImg={comment.userProfileImg ? comment.userProfileImg : ''}
-//             id={comment._id}
-//             key={comment._id}
-//             editComment={editComment}
-//             editing={editing}
-//             editingTodo={editingTodo}
-//             editingTodoId={editingTodoId}
-//             userPosted={comment.userPosted}
-//             updateTodo={updateTodo}
-//             handleChange={handleChange}
-//           />
-//         ))}
-//         {displayComments >= allComments.length ? '' : <LineButton onClick={() => loadMoreComments(5)}>Load More</LineButton> }
-//       </section>
-//     )
-// }
+import { startLoading, finishLoading, setError, clearError } from '../../../controllers/Actions'
 
 class ShowComments extends Component {
 
@@ -59,14 +26,17 @@ class ShowComments extends Component {
     this.token = props.token
     this.clearError = props.clearError
     this.setError = props.setError
+    this.loaded = props.loaded
   }
 
   loadAllComments = () => {
     this.loadingStart();
 
-    axios.get('/api/all-comments').then(res => {
+    axios.get('/api/all-comments').then(async res => {
       if (res.data.payload && res.status === 200) {
-        this.loadComments(res.data.payload)
+        this.allComments = res.data.payload
+        await this.loadComments(res.data.payload)
+        
         this.loadingEnd();
       }
       else {
@@ -91,6 +61,7 @@ class ShowComments extends Component {
     this.loggedInAs = nextProps.loggedInAs
     this.loggedIn = nextProps.loggedIn
     this.token = nextProps.token
+    this.loaded = nextProps.loaded
 
     if (this.loggedInAs && this.loggedIn && this.userRole !== 'administrator') {
       this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
@@ -100,12 +71,8 @@ class ShowComments extends Component {
   }
 
   render() {
-    if (this.loggedIn && !this.allComments.length) {
-      return <h3>You don't have any comments yet!</h3>
-    }
-
     return (
-      <section>
+      <ReactPlaceholder type='media' rows={5} ready={this.loaded}>
         {this.allComments.slice(0, this.displayComments).map(comment => (
           <Comment
             description={comment.description}
@@ -118,8 +85,8 @@ class ShowComments extends Component {
         {this.displayComments >= this.allComments.length ? '' : <LineButton onClick={() => {
           this.loadMoreComments(5)
           this.loadAllComments()
-          }}>Load More</LineButton>}
-      </section>
+        }}>Load More</LineButton>}
+      </ReactPlaceholder>
     )
   }
 }

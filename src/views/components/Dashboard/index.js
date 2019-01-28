@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import UserTable from './UserTable'
-import { confirmPopUp } from '../../utils/globalFunc'
+import { confirmPopUp } from '../../../utils/globalFunc'
+import { connect } from 'react-redux';
 
 class Dashboard extends Component {
 
     constructor(props) {
-        super();
-        this.token = props.token
-        this.userRole = props.userRole
+        super(props);
+        this.token = props.user.token
+        this.userRole = props.user.userRole
         this.history = props.history
+        this.users = props.admin.users
+
+        this.editingUser = props.admin.editingUser
+        this.editingUserId = props.admin.editingUserId
+        this.editingUsername = props.admin.editingUsername
+        this.editingEmail = props.admin.editingEmail
+        this.editingProfileImg = props.admin.editingProfileImg
+        this.editingRole = props.admin.editingRole
     }
 
     state = {
         users: [],
-        comments: [],
         editingUser: false,
         editingUserId: '',
         editingUsername: '', 
@@ -24,14 +32,18 @@ class Dashboard extends Component {
     }
     
     componentWillReceiveProps(nextProp) {
-        this.token = nextProp.token
-        this.userRole = nextProp.userRole
-        this.users = nextProp.users
-        this.comments = nextProp.comments
-    }
+        this.token = nextProp.user.token
+        this.userRole = nextProp.user.userRole
+        this.users = nextProp.admin.users
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.userRole !== this.props.userRole && this.props.userRole === 'administrator' && this.props.token) {
+        this.editingUser = nextProp.admin.editingUser
+        this.editingUserId = nextProp.admin.editingUserId
+        this.editingUsername = nextProp.admin.editingUsername
+        this.editingEmail = nextProp.admin.editingEmail
+        this.editingProfileImg = nextProp.admin.editingProfileImg
+        this.editingRole = nextProp.admin.editingRole
+
+        if (this.userRole === 'administrator' && this.token) {
             this.loadUsers()
         }
     }
@@ -93,8 +105,10 @@ class Dashboard extends Component {
         axios.get('/api/users', {
             headers: { 'Authorization': 'bearer ' + this.token }
         }).then(res => {
-            if (res.data.users && res.status === 200) {
+            if (res.status === 200) {
                 this.setState({ users: res.data.users})
+            } else {
+                console.log("error", res)
             }
         })
     }
@@ -114,4 +128,6 @@ class Dashboard extends Component {
 
 };
 
-export default Dashboard;
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps)(Dashboard);

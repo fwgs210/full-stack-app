@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { LineButton, WhiteLink, InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
-import { stripSpaces, validatePassword } from '../../utils/globalFunc'
+import { LineButton, WhiteLink, InputGroup, InputLabel, InputField, InputButton } from '../../../utils/Input'
+import { stripSpaces, validatePassword } from '../../../utils/globalFunc'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ErrorMessage = styled.div`
