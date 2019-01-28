@@ -12,9 +12,6 @@ const user = (state = {}, action) => { // this name has to match the default sta
             return { ...state, allComments: afterDeletedComments }
         case 'LOAD_COMMENTS':
             return { ...state, allComments: action.allComments }
-        case 'LOAD_MORE_COMMENTS': 
-            state.displayComments += action.number
-            return state
         case 'USER_LOGIN':
             const { loggedInAs, token, profileImg, userRole } = action.userData
             return { ...state, loggedIn: true, loggedInAs, token, profileImg, userRole }

@@ -5,7 +5,7 @@ import 'react-placeholder/lib/reactPlaceholder.css';
 import Comment from '../Comment'
 import { LineButton } from '../../../utils/Input'
 import { connect } from 'react-redux';
-import { loadMoreComments, loadComments } from './actions';
+import { loadComments } from './actions';
 import { startLoading, finishLoading, setError, clearError } from '../../../controllers/Actions'
 
 class ShowComments extends Component {
@@ -16,8 +16,6 @@ class ShowComments extends Component {
     this.loggedIn = props.loggedIn
     this.allComments = props.allComments
     this.userRole = props.userRole
-    this.displayComments = props.displayComments
-    this.loadMoreComments = props.loadMoreComments
     this.loadingStart = props.loadingStart
     this.loadingEnd = props.loadingEnd
     this.loadComments = props.loadComments
@@ -27,6 +25,10 @@ class ShowComments extends Component {
     this.clearError = props.clearError
     this.setError = props.setError
     this.loaded = props.loaded
+  }
+
+  state = {
+    displayComments: 5
   }
 
   loadAllComments = () => {
@@ -55,7 +57,6 @@ class ShowComments extends Component {
   componentWillReceiveProps(nextProps) {
     
     this.allComments = nextProps.allComments
-    this.displayComments = nextProps.displayComments
     this.loggedIn = nextProps.loggedIn
     this.userRole = nextProps.userRole
     this.loggedInAs = nextProps.loggedInAs
@@ -67,13 +68,14 @@ class ShowComments extends Component {
       this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
     }
 
+    console.log(nextProps)
     // this.loadAllComments()
   }
 
   render() {
     return (
       <ReactPlaceholder type='media' rows={5} ready={this.loaded}>
-        {this.allComments.slice(0, this.displayComments).map(comment => (
+        {this.allComments.slice(0, this.state.displayComments).map(comment => (
           <Comment
             description={comment.description}
             profileImg={comment.userProfileImg ? comment.userProfileImg : ''}
@@ -82,9 +84,10 @@ class ShowComments extends Component {
             userPosted={comment.userPosted}
           />
         ))}
-        {this.displayComments >= this.allComments.length ? '' : <LineButton onClick={() => {
-          this.loadMoreComments(5)
-          this.loadAllComments()
+        {this.state.displayComments >= this.allComments.length ? '' : <LineButton onClick={() => {
+          this.setState({
+            displayComments: this.state.displayComments += 5
+          })
         }}>Load More</LineButton>}
       </ReactPlaceholder>
     )
@@ -96,7 +99,6 @@ const mapStateToProps = state => ({ ...state.user, ...state.loading})
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
   loadComments: allComments => dispatch(loadComments(allComments)),
-  loadMoreComments: number => dispatch(loadMoreComments(number)),
   loadingStart: () => dispatch(startLoading()),
   loadingEnd: () => dispatch(finishLoading()),
   setError: errorMessage => dispatch(setError(errorMessage)),

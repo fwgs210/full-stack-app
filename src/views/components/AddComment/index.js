@@ -21,12 +21,7 @@ const handleSubmit = (loggedInAs, comment, token, addComment, clearComment) => {
     })
 }
 
-const AddComment = ({ comment, newComment, loggedInAs, token, addComment, clearComment, loaded }) => {
-
-  if (!loaded) {
-    return null
-  }
-
+const AddComment = ({ comment, newComment, loggedInAs, token, addComment, clearComment }) => {
   return (
     <article>
       <InputGroup>
@@ -40,7 +35,7 @@ const AddComment = ({ comment, newComment, loggedInAs, token, addComment, clearC
   );
 };
 
-const mapStateToProps = state => ({ ...state.user, ...state.loaded })
+const mapStateToProps = state => state.user
 //this method is used to pass state down functions
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
