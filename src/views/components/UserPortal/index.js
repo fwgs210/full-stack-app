@@ -1,9 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChangePassword from '../ChangePassword'
-import { WhiteLink } from '../../utils/Input'
+import { WhiteLink } from '../../../utils/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { connect } from 'react-redux';
+import { confirmPopUp } from '../../../utils/globalFunc'
+import { logout } from './actions'
 
 const UserPortalContainer = styled.summary`
   width: 100%;
@@ -45,20 +47,27 @@ const RightPanel = styled.aside`
   }
 `;
 
+const userLogout = (dispatch, history) => {
+    if (confirmPopUp("Are you sure you want to logout?")) {
+        history.push(`/login`)
+        dispatch(logout())
+        window.sessionStorage.setItem('token', '');
+    }
+}
 
 const UserPortal = props => {
-    const { loggedInAs, loggedIn, userProfileImg, username, userLogout, token, userRole } = props;
+    const { dispatch, history, loggedInAs, loggedIn, profileImg, username, token } = props;
 
     if (loggedInAs && loggedIn) {
         return (
             <UserPortalContainer>
                 <LeftPanel>
-                    <img width="64" alt="Profile Image" src={userProfileImg ? userProfileImg : '/assets/images/avatar-default.png'} />
-                    <h3>{ userRole === 'administrator' ? 'Tracy Su' : username.userPosted}</h3>
+                    <img width="64" alt="Profile Image" src={profileImg ? profileImg : '/assets/images/avatar-default.png'} />
+                    <h3>{username}</h3>
                 </LeftPanel>
                 <RightPanel>
                     <ChangePassword loggedInAs={loggedInAs} token={token} />
-                    <WhiteLink onClick={userLogout}>
+                    <WhiteLink onClick={() => userLogout(dispatch, history)}>
                         <FontAwesomeIcon prefix="fas" icon="sign-out-alt" /> Logout
                     </WhiteLink>
                 </RightPanel>
@@ -69,11 +78,6 @@ const UserPortal = props => {
     return null
 }
 
-UserPortal.propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    loggedInAs: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired,
-    userLogout: PropTypes.func.isRequired
-}
+const mapStateToProps = state => state.user
 
-export default UserPortal
+export default connect(mapStateToProps)(UserPortal)
