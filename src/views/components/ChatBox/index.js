@@ -31,6 +31,11 @@ const Chat = styled.div`
     .user {
         margin: 0 0 .375rem;
         font-weight: bold;
+
+        .time {
+            font-weight: normal;
+            font-size: .875rem;
+        }
     }
 `
 
@@ -119,6 +124,13 @@ class ChatBox extends Component {
 
   handleChange = e => this.setState({newChat: e.target.value})
 
+  convertDate = date => {
+      const newDate = new Date(date)
+      const hours = newDate.getHours() < 10 ? '0' + newDate.getHours() : newDate.getHours()
+      const min = newDate.getMinutes()
+      return `${hours}:${min}`
+  }
+
   componentWillReceiveProps(nextProps) {
     
     this.userRole = nextProps.userRole
@@ -138,10 +150,10 @@ class ChatBox extends Component {
       <ReactPlaceholder type='text' rows={10} ready={this.loaded}>
         <ChatContainer>
             {this.state.chats.map(chat => (
-                <Chat>
+                <Chat key={chat._id}>
                     <img width="48" alt="Profile Image" className="profile" src="http://resume.tracysu.com/assets/images/profile.png"></img>
                     <aside>
-                        <p className="user">{chat.userPosted}</p>
+                        <p className="user">{chat.userPosted} <span className="time">{this.convertDate(chat.date)}</span></p>
                         <p className="message">{chat.description}</p>
                     </aside>
 
