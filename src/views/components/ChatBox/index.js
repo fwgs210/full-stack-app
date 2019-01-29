@@ -6,6 +6,7 @@ import 'react-placeholder/lib/reactPlaceholder.css';
 import { connect } from 'react-redux';
 
 const ChatContainer = styled.div`
+    margin-top: 3rem;
     height:600px;
     border: 1px solid #eee;
     border-radius: 6px;

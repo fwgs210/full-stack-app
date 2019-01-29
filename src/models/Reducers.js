@@ -13,8 +13,8 @@ const user = (state = {}, action) => { // this name has to match the default sta
         case 'LOAD_COMMENTS':
             return { ...state, allComments: action.allComments }
         case 'USER_LOGIN':
-            const { loggedInAs, token, profileImg, userRole } = action.userData
-            return { ...state, loggedIn: true, loggedInAs, token, profileImg, userRole }
+            const { loggedInAs, token, profileImg, userRole, username } = action.userData
+            return { ...state, loggedIn: true, loggedInAs, token, profileImg, userRole, username }
         case 'USER_LOGOUT':
             return { ...state, username: '', loggedInAs: '', token: '', profileImg: '', userRole: '', registering: false, loggedIn: false, }
         case 'INPUT_USERNAME' :

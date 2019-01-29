@@ -2,11 +2,19 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import UserTable from './UserTable'
+import ChatBox from '../ChatBox'
+import ShowComments from '../ShowComment'
+import AddComment from '../AddComment'
 import { confirmPopUp } from '../../../utils/globalFunc'
 import { connect } from 'react-redux';
 import { loadUsers } from './actions'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { LineButton } from '../../../utils/Input'
+
+
+const NewPostContainer = styled.div`
+  margin-top: 3rem;
+`;
 
 const UserApp = styled.section`
     display: flex;
@@ -25,9 +33,11 @@ const UserApp = styled.section`
         border-radius: 6px;
         justify-content: center;
         align-items: center;
+        border: 0;
         border-top: 1px solid #F0F0F0;
         text-decoration: none;
         color: #333;
+        font-size: 1rem;
 
         &:hover {
             box-shadow: 0 3px 30px 0 rgba(203,203,203,1);
@@ -57,7 +67,9 @@ class Dashboard extends Component {
         editingUsername: '', 
         editingEmail: '', 
         editingProfileImg: '', 
-        editingRole: '' 
+        editingRole: '' ,
+        chatroom: false,
+        commentsBoard: false
     }
     
     componentWillReceiveProps(nextProps) {
@@ -65,6 +77,7 @@ class Dashboard extends Component {
         this.userRole = nextProps.user.userRole
         this.users = nextProps.admin.users
         this.loggedInAs = nextProps.user.loggedInAs
+        this.history = nextProps.history
 
         if (this.userRole === 'administrator' && this.token) {
             this.loadUsers()
@@ -129,7 +142,6 @@ class Dashboard extends Component {
             headers: { 'Authorization': 'bearer ' + this.token }
         }).then(res => {
             if (res.status === 200) {
-                // this.setState({ users: res.data.users})
                 this.props.dispatch(loadUsers(res.data.users))
             } else {
                 console.log("error", res)
@@ -141,23 +153,42 @@ class Dashboard extends Component {
         
         if (this.userRole === 'administrator') {
             return (
-                <article>
+                <article className="admin-dashboard">
                     <UserTable state={this.state} users={this.users} handleChange={this.handleChange} updateUser={this.updateUser} deleteUser={this.deleteUser} />
                 </article>
             );
         }
         if (this.userRole !== '') {
             return (
-                <UserApp>
-                    <Link to="/user/comments" replace className="app">
-                        <FontAwesomeIcon prefix="fas" icon="edit" className="app-icon" />
-                        Comments Board
-                    </Link>
-                    <Link to="/user/chatroom" replace className="app">
-                        <FontAwesomeIcon prefix="far" icon="comments" className="app-icon" />
-                        Chatroom
-                    </Link>
-                </UserApp>
+                <section className="user-dashboard">
+                    {
+                        this.state.chatroom ? (
+                            <React.Fragment>
+                                <LineButton onClick={() => this.setState({chatroom: false, commentsBoard: false})}>back to dashboard</LineButton>
+                                <ChatBox />
+                            </React.Fragment>
+                        ) : this.state.commentsBoard ? (
+                            <React.Fragment>
+                                <LineButton onClick={() => this.setState({chatroom: false, commentsBoard: false})}>back to dashboard</LineButton>
+                                <ShowComments />
+                                <NewPostContainer>
+                                    <AddComment />
+                                </NewPostContainer>
+                            </React.Fragment>
+                        ) : (
+                            <UserApp>
+                                <button onClick={() => this.setState({chatroom: false, commentsBoard: true})} className="app">
+                                    <FontAwesomeIcon prefix="fas" icon="edit" className="app-icon" />
+                                    Comments Board
+                                </button>
+                                <button onClick={() => this.setState({chatroom: true, commentsBoard: false})} className="app">
+                                    <FontAwesomeIcon prefix="far" icon="comments" className="app-icon" />
+                                    Chatroom
+                                </button>
+                            </UserApp>
+                        )
+                    }
+                </section>
             )
         }
         return null

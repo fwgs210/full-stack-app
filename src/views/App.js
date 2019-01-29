@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import UserDashboard from './containers/UserDashboard';
 import Home from './containers/Home';
 import AdminDashboard from './containers/AdminDashboard';
-import ChatRoom from './containers/ChatRoom'
-import UserComment from './containers/UserComment'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -32,8 +30,6 @@ const App = () => (
       <HashRouter>
         <Switch>
           <Route path="/dashboard/:username" component={AdminDashboard} />
-          <Route path="/user/chatroom" component={ChatRoom} />
-          <Route path="/user/comments" component={UserComment} />
           <Route path="/user/:username" component={UserDashboard} />
           <Route path="/register" component={Home} />
           <Route path="/forget-password" component={Home} />

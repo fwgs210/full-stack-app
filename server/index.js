@@ -212,7 +212,7 @@ router.route('/login/sso').post( auth, (req, res) => {
   User.findOne({ username, password })
     .then(doc => {
       if (doc) { 
-        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role } })
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role, username: doc.username  } })
       } else {
         res.status(203).json({ user: doc, message: 'Authentication failed' })
       }
@@ -229,7 +229,7 @@ router.route('/login').post( (req, res) => {
     .then(doc => {
       if(doc) {
         const token = sign({ userInfo: doc }); // user token structure
-        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role, username: doc.username }, token: token })
       } else {
         res.status(203).json({ message: 'Authentication failed' })
       }

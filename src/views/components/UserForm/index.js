@@ -94,8 +94,9 @@ class UserForm extends Component {
             headers: { 'Authorization': 'bearer ' + token }
         }).then(async res => {
             if (res.status === 200) {
-                const { _id, profileImg, role } = res.data.user
+                const { _id, profileImg, role, username } = res.data.user
                 await this.login({
+                    username,
                     loggedInAs: _id,
                     token,
                     profileImg,
@@ -119,9 +120,10 @@ class UserForm extends Component {
             password: stripSpaces(this.password)
         }).then(async res => {
             if (res.status === 200) {
-                const { _id, profileImg, role } = res.data.user
+                const { _id, profileImg, role, username } = res.data.user
                 window.sessionStorage.setItem('token', res.data.token);
                 await this.login({
+                    username,
                     loggedInAs: _id,
                     token: res.data.token,
                     profileImg,
