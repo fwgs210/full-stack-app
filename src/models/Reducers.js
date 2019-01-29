@@ -48,15 +48,12 @@ const user = (state = {}, action) => { // this name has to match the default sta
 }
 
 const admin = (state = {}, action) => { // this name has to match the default state property name, otherwise won't load default state
-    // switch (action.type) {
-    //     case 'LOAD_COMMENT':
-    //         return { ...state, allComments: allComments }
-    //     case 'SET_LOADED_TRUE':
-    //         return { ...state, loaded: true }
-    //     case 'SET_LOADED_FALSE':
-    //         return { ...state, loaded: false }
-    // }
-    return state;
+    switch (action.type) {
+        case 'LOAD_USERS':
+            return { ...state, users: action.allUsers }
+        default: 
+            return state;
+    }
 }
 
 const loading = (state = {}, action) => {

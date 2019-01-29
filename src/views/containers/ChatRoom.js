@@ -1,14 +1,14 @@
 import React from 'react'
 import UserPortal from '../components/UserPortal'
 import UserForm from '../components/UserForm'
-import Dashboard from '../components/Dashboard'
+import ChatBox from '../components/ChatBox'
 
-const UserDashboard = ({ history }) => (
+const ChatRoom = ({ history }) => (
     <React.Fragment>
         <UserForm history={history} />
         <UserPortal history={history} />
-        <Dashboard history={history} />
+        <ChatBox />
     </React.Fragment>
 )
 
-export default UserDashboard
+export default ChatRoom

@@ -8,6 +8,7 @@ const cors = require('cors')
 
 const Comment = require('./models/comment')
 const User = require('./models/user')
+const Chat = require('./models/chat')
 const token = require('./config/emailToken')
 const auth = require('./middleware/auth')
 const verifyAdmin = require('./middleware/verifyAdmin')
@@ -301,3 +302,32 @@ router.route('/users/:userId')
       })
   })
   
+  router.route('/newchat').post( auth, (req, res) => {
+    const { chat, userId } = req.body
+    const { username, profileImg } = req.token.userInfo
+    const newChat = new Chat({
+      userId,
+      userPosted: username,
+      description: chat,
+      date: new Date(), 
+      userProfileImg: profileImg ? profileImg : ''
+    })
+    newChat
+      .save()
+      .then(doc => {
+        res.status(201).json({ payload: doc })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
+  })
+
+  router.route('/all-chats').get( (req, res) => {
+    Chat.find()
+      .then(docs => {
+        res.status(200).json({ payload: docs })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
+})

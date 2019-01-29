@@ -102,13 +102,13 @@ const UserEditor = props => {
 }
 
 const UserTable = props => {
-    const { users, editingUser,
+    const { editingUser,
             editingUsername,
             editingEmail,
             editingProfileImg,
             editingRole } = props.state
 
-    const { handleChange, updateUser, deleteUser } = props
+    const { handleChange, updateUser, deleteUser, users } = props
 
     return (
         <UserTableContainer>

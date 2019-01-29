@@ -23,14 +23,7 @@ const defaultState = {
         userRole: ''
     },
     admin: {
-        users: [],
-        comments: [],
-        editingUser: false,
-        editingUserId: '',
-        editingUsername: '',
-        editingEmail: '',
-        editingProfileImg: '',
-        editingRole: '' 
+        users: []
     },
     loading: {
         loaded: false,

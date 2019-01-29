@@ -13,7 +13,6 @@ class ShowComments extends Component {
   constructor(props) {
     super(props)
 
-    this.loggedIn = props.loggedIn
     this.allComments = props.allComments
     this.userRole = props.userRole
     this.loadingStart = props.loadingStart
@@ -60,7 +59,6 @@ class ShowComments extends Component {
     this.loggedIn = nextProps.loggedIn
     this.userRole = nextProps.userRole
     this.loggedInAs = nextProps.loggedInAs
-    this.loggedIn = nextProps.loggedIn
     this.token = nextProps.token
     this.loaded = nextProps.loaded
 
