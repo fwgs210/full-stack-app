@@ -47,9 +47,31 @@ class ShowComments extends Component {
     })
   }
 
+  loadUserComments = () => {
+    this.loadingStart();
+
+    axios.post('/api/user-comments', {}, {
+      headers: { 'Authorization': 'bearer ' + this.token }
+    }).then(async res => {
+      if (res.data.payload && res.status === 200) {
+        this.allComments = res.data.payload
+        await this.loadComments(res.data.payload)
+
+        this.loadingEnd();
+      }
+      else {
+        this.setError('Server Error')
+        this.loadingEnd()
+      }
+    })
+  }
+
   componentDidMount() {
     if (!window.sessionStorage['token']) {
       this.loadAllComments()
+    }
+    if(this.loggedIn) {
+      this.loadUserComments()
     }
   }
 
@@ -62,9 +84,9 @@ class ShowComments extends Component {
     this.token = nextProps.token
     this.loaded = nextProps.loaded
 
-    if (this.loggedInAs && this.loggedIn && this.userRole !== 'administrator') {
-      this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
-    }
+    // if (this.loggedInAs && this.loggedIn && this.userRole !== 'administrator') {
+    //   this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
+    // }
 
     // this.loadAllComments()
   }

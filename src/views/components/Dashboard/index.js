@@ -38,6 +38,7 @@ const UserApp = styled.section`
         text-decoration: none;
         color: #333;
         font-size: 1rem;
+        background-color: #fff;
 
         &:hover {
             box-shadow: 0 3px 30px 0 rgba(203,203,203,1);

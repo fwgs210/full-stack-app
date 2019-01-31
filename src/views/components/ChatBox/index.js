@@ -91,6 +91,7 @@ class ChatBox extends Component {
     this.loggedInAs = props.loggedInAs
     this.token = props.token
     this.loaded = props.loaded
+    this.profileImg = props.profileImg
   }
 
   state = {
@@ -111,8 +112,7 @@ class ChatBox extends Component {
   newChat = e => {
     e.preventDefault()
     axios.post(`/api/newchat`, {
-        chat: this.state.newChat,
-        userId: this.loggedInAs
+        chat: this.state.newChat
       }, {
           headers: { 'Authorization': 'bearer ' + this.token }
         }).then( res => {
@@ -138,7 +138,7 @@ class ChatBox extends Component {
     this.loggedIn = nextProps.loggedIn
     this.token = nextProps.token
     this.loaded = nextProps.loaded
-
+    this.profileImg = nextProps.profileImg
   }
 
   componentDidMount() {
@@ -151,7 +151,7 @@ class ChatBox extends Component {
         <ChatContainer>
             {this.state.chats.map(chat => (
                 <Chat key={chat._id}>
-                    <img width="48" alt="Profile Image" className="profile" src="http://resume.tracysu.com/assets/images/profile.png"></img>
+                    <img width="48" alt="Profile Image" className="profile" src={this.profileImg} />
                     <aside>
                         <p className="user">{chat.userPosted} <span className="time">{this.convertDate(chat.date)}</span></p>
                         <p className="message">{chat.description}</p>

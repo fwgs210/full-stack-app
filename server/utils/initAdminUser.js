@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const mongoose = require('mongoose')
 
 module.exports = async () => {
     const adminExist = await User.findOne({ role: 'administrator' });
@@ -8,7 +9,8 @@ module.exports = async () => {
             password: '87532998',
             email: 'info@tracysu.com',
             profileImg: 'http://resume.tracysu.com/assets/images/profile.png',
-            role: 'administrator'
+            role: 'administrator',
+            _id: new mongoose.Types.ObjectId()
         })
         admin.save()
     }

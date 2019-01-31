@@ -6,9 +6,9 @@ const http = require('http');
 const enforce = require('express-sslify');
 const cors = require('cors')
 
-const Comment = require('./models/comment')
-const User = require('./models/user')
-const Chat = require('./models/chat')
+// const Comment = require('./models/comment')
+const { User, Comment, Chat } = require('./models/user')
+// const Chat = require('./models/chat')
 const token = require('./config/emailToken')
 const auth = require('./middleware/auth')
 const verifyAdmin = require('./middleware/verifyAdmin')
@@ -139,27 +139,33 @@ router.route('/all-comments').get( (req, res) => {
 })
 
 router.route('/user-comments').post( auth, (req, res) => {
-  Comment.find({ userId: req.token.userInfo._id })
-    .then(docs => {
-      res.status(200).json({ payload: docs, message: 'token verified.' })
-    })
-    .catch(err => {
-      res.status(500).json({ message: err.message })
-    })
+  User
+    .findOne({ _id: req.token.userInfo._id })
+    .populate('comments')
+    .exec(function (err, foundUser) {
+      if (err) {
+        res.status(500).json({ message: err.message })
+        return handleError(err)
+      }
+      
+      res.status(200).json({ payload: foundUser.comments, message: 'token verified.' })
+    });
 })
 
 router.route('/addComment').post( auth, (req, res) => {
-  const { todo, userId } = req.body
-  const { username, profileImg } = req.token.userInfo
+  const { comment } = req.body
+  const { username, profileImg, _id } = req.token.userInfo
   const newComment = new Comment({
-    userId,
+    userId: _id,
     userPosted: username,
-    description: todo,
+    description: comment,
     userProfileImg: profileImg ? profileImg : ''
   })
+
   newComment
     .save()
-    .then(doc => {
+    .then(async doc => {
+      await User.findByIdAndUpdate(_id, { $push: { comments: newComment } })
       res.status(201).json({ payload: doc })
     })
     .catch(err => {
@@ -193,10 +199,20 @@ router.route('/newuser').post( async (req, res) => {
   } else if (emailExist) {
     res.status(203).json({ message: 'Email already exists' })
   } else {
-    const user = new User({ username, password, email, profileImg })
+    const user = new User({ username, password, email, profileImg, _id: new mongoose.Types.ObjectId() })
     user
       .save()
       .then(doc => {
+        const newComment = new Comment({
+          userId: user._id,
+          userPosted: user.username,
+          description: 'this is your first comment!',
+          userProfileImg: user.profileImg
+        })
+        newComment.save() // save first comment
+        user.comments.push(newComment); // push new comment
+        user.save(); // save new comment
+
         const token = sign({ userInfo: doc });
         res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
       })
@@ -303,10 +319,10 @@ router.route('/users/:userId')
   })
   
   router.route('/newchat').post( auth, (req, res) => {
-    const { chat, userId } = req.body
-    const { username, profileImg } = req.token.userInfo
+    const { chat } = req.body
+    const { username, profileImg, _id } = req.token.userInfo
     const newChat = new Chat({
-      userId,
+      userId: _id,
       userPosted: username,
       description: chat,
       date: new Date(), 
@@ -314,7 +330,8 @@ router.route('/users/:userId')
     })
     newChat
       .save()
-      .then(doc => {
+      .then(async doc => {
+        await User.findByIdAndUpdate(_id, { $push: { chats: newChat } })
         res.status(201).json({ payload: doc })
       })
       .catch(err => {

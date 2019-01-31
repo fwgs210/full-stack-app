@@ -9,10 +9,9 @@ import {
 import { connect } from 'react-redux';
 import { typeComment, clearComment, addComment } from './actions'
 
-const handleSubmit = (loggedInAs, comment, token, addComment, clearComment) => {
+const handleSubmit = (comment, token, addComment, clearComment) => {
   axios.post(`/api/addComment`, {
-    todo: comment,
-    userId: loggedInAs
+    comment
   }, {
       headers: { 'Authorization': 'bearer ' + token }
     }).then( res => {
@@ -21,7 +20,7 @@ const handleSubmit = (loggedInAs, comment, token, addComment, clearComment) => {
     })
 }
 
-const AddComment = ({ comment, newComment, loggedInAs, token, addComment, clearComment }) => {
+const AddComment = ({ comment, newComment, token, addComment, clearComment }) => {
   return (
     <article>
       <InputGroup>
@@ -29,7 +28,7 @@ const AddComment = ({ comment, newComment, loggedInAs, token, addComment, clearC
         <InputTextarea onChange={newComment} value={comment}></InputTextarea>
       </InputGroup>
       <InputGroup>
-        <InputButton type="button" onClick={() => handleSubmit(loggedInAs, comment, token, addComment, clearComment)}>Post Comment</InputButton>
+        <InputButton type="button" onClick={() => handleSubmit(comment, token, addComment, clearComment)}>Post Comment</InputButton>
       </InputGroup>
     </article>
   );
