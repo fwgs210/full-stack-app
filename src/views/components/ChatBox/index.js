@@ -8,17 +8,11 @@ import { connect } from 'react-redux';
 const ChatContainer = styled.div`
     margin-top: 3rem;
     height:600px;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    background: #f2f2f2;
+    border: 3px solid #eee;
     overflow-y: scroll;
-    position:relative;
 `
 const Chat = styled.div`
-    padding: 1rem;
-    background: #fff;
-    margin: 1rem;
-    border-radius: 1rem;
+    margin: .5rem 1rem 1.5rem;
     display: flex;
     align-items: flex-start;
 
@@ -27,23 +21,23 @@ const Chat = styled.div`
     }
     .message {
         margin: 0;
+        font-size: .875rem;
     }
     .user {
         margin: 0 0 .375rem;
         font-weight: bold;
+        font-size: .75rem;
 
         .time {
             font-weight: normal;
-            font-size: .875rem;
         }
     }
 `
 
 const ChatForm = styled.form`
-    position: sticky;
-    bottom: 0;
-    width: 100%;
+    margin-top: .5rem;
     background: #fff;
+    border: 3px solid #eee;
 
     input {
         outline: none;
@@ -127,7 +121,7 @@ class ChatBox extends Component {
   convertDate = date => {
       const newDate = new Date(date)
       const hours = newDate.getHours() < 10 ? '0' + newDate.getHours() : newDate.getHours()
-      const min = newDate.getMinutes()
+      const min = newDate.getMinutes() < 10 ? '0' + newDate.getMinutes() : newDate.getMinutes()
       return `${hours}:${min}`
   }
 
@@ -151,18 +145,18 @@ class ChatBox extends Component {
         <ChatContainer>
             {this.state.chats.map(chat => (
                 <Chat key={chat._id}>
-                    <img width="48" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
+                    <img width="32" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
                     <aside>
                         <p className="user">{chat.userId.username} <span className="time">{this.convertDate(chat.date)}</span></p>
                         <p className="message">{chat.description}</p>
                     </aside>
                 </Chat>
             ))}
-            <ChatForm onSubmit={this.newChat}>
-                <input type="text" value={this.state.newChat} onChange={this.handleChange} placeholder="enter your message here..." />
-                <button type="submit">send</button>
-            </ChatForm>
         </ChatContainer>
+        <ChatForm onSubmit={this.newChat}>
+            <input type="text" value={this.state.newChat} onChange={this.handleChange} placeholder="enter your message here..." />
+            <button type="submit">send</button>
+        </ChatForm>
       </ReactPlaceholder>
     )
   }
