@@ -14,15 +14,11 @@ const userSchema = new Schema({
 
 const commentSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    userProfileImg: { type: String, required: false },
-    userPosted: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String, required: true }
 })
 
 const chatSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    userProfileImg: { type: String, required: false },
-    userPosted: { type: String, required: true },
     date: { type: String, required: true },
     description: { type: String, required: true }
 })

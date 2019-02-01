@@ -130,6 +130,8 @@ router.route('/retrieve-user-info').post( (req, res) => {
 
 router.route('/all-comments').get( (req, res) => {
       Comment.find()
+        .populate('userId')
+        .exec()
         .then(docs => {
           res.status(200).json({ payload: docs })
         })
@@ -141,8 +143,11 @@ router.route('/all-comments').get( (req, res) => {
 router.route('/user-comments').post( auth, (req, res) => {
   User
     .findOne({ _id: req.token.userInfo._id })
-    .populate('comments')
-    .exec(function (err, foundUser) {
+    .populate({
+      path: 'comments',
+      populate: { path: 'userId' }
+    })
+    .exec( (err, foundUser) => {
       if (err) {
         res.status(500).json({ message: err.message })
         return handleError(err)
@@ -154,12 +159,10 @@ router.route('/user-comments').post( auth, (req, res) => {
 
 router.route('/addComment').post( auth, (req, res) => {
   const { comment } = req.body
-  const { username, profileImg, _id } = req.token.userInfo
+  const { _id } = req.token.userInfo
   const newComment = new Comment({
     userId: _id,
-    userPosted: username,
-    description: comment,
-    userProfileImg: profileImg ? profileImg : ''
+    description: comment
   })
 
   newComment
@@ -318,29 +321,29 @@ router.route('/users/:userId')
       })
   })
   
-  router.route('/newchat').post( auth, (req, res) => {
+  router.route('/newchat').post( auth, async (req, res) => {
     const { chat } = req.body
-    const { username, profileImg, _id } = req.token.userInfo
+    const { _id } = req.token.userInfo
     const newChat = new Chat({
       userId: _id,
-      userPosted: username,
       description: chat,
       date: new Date(), 
-      userProfileImg: profileImg ? profileImg : ''
     })
-    newChat
-      .save()
-      .then(async doc => {
-        await User.findByIdAndUpdate(_id, { $push: { chats: newChat } })
-        res.status(201).json({ payload: doc })
-      })
-      .catch(err => {
+    await newChat.save()
+    await User.findByIdAndUpdate(_id, { $push: { chats: newChat } })
+    Chat.populate(newChat, { path: "userId" }, (err, doc) => {
+      if (err) {
         res.status(500).json({ message: err.message })
-      })
+        return null
+      }
+      res.status(201).json({ payload: doc })
+    })
   })
 
   router.route('/all-chats').get( (req, res) => {
     Chat.find()
+      .populate('userId')
+      .exec()
       .then(docs => {
         res.status(200).json({ payload: docs })
       })

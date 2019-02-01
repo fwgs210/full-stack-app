@@ -40,7 +40,7 @@ const Chat = styled.div`
 `
 
 const ChatForm = styled.form`
-    position: absolute;
+    position: sticky;
     bottom: 0;
     width: 100%;
     background: #fff;
@@ -151,13 +151,11 @@ class ChatBox extends Component {
         <ChatContainer>
             {this.state.chats.map(chat => (
                 <Chat key={chat._id}>
-                    <img width="48" alt="Profile Image" className="profile" src={this.profileImg} />
+                    <img width="48" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
                     <aside>
-                        <p className="user">{chat.userPosted} <span className="time">{this.convertDate(chat.date)}</span></p>
+                        <p className="user">{chat.userId.username} <span className="time">{this.convertDate(chat.date)}</span></p>
                         <p className="message">{chat.description}</p>
                     </aside>
-
-                    
                 </Chat>
             ))}
             <ChatForm onSubmit={this.newChat}>

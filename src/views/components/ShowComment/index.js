@@ -84,11 +84,6 @@ class ShowComments extends Component {
     this.token = nextProps.token
     this.loaded = nextProps.loaded
 
-    // if (this.loggedInAs && this.loggedIn && this.userRole !== 'administrator') {
-    //   this.allComments = this.allComments.filter(e => e.userId === this.loggedInAs)
-    // }
-
-    // this.loadAllComments()
   }
 
   render() {
@@ -97,15 +92,15 @@ class ShowComments extends Component {
         {this.allComments.slice(0, this.state.displayComments).map(comment => (
           <Comment
             description={comment.description}
-            profileImg={comment.userProfileImg ? comment.userProfileImg : ''}
+            profileImg={comment.userId.profileImg ? comment.userId.profileImg : ''}
             id={comment._id}
             key={comment._id}
-            userPosted={comment.userPosted}
+            userPosted={comment.userId.username}
           />
         ))}
         {this.state.displayComments >= this.allComments.length ? '' : <LineButton onClick={() => {
           this.setState({
-            displayComments: this.state.displayComments += 5
+            displayComments: this.state.displayComments + 5
           })
         }}>Load More</LineButton>}
       </ReactPlaceholder>
