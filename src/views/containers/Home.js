@@ -10,12 +10,13 @@ const ErrorMessage = styled.div`
   font-size: .875rem;
 `;
 
+
 const Home = ({ errorMessage, history }) => (
-    <React.Fragment>
-        <ShowComments />
-        <UserForm history={history} />
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-    </React.Fragment>
+  <React.Fragment>
+    <ShowComments />
+    <UserForm history={history} />
+    <ErrorMessage>{errorMessage}</ErrorMessage>
+  </React.Fragment>
 )
 
 const mapStateToProps = state => ({ ...state.loading })

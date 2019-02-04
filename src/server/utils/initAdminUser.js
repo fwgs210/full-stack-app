@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const mongoose = require('mongoose')
 
-module.exports = async () => {
+const initAdminUser = async () => {
     const adminExist = await User.findOne({ role: 'administrator' });
     if (!adminExist) {
         const admin = new User({
@@ -15,3 +15,5 @@ module.exports = async () => {
         admin.save()
     }
 }
+
+export default initAdminUser
