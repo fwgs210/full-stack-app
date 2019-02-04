@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import ReactPlaceholder from 'react-placeholder';
-import 'react-placeholder/lib/reactPlaceholder.css';
 import { connect } from 'react-redux';
 
 const ChatContainer = styled.div`
@@ -141,7 +139,7 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <ReactPlaceholder type='text' rows={10} ready={this.loaded}>
+      <React.Fragment>
         <ChatContainer>
             {this.state.chats.map(chat => (
                 <Chat key={chat._id}>
@@ -157,7 +155,7 @@ class ChatBox extends Component {
             <input type="text" value={this.state.newChat} onChange={this.handleChange} placeholder="enter your message here..." />
             <button type="submit">send</button>
         </ChatForm>
-      </ReactPlaceholder>
+      </React.Fragment>
     )
   }
 }

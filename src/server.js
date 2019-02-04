@@ -1,3 +1,4 @@
+/* eslint-disable */
 import App from './views/App';
 import React from 'react';
 import nodemailer from 'nodemailer'

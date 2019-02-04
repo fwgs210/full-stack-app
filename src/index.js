@@ -1,3 +1,4 @@
+/* eslint-disable */
 import mongoose from 'mongoose'
 import http from 'http';
 import enforce from 'express-sslify';

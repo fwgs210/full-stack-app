@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import ReactPlaceholder from 'react-placeholder';
-import 'react-placeholder/lib/reactPlaceholder.css';
 import {
     InputGroup,
     InputLabel,
@@ -306,32 +304,30 @@ class UserForm extends Component {
         }
 
         return (
-            <ReactPlaceholder type='text' rows={3} ready={this.loaded}>
-                <UserLogin>
-                    <form onSubmit={e => this.userLogin(e)}>
-                        <InputGroup>
-                            <InputLabel>username</InputLabel>
-                            <InputField value={this.username} onChange={this.typeUsername} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>password</InputLabel>
-                            <InputField value={this.password} onChange={this.typePassword} type="password" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputButton type="submit">login</InputButton>
-                            <LineButton onClick={() => {
-                                this.setRegistering(true)
-                                this.history.push('/register')
-                            }}>Register here</LineButton>
-                            <LineButton onClick={(e) => {
-                                e.preventDefault();
-                                this.setForgetPass(true)
-                                this.history.push('/forget-password')
-                            }}>forgot password?</LineButton>
-                        </InputGroup>
-                    </form>
-                </UserLogin>
-            </ReactPlaceholder>
+            <UserLogin>
+                <form onSubmit={e => this.userLogin(e)}>
+                    <InputGroup>
+                        <InputLabel>username</InputLabel>
+                        <InputField value={this.username} onChange={this.typeUsername} type="text" required />
+                    </InputGroup>
+                    <InputGroup>
+                        <InputLabel>password</InputLabel>
+                        <InputField value={this.password} onChange={this.typePassword} type="password" required />
+                    </InputGroup>
+                    <InputGroup>
+                        <InputButton type="submit">login</InputButton>
+                        <LineButton onClick={() => {
+                            this.setRegistering(true)
+                            this.history.push('/register')
+                        }}>Register here</LineButton>
+                        <LineButton onClick={(e) => {
+                            e.preventDefault();
+                            this.setForgetPass(true)
+                            this.history.push('/forget-password')
+                        }}>forgot password?</LineButton>
+                    </InputGroup>
+                </form>
+            </UserLogin>
         )
     }
 }
