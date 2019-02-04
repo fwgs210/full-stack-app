@@ -7,13 +7,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { Provider } from 'react-redux';
-import { store } from '../models/Store'
-import { Route, Switch } from 'react-router-dom';
+import { store } from '../Store'
+import { Route, HashRouter, Redirect, Switch } from 'react-router-dom';
 
 // init fontAwesome
 library.add(fas, far)
 
-const AppContainer = styled.section`
+const AppContainer = styled.section.attrs({})`
   width: 100%;
   max-width: 800px;
   margin: 20px auto 80px;
@@ -27,18 +27,18 @@ const AppContainer = styled.section`
 const App = () => (
   <AppContainer>
     <Provider store={store}>
-      <Switch>
-        <Route path="/dashboard/:username" component={AdminDashboard} />
-        <Route path="/user/:username" component={UserDashboard} />
-        <Route path="/user/comment-board/:username" component={UserDashboard} />
-        <Route path="/user/chatroom/:username" component={UserDashboard} />
-        <Route path="/register" component={Home} />
-        <Route path="/forget-password" component={Home} />
-        <Route path="/login" component={Home} />
-        <Route path="/" component={Home} />
-      </Switch>
+      <HashRouter>
+        <Switch>
+          <Route path="/dashboard/:username" component={AdminDashboard} />
+          <Route path="/user/:username" component={UserDashboard} />
+          <Route path="/register" component={Home} />
+          <Route path="/forget-password" component={Home} />
+          <Route path="/login" component={Home} />
+          <Redirect to="/login" />
+        </Switch>
+      </HashRouter>
     </Provider>
-  </AppContainer >
+  </AppContainer>
 )
 
 export default App

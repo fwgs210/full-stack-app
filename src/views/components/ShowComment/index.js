@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
 import Comment from '../Comment'
 import { LineButton } from '../../../utils/Input'
 import { connect } from 'react-redux';
@@ -86,7 +88,7 @@ class ShowComments extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <ReactPlaceholder type='media' rows={5} ready={this.loaded}>
         {this.allComments.slice(0, this.state.displayComments).map(comment => (
           <Comment
             description={comment.description}
@@ -101,7 +103,7 @@ class ShowComments extends Component {
             displayComments: this.state.displayComments + 5
           })
         }}>Load More</LineButton>}
-      </React.Fragment>
+      </ReactPlaceholder>
     )
   }
 }

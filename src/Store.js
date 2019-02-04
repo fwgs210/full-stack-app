@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import combinedReducers from './Reducers';
+import combinedReducers from './models/Reducers';
 import thunk from 'redux-thunk';
 
 const defaultState = {
@@ -32,7 +32,7 @@ const defaultState = {
     }
 }
 
-const composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(combinedReducers, defaultState, composeEnhancers(
     applyMiddleware(thunk)
 ));

@@ -1,6 +1,6 @@
 const { verify } = require('../utils/tokenService');
 
-const auth = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) {
         res.status(403).json({
@@ -22,5 +22,3 @@ const auth = async (req, res, next) => {
         return null
     }
 }
-
-export default auth

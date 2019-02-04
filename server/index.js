@@ -1,20 +1,39 @@
-/* eslint-disable */
-import App from './views/App';
-import React from 'react';
-import nodemailer from 'nodemailer'
-import express from 'express';
-import bodyParser from 'body-parser'
-import auth from './server/middleware/auth'
-import verifyAdmin from './server/middleware/verifyAdmin'
-import token, { sign } from './server/utils/tokenService'
-import { StaticRouter } from 'react-router-dom';
-import { renderToString } from 'react-dom/server';
-import { User, Comment, Chat } from './server/models/user'
+const express = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const path = require('path');
+const http = require('http');
+const enforce = require('express-sslify');
+const cors = require('cors')
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+// const Comment = require('./models/comment')
+const { User, Comment, Chat } = require('./models/user')
+// const Chat = require('./models/chat')
+const token = require('./config/emailToken')
+const auth = require('./middleware/auth')
+const verifyAdmin = require('./middleware/verifyAdmin')
+const { uri, PORT } = require('./config/serverSetup')
+const { sign } = require('./utils/tokenService')
+const initAdminUser = require('./utils/initAdminUser')
 
+mongoose.connect(uri, { useNewUrlParser: true })
 const app = express()
 const router = express.Router();
+const env = app.get('env');
+
+// mailer
+const nodemailer = require("nodemailer");
+
+// const { google } = require('googleapis');
+// const mailConnectionAuth = {
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true, // true for 465, false for other ports
+//   auth: {
+//     user: 'tracywebconsultant@gmail.com', // generated ethereal user
+//     pass: '87532998' // generated ethereal password
+//   }
+// }
 
 const mailConnectionAuth = {
   service: "gmail",
@@ -28,14 +47,39 @@ const mailConnectionAuth = {
   }
 };
 
-app
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .use(bodyParser.urlencoded({ extended: false }))
-  .use(bodyParser.json())
-  .use('/api', router);
+if (env === 'production') { // PROD setup
+  initAdminUser()
 
-router.route('/retrieve-user-info').post((req, res) => {
+  app.use(express.static(path.join(__dirname, '../build')));
+  app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
+
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // allow self assigned SSL
+
+  http.createServer(app).listen(PORT, function () {
+    console.log('Express server listening on port ' + PORT);
+  });
+
+}
+
+if (env === 'development') { // DEV setup
+  http.createServer(app).listen(PORT, function () {
+    console.log(`Server listening on port ${PORT}.`)
+    console.log(env)
+  });
+}
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+// allow CORS
+// app.use(cors())
+
+app.use('/api', router);
+
+router.route('/retrieve-user-info').post( (req, res) => {
 
   const { email } = req.body;
 
@@ -84,36 +128,36 @@ router.route('/retrieve-user-info').post((req, res) => {
 
 });
 
-router.route('/all-comments').get((req, res) => {
-  Comment.find()
-    .populate('userId')
-    .exec()
-    .then(docs => {
-      res.status(200).json({ payload: docs })
-    })
-    .catch(err => {
-      res.status(500).json({ message: err.message })
-    })
+router.route('/all-comments').get( (req, res) => {
+      Comment.find()
+        .populate('userId')
+        .exec()
+        .then(docs => {
+          res.status(200).json({ payload: docs })
+        })
+        .catch(err => {
+          res.status(500).json({ message: err.message })
+        })
 })
 
-router.route('/user-comments').post(auth, (req, res) => {
+router.route('/user-comments').post( auth, (req, res) => {
   User
     .findOne({ _id: req.token.userInfo._id })
     .populate({
       path: 'comments',
       populate: { path: 'userId' }
     })
-    .exec((err, foundUser) => {
+    .exec( (err, foundUser) => {
       if (err) {
         res.status(500).json({ message: err.message })
         return handleError(err)
       }
-
+      
       res.status(200).json({ payload: foundUser.comments, message: 'token verified.' })
     });
 })
 
-router.route('/addComment').post(auth, (req, res) => {
+router.route('/addComment').post( auth, (req, res) => {
   const { comment } = req.body
   const { _id } = req.token.userInfo
   const newComment = new Comment({
@@ -147,7 +191,7 @@ router.route('/user/change-password').post(auth, (req, res) => {
 })
 
 // new user
-router.route('/newuser').post(async (req, res) => {
+router.route('/newuser').post( async (req, res) => {
   const { username, password, email, profileImg } = req.body;
 
   const userExist = await User.findOne({ username })
@@ -182,12 +226,12 @@ router.route('/newuser').post(async (req, res) => {
 })
 
 // SSO login 
-router.route('/login/sso').post(auth, (req, res) => {
+router.route('/login/sso').post( auth, (req, res) => {
   const { username, password } = req.token.userInfo
   User.findOne({ username, password })
     .then(doc => {
-      if (doc) {
-        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role, username: doc.username } })
+      if (doc) { 
+        res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role, username: doc.username  } })
       } else {
         res.status(203).json({ user: doc, message: 'Authentication failed' })
       }
@@ -198,11 +242,11 @@ router.route('/login/sso').post(auth, (req, res) => {
 })
 
 // login 
-router.route('/login').post((req, res) => {
+router.route('/login').post( (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username, password })
     .then(doc => {
-      if (doc) {
+      if(doc) {
         const token = sign({ userInfo: doc }); // user token structure
         res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role, username: doc.username }, token: token })
       } else {
@@ -214,7 +258,7 @@ router.route('/login').post((req, res) => {
     })
 })
 
-router.route('/user-comments/edit').put((req, res) => {
+router.route('/user-comments/edit').put( (req, res) => {
   const { id, description } = req.body;
   Comment.findByIdAndUpdate(id, { description })
     .then(doc => {
@@ -225,7 +269,7 @@ router.route('/user-comments/edit').put((req, res) => {
     })
 })
 
-router.route('/user-comments/:id').delete((req, res) => {
+router.route('/user-comments/:id').delete( (req, res) => {
   const { id } = req.params
 
   Comment.findByIdAndRemove(id)
@@ -238,8 +282,8 @@ router.route('/user-comments/:id').delete((req, res) => {
 })
 
 // admin API
-router.route('/users').get(verifyAdmin, (req, res) => {
-  User.find().select({ password: 0 })
+router.route('/users').get( verifyAdmin, (req, res) => {
+  User.find().select({password: 0})
     .then(doc => {
       if (doc) {
         res.status(200).json({ users: doc })
@@ -253,10 +297,10 @@ router.route('/users').get(verifyAdmin, (req, res) => {
 })
 
 router.route('/users/:userId')
-  .put(verifyAdmin, (req, res) => {
+  .put( verifyAdmin, (req, res) => {
     const { userId } = req.params;
     const { username, email, profileImg, role } = req.body
-
+    
     User.findByIdAndUpdate(userId, { username, email, profileImg, role })
       .then(doc => {
         res.status(200).json({ message: `${username}'s profile updated by ${req.token.userInfo.username}` })
@@ -276,81 +320,34 @@ router.route('/users/:userId')
         res.status(500).json({ message: err.message })
       })
   })
-
-router.route('/newchat').post(auth, async (req, res) => {
-  const { chat } = req.body
-  const { _id } = req.token.userInfo
-  const newChat = new Chat({
-    userId: _id,
-    description: chat,
-    date: new Date(),
-  })
-  await newChat.save()
-  await User.findByIdAndUpdate(_id, { $push: { chats: newChat } })
-  Chat.populate(newChat, { path: "userId" }, (err, doc) => {
-    if (err) {
-      res.status(500).json({ message: err.message })
-      return null
-    }
-    res.status(201).json({ payload: doc })
-  })
-})
-
-router.route('/all-chats').get((req, res) => {
-  Chat.find()
-    .populate('userId')
-    .exec()
-    .then(docs => {
-      res.status(200).json({ payload: docs })
+  
+  router.route('/newchat').post( auth, async (req, res) => {
+    const { chat } = req.body
+    const { _id } = req.token.userInfo
+    const newChat = new Chat({
+      userId: _id,
+      description: chat,
+      date: new Date(), 
     })
-    .catch(err => {
-      res.status(500).json({ message: err.message })
+    await newChat.save()
+    await User.findByIdAndUpdate(_id, { $push: { chats: newChat } })
+    Chat.populate(newChat, { path: "userId" }, (err, doc) => {
+      if (err) {
+        res.status(500).json({ message: err.message })
+        return null
+      }
+      res.status(201).json({ payload: doc })
     })
+  })
+
+  router.route('/all-chats').get( (req, res) => {
+    Chat.find()
+      .populate('userId')
+      .exec()
+      .then(docs => {
+        res.status(200).json({ payload: docs })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
 })
-
-// server side rendering react
-app.get('/*', (req, res) => {
-    const context = {};
-    const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    );
-
-    if (context.url) {
-      res.redirect(context.url);
-    } else {
-      res.status(200).send(
-        `<!doctype html>
-    <html lang="">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charset="utf-8" />
-        <title>Full Stack App</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="http://www.tracysu.com/wp-content/uploads/2015/01/faviconapple.png">
-        <style>
-        * {
-          box-sizing: border-box;
-        } 
-        </style>
-        ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
-        }
-        ${
-          process.env.NODE_ENV === 'production'
-            ? `<script src="${assets.client.js}" defer></script>`
-            : `<script src="${assets.client.js}" defer crossorigin></script>`
-        }
-    </head>
-    <body style="margin:0;background-color:#f2f2f2;">
-        <div id="root">${markup}</div>
-    </body>
-</html>`
-      );
-    }
-  });
-
-export default app;
