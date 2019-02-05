@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
+import Router from 'next/router'
 import ReactPlaceholder from 'react-placeholder';
-import 'react-placeholder/lib/reactPlaceholder.css';
 import {
     InputGroup,
     InputLabel,
@@ -69,8 +69,6 @@ class UserForm extends Component {
         this.setForgetPass = props.setForgetPass
         this.loadComments = props.loadComments
 
-        this.history = props.history
-
         //data
         this.forgetPass = props.forgetPass
         this.registering = props.registering
@@ -78,7 +76,6 @@ class UserForm extends Component {
         this.email = props.email
         this.password = props.password
         this.rePassword = props.rePassword
-        this.history = props.history
         // this.token = props.token
         this.profileImg = props.profileImg
         this.loggedInAs = props.loggedInAs
@@ -105,7 +102,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.loadingEnd()
-                role === 'administrator' ? this.history.push(`/dashboard/${_id}`) : this.history.push(`/user/${this.loggedInAs}`)
+                role === 'administrator' ? Router.push(`/admindashboard?userId=${_id}`, `/dashboard/${_id}`) : Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -132,7 +129,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
-                role === 'administrator' ? this.history.push(`/dashboard/${_id}`) : this.history.push(`/user/${this.loggedInAs}`)
+                role === 'administrator' ? Router.push(`/admindashboard?userId=${_id}`, `/dashboard/${_id}`) : Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
             }
@@ -173,7 +170,7 @@ class UserForm extends Component {
                 this.clearInput()
                 this.clearError()
                 this.loadingEnd()
-                this.history.push(`/user/${this.loggedInAs}`)
+                Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -228,7 +225,6 @@ class UserForm extends Component {
         this.email = nextProps.email
         this.password = nextProps.password
         this.rePassword = nextProps.rePassword
-        this.history = nextProps.history
         // this.token = nextProps.token
         this.profileImg = nextProps.profileImg
         this.loggedInAs = nextProps.loggedInAs
@@ -275,10 +271,7 @@ class UserForm extends Component {
                         </InputGroup>
                         <InputGroup>
                             <InputButton type="submit">Register</InputButton>
-                            <LineButton onClick={() => {
-                                this.setRegistering(false);
-                                this.history.push('/login')
-                            }}>Login</LineButton>
+                            <LineButton onClick={() => this.setRegistering(false)}>Login</LineButton>
                         </InputGroup>
                     </form>
                 </UserLogin>
@@ -295,10 +288,7 @@ class UserForm extends Component {
                         </InputGroup>
                         <InputGroup>
                             <InputButton type="submit">Submit</InputButton>
-                            <LineButton onClick={() => {
-                                this.setForgetPass(false)
-                                this.history.push('/login')
-                            }}>Login</LineButton>
+                            <LineButton onClick={() => this.setForgetPass(false)}>Login</LineButton>
                         </InputGroup>
                     </form>
                 </UserLogin>
@@ -319,15 +309,8 @@ class UserForm extends Component {
                         </InputGroup>
                         <InputGroup>
                             <InputButton type="submit">login</InputButton>
-                            <LineButton onClick={() => {
-                                this.setRegistering(true)
-                                this.history.push('/register')
-                            }}>Register here</LineButton>
-                            <LineButton onClick={(e) => {
-                                e.preventDefault();
-                                this.setForgetPass(true)
-                                this.history.push('/forget-password')
-                            }}>forgot password?</LineButton>
+                            <LineButton onClick={() => this.setRegistering(true)}>Register here</LineButton>
+                            <LineButton onClick={() => this.setForgetPass(true)}>forgot password?</LineButton>
                         </InputGroup>
                     </form>
                 </UserLogin>

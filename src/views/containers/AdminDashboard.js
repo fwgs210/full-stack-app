@@ -11,11 +11,11 @@ const NewPostContainer = styled.div`
   margin-top: 3rem;
 `;
 
-const AdminDashboard = ({ history }) => (
+const AdminDashboard = () => (
     <React.Fragment>
-        <UserForm history={history} />
-        <UserPortal history={history} />
-        <Dashboard history={history} />
+        <UserForm />
+        <UserPortal />
+        <Dashboard />
         <ShowComments />
         <NewPostContainer>
             <AddComment />

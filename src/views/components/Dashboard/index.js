@@ -57,7 +57,6 @@ class Dashboard extends Component {
         super(props);
         this.token = props.user.token
         this.userRole = props.user.userRole
-        this.history = props.history
         this.users = props.admin.users
         this.loggedInAs = props.user.loggedInAs
     }
@@ -78,7 +77,6 @@ class Dashboard extends Component {
         this.userRole = nextProps.user.userRole
         this.users = nextProps.admin.users
         this.loggedInAs = nextProps.user.loggedInAs
-        this.history = nextProps.history
 
         if (this.userRole === 'administrator' && this.token) {
             this.loadUsers()

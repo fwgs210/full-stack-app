@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Router from 'next/router'
 import ChangePassword from '../ChangePassword'
 import { WhiteLink } from '../../../utils/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -47,16 +48,16 @@ const RightPanel = styled.aside`
   }
 `;
 
-const userLogout = (dispatch, history) => {
+const userLogout = dispatch => {
     if (confirmPopUp("Are you sure you want to logout?")) {
-        history.push(`/login`)
+        Router.push(`/login`)
         dispatch(logout())
         window.sessionStorage.setItem('token', '');
     }
 }
 
 const UserPortal = props => {
-    const { dispatch, history, loggedInAs, loggedIn, profileImg, username, token } = props;
+    const { dispatch, loggedInAs, loggedIn, profileImg, username, token } = props;
 
     if (loggedInAs && loggedIn) {
         return (
@@ -67,7 +68,7 @@ const UserPortal = props => {
                 </LeftPanel>
                 <RightPanel>
                     <ChangePassword loggedInAs={loggedInAs} token={token} />
-                    <WhiteLink onClick={() => userLogout(dispatch, history)}>
+                    <WhiteLink onClick={() => userLogout(dispatch)}>
                         <FontAwesomeIcon prefix="fas" icon="sign-out-alt" /> Logout
                     </WhiteLink>
                 </RightPanel>

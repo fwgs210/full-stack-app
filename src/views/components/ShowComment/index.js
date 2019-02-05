@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactPlaceholder from 'react-placeholder';
-import 'react-placeholder/lib/reactPlaceholder.css';
 import Comment from '../Comment'
 import { LineButton } from '../../../utils/Input'
 import { connect } from 'react-redux';

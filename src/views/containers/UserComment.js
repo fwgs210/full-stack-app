@@ -9,10 +9,10 @@ const NewPostContainer = styled.div`
   margin-top: 3rem;
 `;
 
-const UserDashboard = ({ history }) => (
+const UserComment = () => (
     <React.Fragment>
-        <UserForm history={history} />
-        <UserPortal history={history} />
+        <UserForm />
+        <UserPortal />
         <ShowComments />
         <NewPostContainer>
             <AddComment />
@@ -20,4 +20,4 @@ const UserDashboard = ({ history }) => (
     </React.Fragment>
 )
 
-export default UserDashboard
+export default UserComment
