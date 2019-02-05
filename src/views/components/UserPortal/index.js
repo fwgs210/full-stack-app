@@ -50,7 +50,7 @@ const RightPanel = styled.aside`
 
 const userLogout = dispatch => {
     if (confirmPopUp("Are you sure you want to logout?")) {
-        Router.push(`/login`)
+        Router.push(`/`)
         dispatch(logout())
         window.sessionStorage.setItem('token', '');
     }

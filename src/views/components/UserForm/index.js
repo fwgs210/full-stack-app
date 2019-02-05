@@ -48,6 +48,12 @@ const RadioOption = styled.span`
   }
 `;
 
+const ErrorMessage = styled.div`
+  color: #D31C1D;
+  text-align: center;
+  font-size: .875rem;
+`;
+
 class UserForm extends Component {
 
     constructor(props) {
@@ -82,6 +88,7 @@ class UserForm extends Component {
         this.loggedIn = props.loggedIn
         this.userRole = props.userRole
         this.loaded = props.loaded
+        this.errorMessage = props.errorMessage
     }
 
     sessionLogin = () => {
@@ -102,7 +109,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.loadingEnd()
-                role === 'administrator' ? Router.push(`/admindashboard?userId=${_id}`, `/dashboard/${_id}`) : Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
+                role === 'administrator' ? Router.push(`/admin`) : Router.push(`/user`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -129,7 +136,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
-                role === 'administrator' ? Router.push(`/admindashboard?userId=${_id}`, `/dashboard/${_id}`) : Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
+                role === 'administrator' ? Router.push(`/admin`) : Router.push(`/user`)
             } else {
                 this.setError(res.data.message)
             }
@@ -231,6 +238,7 @@ class UserForm extends Component {
         this.loggedIn = nextProps.loggedIn 
         this.userRole = nextProps.userRole
         this.loaded = nextProps.loaded
+        this.errorMessage = nextProps.errorMessage
     }
 
 
@@ -242,56 +250,62 @@ class UserForm extends Component {
 
         if (this.registering) {
             return (
-                <UserLogin>
-                    <form onSubmit={e => this.createNewUser(e)}>
-                        <InputGroup>
-                            <InputLabel>choose your avatar</InputLabel>
-                            <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-default.png')} /></RadioOption>
-                            <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-yellow.png')} /></RadioOption>
-                            <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-glasses-1.png')} /></RadioOption>
-                            <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-glasses-2.png')} /></RadioOption>
-                            <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-beared.png')} /></RadioOption>
-                            <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('../assets/images/avatar-brown.png')} /></RadioOption>
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>username</InputLabel>
-                            <InputField value={this.username} onChange={this.typeUsername} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>email</InputLabel>
-                            <InputField value={this.email} onChange={this.typeEmail} type="email" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>password</InputLabel>
-                            <InputField value={this.password} onChange={this.typePassword} type="password" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>Re-type password</InputLabel>
-                            <InputField value={this.rePassword} onChange={this.typeConfirmPassword} type="password" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputButton type="submit">Register</InputButton>
-                            <LineButton onClick={() => this.setRegistering(false)}>Login</LineButton>
-                        </InputGroup>
-                    </form>
-                </UserLogin>
+                <React.Fragment>
+                    <UserLogin>
+                        <form onSubmit={e => this.createNewUser(e)}>
+                            <InputGroup>
+                                <InputLabel>choose your avatar</InputLabel>
+                                <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-default.png')} /></RadioOption>
+                                <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-yellow.png')} /></RadioOption>
+                                <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-glasses-1.png')} /></RadioOption>
+                                <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-glasses-2.png')} /></RadioOption>
+                                <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-beared.png')} /></RadioOption>
+                                <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-brown.png')} /></RadioOption>
+                            </InputGroup>
+                            <InputGroup>
+                                <InputLabel>username</InputLabel>
+                                <InputField value={this.username} onChange={this.typeUsername} type="text" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputLabel>email</InputLabel>
+                                <InputField value={this.email} onChange={this.typeEmail} type="email" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputLabel>password</InputLabel>
+                                <InputField value={this.password} onChange={this.typePassword} type="password" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputLabel>Re-type password</InputLabel>
+                                <InputField value={this.rePassword} onChange={this.typeConfirmPassword} type="password" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputButton type="submit">Register</InputButton>
+                                <LineButton onClick={() => this.setRegistering(false)}>Login</LineButton>
+                            </InputGroup>
+                        </form>
+                    </UserLogin>
+                    <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                </React.Fragment>
             )
         }
 
         if (this.forgetPass) {
             return (
-                <UserLogin>
-                    <form onSubmit={(e) => this.forgetPassRequest(e)}>
-                        <InputGroup>
-                            <InputLabel>email</InputLabel>
-                            <InputField value={this.email} onChange={this.typeEmail} type="email" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputButton type="submit">Submit</InputButton>
-                            <LineButton onClick={() => this.setForgetPass(false)}>Login</LineButton>
-                        </InputGroup>
-                    </form>
-                </UserLogin>
+                <React.Fragment>
+                    <UserLogin>
+                        <form onSubmit={(e) => this.forgetPassRequest(e)}>
+                            <InputGroup>
+                                <InputLabel>email</InputLabel>
+                                <InputField value={this.email} onChange={this.typeEmail} type="email" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputButton type="submit">Submit</InputButton>
+                                <LineButton onClick={() => this.setForgetPass(false)}>Login</LineButton>
+                            </InputGroup>
+                        </form>
+                    </UserLogin>
+                    <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                </React.Fragment>            
             )
         }
 
@@ -314,6 +328,7 @@ class UserForm extends Component {
                         </InputGroup>
                     </form>
                 </UserLogin>
+                <ErrorMessage>{this.errorMessage}</ErrorMessage>
             </ReactPlaceholder>
         )
     }
