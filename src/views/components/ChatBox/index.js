@@ -139,25 +139,28 @@ class ChatBox extends Component {
   }
 
   render() {
-    return (
-      <ReactPlaceholder type='text' rows={10} ready={this.loaded}>
-        <ChatContainer>
-            {this.state.chats.map(chat => (
-                <Chat key={chat._id}>
-                    <img width="32" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
-                    <aside>
-                        <p className="user">{chat.userId.username} <span className="time">{this.convertDate(chat.date)}</span></p>
-                        <p className="message">{chat.description}</p>
-                    </aside>
-                </Chat>
-            ))}
-        </ChatContainer>
-        <ChatForm onSubmit={this.newChat}>
-            <input type="text" value={this.state.newChat} onChange={this.handleChange} placeholder="enter your message here..." />
-            <button type="submit">send</button>
-        </ChatForm>
-      </ReactPlaceholder>
-    )
+    if (this.loggedIn) {
+        return (
+            <ReactPlaceholder type='text' rows={10} ready={this.loaded}>
+                <ChatContainer>
+                    {this.state.chats.map(chat => (
+                        <Chat key={chat._id}>
+                            <img width="32" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
+                            <aside>
+                                <p className="user">{chat.userId.username} <span className="time">{this.convertDate(chat.date)}</span></p>
+                                <p className="message">{chat.description}</p>
+                            </aside>
+                        </Chat>
+                    ))}
+                </ChatContainer>
+                <ChatForm onSubmit={this.newChat}>
+                    <input type="text" value={this.state.newChat} onChange={this.handleChange} placeholder="enter your message here..." />
+                    <button type="submit">send</button>
+                </ChatForm>
+            </ReactPlaceholder>
+        )
+    }
+    return null
   }
 }
 

@@ -1,4 +1,4 @@
-((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static\\development\\pages\\admin.js"],{
+((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static\\development\\pages\\user.js"],{
 
 /***/ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js":
 /*!***********************************************************************!*\
@@ -37645,10 +37645,10 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./pages/admin.js":
-/*!************************!*\
-  !*** ./pages/admin.js ***!
-  \************************/
+/***/ "./pages/user.js":
+/*!***********************!*\
+  !*** ./pages/user.js ***!
+  \***********************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37656,8 +37656,8 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_views_containers_AdminDashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/views/containers/AdminDashboard */ "./src/views/containers/AdminDashboard.js");
-var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\admin.js";
+/* harmony import */ var _src_views_containers_UserDashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/views/containers/UserDashboard */ "./src/views/containers/UserDashboard.js");
+var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\user.js";
 
 
 /* harmony default export */ __webpack_exports__["default"] = (function () {
@@ -37667,7 +37667,7 @@ var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\admi
       lineNumber: 4
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_containers_AdminDashboard__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_views_containers_UserDashboard__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 5
@@ -37691,7 +37691,7 @@ var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\admi
           next.router.update(r, Component)
         }
       }
-    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/admin")
+    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/user")
   
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
@@ -41346,10 +41346,10 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /***/ }),
 
-/***/ "./src/views/containers/AdminDashboard.js":
-/*!************************************************!*\
-  !*** ./src/views/containers/AdminDashboard.js ***!
-  \************************************************/
+/***/ "./src/views/containers/UserDashboard.js":
+/*!***********************************************!*\
+  !*** ./src/views/containers/UserDashboard.js ***!
+  \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -41357,102 +41357,56 @@ var mapStateToProps = function mapStateToProps(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _components_ShowComment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ShowComment */ "./src/views/components/ShowComment/index.js");
-/* harmony import */ var _components_AddComment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/AddComment */ "./src/views/components/AddComment/index.js");
-/* harmony import */ var _components_UserPortal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/UserPortal */ "./src/views/components/UserPortal/index.js");
-/* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Dashboard */ "./src/views/components/Dashboard/index.js");
-/* harmony import */ var _components_UserForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/UserForm */ "./src/views/components/UserForm/index.js");
-/* harmony import */ var _components_ChatBox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ChatBox */ "./src/views/components/ChatBox/index.js");
-var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\containers\\AdminDashboard.js";
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  margin-top: 3rem;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+/* harmony import */ var _components_UserPortal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/UserPortal */ "./src/views/components/UserPortal/index.js");
+/* harmony import */ var _components_UserForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/UserForm */ "./src/views/components/UserForm/index.js");
+/* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Dashboard */ "./src/views/components/Dashboard/index.js");
+var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\containers\\UserDashboard.js";
 
 
 
 
 
-
-
-
-
-var NewPostContainer = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject());
-
-var AdminDashboard = function AdminDashboard() {
+var UserDashboard = function UserDashboard() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 15
+      lineNumber: 7
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserForm__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16
+      lineNumber: 8
     },
     __self: this
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserPortal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_UserPortal__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17
+      lineNumber: 9
     },
     __self: this
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dashboard__WEBPACK_IMPORTED_MODULE_3__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18
-    },
-    __self: this
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_ShowComment__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 19
-    },
-    __self: this
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NewPostContainer, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 20
-    },
-    __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_AddComment__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 21
-    },
-    __self: this
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_ChatBox__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 10
     },
     __self: this
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (AdminDashboard);
+/* harmony default export */ __webpack_exports__["default"] = (UserDashboard);
 
 /***/ }),
 
-/***/ 3:
-/*!******************************!*\
-  !*** multi ./pages/admin.js ***!
-  \******************************/
+/***/ 5:
+/*!*****************************!*\
+  !*** multi ./pages/user.js ***!
+  \*****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__NEXT_REGISTER_PAGE('/admin', function() {
-module.exports = __webpack_require__(/*! ./pages/admin.js */"./pages/admin.js");
+__NEXT_REGISTER_PAGE('/user', function() {
+module.exports = __webpack_require__(/*! ./pages/user.js */"./pages/user.js");
 
 return { page: module.exports.default }});
 
@@ -41469,5 +41423,5 @@ module.exports = dll_87199d8fc0875f6de062;
 
 /***/ })
 
-},[[3,"static/runtime/webpack.js"]]]));;
-//# sourceMappingURL=admin.js.map
+},[[5,"static/runtime/webpack.js"]]]));;
+//# sourceMappingURL=user.js.map

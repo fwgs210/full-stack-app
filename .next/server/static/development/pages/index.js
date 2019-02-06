@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1060,15 +1060,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_placeholder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-placeholder */ "react-placeholder");
-/* harmony import */ var react_placeholder__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_placeholder__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _utils_Input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../utils/Input */ "./src/utils/Input.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./actions */ "./src/views/components/UserForm/actions.js");
-/* harmony import */ var _ShowComment_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ShowComment/actions */ "./src/views/components/ShowComment/actions.js");
-/* harmony import */ var _controllers_Actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../controllers/Actions */ "./src/controllers/Actions.js");
-/* harmony import */ var _utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../utils/globalFunc */ "./src/utils/globalFunc.js");
+/* harmony import */ var _utils_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../utils/Input */ "./src/utils/Input.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "react-redux");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions */ "./src/views/components/UserForm/actions.js");
+/* harmony import */ var _ShowComment_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../ShowComment/actions */ "./src/views/components/ShowComment/actions.js");
+/* harmony import */ var _controllers_Actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../controllers/Actions */ "./src/controllers/Actions.js");
+/* harmony import */ var _utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../utils/globalFunc */ "./src/utils/globalFunc.js");
 
 var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\components\\UserForm\\index.js";
 
@@ -1140,7 +1138,6 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-
 var UserLogin = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.div(_templateObject());
 var RadioOption = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.span(_templateObject2());
 var ErrorMessage = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.div(_templateObject3());
@@ -1199,7 +1196,7 @@ function (_Component) {
 
                   _this.loadingEnd();
 
-                  role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/admin") : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user");
+                  role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id)) : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
                   _context.next = 12;
                   break;
 
@@ -1225,8 +1222,8 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "userLogin", function (e) {
       e.preventDefault();
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/login', {
-        username: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.username),
-        password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.password)
+        username: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.username),
+        password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.password)
       }).then(
       /*#__PURE__*/
       function () {
@@ -1262,7 +1259,7 @@ function (_Component) {
 
                   _this.clearError();
 
-                  role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/admin") : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user");
+                  role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id)) : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
                   _context2.next = 12;
                   break;
 
@@ -1292,13 +1289,13 @@ function (_Component) {
         return null;
       }
 
-      if (!Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["validatePassword"])(_this.password)) {
+      if (!Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["validatePassword"])(_this.password)) {
         _this.setError("Please make sure your password has uppercase, lowercase letter, number, special character and no space.");
 
         return null;
       }
 
-      if (!Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["validateEmail"])(_this.email)) {
+      if (!Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["validateEmail"])(_this.email)) {
         _this.setError("this email address ".concat(_this.email, " is not valid."));
 
         return null;
@@ -1307,9 +1304,9 @@ function (_Component) {
       _this.loadingStart();
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/newuser', {
-        username: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.username),
-        email: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.email),
-        password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.password),
+        username: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.username),
+        email: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.email),
+        password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.password),
         profileImg: _this.profileImg
       }).then(
       /*#__PURE__*/
@@ -1377,7 +1374,7 @@ function (_Component) {
       _this.loadingStart();
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/retrieve-user-info', {
-        email: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_11__["stripSpaces"])(_this.email)
+        email: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_10__["stripSpaces"])(_this.email)
       }).then(function (res) {
         if (res.status === 200) {
           _this.setError(res.data.message);
@@ -1477,6 +1474,8 @@ function (_Component) {
       if (window.sessionStorage['token']) {
         this.sessionLogin();
       }
+
+      console.log('mounted');
     }
   }, {
     key: "componentWillReceiveProps",
@@ -1500,21 +1499,17 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.loggedIn || !this.loaded) {
-        return null;
-      }
-
       if (this.registering) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 253
+            lineNumber: 249
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 254
+            lineNumber: 250
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -1523,25 +1518,25 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 255
+            lineNumber: 251
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 256
+            lineNumber: 252
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 257
+            lineNumber: 253
           },
           __self: this
         }, "choose your avatar"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 254
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1549,7 +1544,7 @@ function (_Component) {
           src: "/assets/images/avatar-default.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 254
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1560,13 +1555,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 254
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 255
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1574,7 +1569,7 @@ function (_Component) {
           src: "/assets/images/avatar-yellow.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 255
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1585,13 +1580,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 255
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 260
+            lineNumber: 256
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1599,7 +1594,7 @@ function (_Component) {
           src: "/assets/images/avatar-glasses-1.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 260
+            lineNumber: 256
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1610,13 +1605,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 260
+            lineNumber: 256
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 261
+            lineNumber: 257
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1624,7 +1619,7 @@ function (_Component) {
           src: "/assets/images/avatar-glasses-2.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 261
+            lineNumber: 257
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1635,13 +1630,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 261
+            lineNumber: 257
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 262
+            lineNumber: 258
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1649,7 +1644,7 @@ function (_Component) {
           src: "/assets/images/avatar-beared.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 262
+            lineNumber: 258
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1660,13 +1655,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 262
+            lineNumber: 258
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 263
+            lineNumber: 259
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -1674,7 +1669,7 @@ function (_Component) {
           src: "/assets/images/avatar-brown.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 263
+            lineNumber: 259
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -1685,68 +1680,90 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 263
+            lineNumber: 259
           },
           __self: this
-        }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 265
+            lineNumber: 261
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 266
+            lineNumber: 262
           },
           __self: this
-        }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
+        }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
           value: this.username,
           onChange: this.typeUsername,
           type: "text",
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 267
+            lineNumber: 263
           },
           __self: this
-        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 269
+            lineNumber: 265
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 270
+            lineNumber: 266
           },
           __self: this
-        }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
+        }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
           value: this.email,
           onChange: this.typeEmail,
           type: "email",
           required: true,
           __source: {
             fileName: _jsxFileName,
+            lineNumber: 267
+          },
+          __self: this
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 269
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 270
+          },
+          __self: this
+        }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
+          value: this.password,
+          onChange: this.typePassword,
+          type: "password",
+          required: true,
+          __source: {
+            fileName: _jsxFileName,
             lineNumber: 271
           },
           __self: this
-        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
             lineNumber: 273
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
             lineNumber: 274
           },
           __self: this
-        }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
-          value: this.password,
-          onChange: this.typePassword,
+        }, "Re-type password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
+          value: this.rePassword,
+          onChange: this.typeConfirmPassword,
           type: "password",
           required: true,
           __source: {
@@ -1754,54 +1771,32 @@ function (_Component) {
             lineNumber: 275
           },
           __self: this
-        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
             lineNumber: 277
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
+          type: "submit",
           __source: {
             fileName: _jsxFileName,
             lineNumber: 278
           },
           __self: this
-        }, "Re-type password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
-          value: this.rePassword,
-          onChange: this.typeConfirmPassword,
-          type: "password",
-          required: true,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 279
-          },
-          __self: this
-        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 281
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputButton"], {
-          type: "submit",
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 282
-          },
-          __self: this
-        }, "Register"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["LineButton"], {
+        }, "Register"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
           onClick: function onClick() {
             return _this2.setRegistering(false);
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 283
+            lineNumber: 279
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 287
+            lineNumber: 283
           },
           __self: this
         }, this.errorMessage));
@@ -1811,13 +1806,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 294
+            lineNumber: 290
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 295
+            lineNumber: 291
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -1826,168 +1821,169 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 296
+            lineNumber: 292
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 297
+            lineNumber: 293
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 298
+            lineNumber: 294
           },
           __self: this
-        }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
+        }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
           value: this.email,
           onChange: this.typeEmail,
           type: "email",
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 299
+            lineNumber: 295
           },
           __self: this
-        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 301
+            lineNumber: 297
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputButton"], {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 302
+            lineNumber: 298
           },
           __self: this
-        }, "Submit"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["LineButton"], {
+        }, "Submit"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
           onClick: function onClick() {
             return _this2.setForgetPass(false);
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 303
+            lineNumber: 299
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 307
+            lineNumber: 303
           },
           __self: this
         }, this.errorMessage));
       }
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_placeholder__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        type: "text",
-        rows: 3,
-        ready: this.loaded,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 313
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 314
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
-        onSubmit: function onSubmit(e) {
-          return _this2.userLogin(e);
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 315
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 316
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 317
-        },
-        __self: this
-      }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
-        value: this.username,
-        onChange: this.typeUsername,
-        type: "text",
-        required: true,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 318
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 320
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputLabel"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 321
-        },
-        __self: this
-      }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputField"], {
-        value: this.password,
-        onChange: this.typePassword,
-        type: "password",
-        required: true,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 322
-        },
-        __self: this
-      })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputGroup"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 324
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["InputButton"], {
-        type: "submit",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 325
-        },
-        __self: this
-      }, "login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["LineButton"], {
-        onClick: function onClick() {
-          return _this2.setRegistering(true);
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 326
-        },
-        __self: this
-      }, "Register here"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_6__["LineButton"], {
-        onClick: function onClick() {
-          return _this2.setForgetPass(true);
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 327
-        },
-        __self: this
-      }, "forgot password?")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 331
-        },
-        __self: this
-      }, this.errorMessage));
+      if (!this.loggedIn) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 310
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 311
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+          onSubmit: function onSubmit(e) {
+            return _this2.userLogin(e);
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 312
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 313
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 314
+          },
+          __self: this
+        }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
+          value: this.username,
+          onChange: this.typeUsername,
+          type: "text",
+          required: true,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 315
+          },
+          __self: this
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 317
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 318
+          },
+          __self: this
+        }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
+          value: this.password,
+          onChange: this.typePassword,
+          type: "password",
+          required: true,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 319
+          },
+          __self: this
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 321
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
+          type: "submit",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 322
+          },
+          __self: this
+        }, "login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
+          onClick: function onClick() {
+            return _this2.setRegistering(true);
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 323
+          },
+          __self: this
+        }, "Register here"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
+          onClick: function onClick() {
+            return _this2.setForgetPass(true);
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 324
+          },
+          __self: this
+        }, "forgot password?")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 328
+          },
+          __self: this
+        }, this.errorMessage));
+      }
+
+      return null;
     }
   }]);
 
@@ -2003,54 +1999,54 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     //this method is used to pass function down functions
     login: function login(userData) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["login"])(userData));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["login"])(userData));
     },
     logout: function logout() {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["logout"])());
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["logout"])());
     },
     loadComments: function loadComments(allComments) {
-      return dispatch(Object(_ShowComment_actions__WEBPACK_IMPORTED_MODULE_9__["loadComments"])(allComments));
+      return dispatch(Object(_ShowComment_actions__WEBPACK_IMPORTED_MODULE_8__["loadComments"])(allComments));
     },
     typeUsername: function typeUsername(username) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["typeUsername"])(username));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["typeUsername"])(username));
     },
     typePassword: function typePassword(password) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["typePassword"])(password));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["typePassword"])(password));
     },
     typeConfirmPassword: function typeConfirmPassword(rePassword) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["typeConfirmPassword"])(rePassword));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["typeConfirmPassword"])(rePassword));
     },
     typeEmail: function typeEmail(email) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["typeEmail"])(email));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["typeEmail"])(email));
     },
     chooseProfile: function chooseProfile(profileImg) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["chooseProfile"])(profileImg));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["chooseProfile"])(profileImg));
     },
     clearInput: function clearInput() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_10__["clearInput"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["clearInput"])());
     },
     setError: function setError(errorMessage) {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_10__["setError"])(errorMessage));
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["setError"])(errorMessage));
     },
     clearError: function clearError() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_10__["clearError"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["clearError"])());
     },
     loadingStart: function loadingStart() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_10__["startLoading"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["startLoading"])());
     },
     loadingEnd: function loadingEnd() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_10__["finishLoading"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["finishLoading"])());
     },
     setRegistering: function setRegistering(bool) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["setRegistering"])(bool));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["setRegistering"])(bool));
     },
     setForgetPass: function setForgetPass(bool) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["setForgetPass"])(bool));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["setForgetPass"])(bool));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(UserForm));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(UserForm));
 
 /***/ }),
 
@@ -2098,7 +2094,7 @@ var Home = function Home() {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

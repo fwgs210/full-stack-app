@@ -26,12 +26,6 @@ const Page = props => (
       <meta charSet="utf-8" />
       <title>Full Stack App</title>
       <link rel="shortcut icon" href="http://www.tracysu.com/wp-content/uploads/2015/01/faviconapple.png" />
-      <style jsx global>{`
-                body { 
-                    margin:0;
-                    background-color:#f2f2f2;
-                }
-      `}</style>
     </Head>
     {props.children}
   </AppContainer>

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import Router from 'next/router'
-import ReactPlaceholder from 'react-placeholder';
 import {
     InputGroup,
     InputLabel,
@@ -109,7 +108,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.loadingEnd()
-                role === 'administrator' ? Router.push(`/admin`) : Router.push(`/user`)
+                role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -136,7 +135,7 @@ class UserForm extends Component {
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
-                role === 'administrator' ? Router.push(`/admin`) : Router.push(`/user`)
+                role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
             }
@@ -221,6 +220,7 @@ class UserForm extends Component {
         if (window.sessionStorage['token']) {
             this.sessionLogin()
         }
+        console.log('mounted')
     }
     
 
@@ -243,10 +243,6 @@ class UserForm extends Component {
 
 
     render() {
-        
-        if (this.loggedIn || !this.loaded) {
-            return null
-        }
 
         if (this.registering) {
             return (
@@ -309,28 +305,32 @@ class UserForm extends Component {
             )
         }
 
-        return (
-            <ReactPlaceholder type='text' rows={3} ready={this.loaded}>
-                <UserLogin>
-                    <form onSubmit={e => this.userLogin(e)}>
-                        <InputGroup>
-                            <InputLabel>username</InputLabel>
-                            <InputField value={this.username} onChange={this.typeUsername} type="text" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputLabel>password</InputLabel>
-                            <InputField value={this.password} onChange={this.typePassword} type="password" required />
-                        </InputGroup>
-                        <InputGroup>
-                            <InputButton type="submit">login</InputButton>
-                            <LineButton onClick={() => this.setRegistering(true)}>Register here</LineButton>
-                            <LineButton onClick={() => this.setForgetPass(true)}>forgot password?</LineButton>
-                        </InputGroup>
-                    </form>
-                </UserLogin>
-                <ErrorMessage>{this.errorMessage}</ErrorMessage>
-            </ReactPlaceholder>
-        )
+        if(!this.loggedIn) {
+            return (
+                <React.Fragment>
+                    <UserLogin>
+                        <form onSubmit={e => this.userLogin(e)}>
+                            <InputGroup>
+                                <InputLabel>username</InputLabel>
+                                <InputField value={this.username} onChange={this.typeUsername} type="text" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputLabel>password</InputLabel>
+                                <InputField value={this.password} onChange={this.typePassword} type="password" required />
+                            </InputGroup>
+                            <InputGroup>
+                                <InputButton type="submit">login</InputButton>
+                                <LineButton onClick={() => this.setRegistering(true)}>Register here</LineButton>
+                                <LineButton onClick={() => this.setForgetPass(true)}>forgot password?</LineButton>
+                            </InputGroup>
+                        </form>
+                    </UserLogin>
+                    <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                </React.Fragment>
+            )
+        }
+
+        return null
     }
 }
 

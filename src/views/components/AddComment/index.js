@@ -20,18 +20,23 @@ const handleSubmit = (comment, token, addComment, clearComment) => {
     })
 }
 
-const AddComment = ({ comment, newComment, token, addComment, clearComment }) => {
-  return (
-    <article>
-      <InputGroup>
-        <InputLabel>New Comment:</InputLabel>
-        <InputTextarea onChange={newComment} value={comment}></InputTextarea>
-      </InputGroup>
-      <InputGroup>
-        <InputButton type="button" onClick={() => handleSubmit(comment, token, addComment, clearComment)}>Post Comment</InputButton>
-      </InputGroup>
-    </article>
-  );
+const AddComment = ({ comment, newComment, token, addComment, clearComment, loggedIn }) => {
+  if (loggedIn) {
+    return (
+      <article>
+        <InputGroup>
+          <InputLabel>New Comment:</InputLabel>
+          <InputTextarea onChange={newComment} value={comment}></InputTextarea>
+        </InputGroup>
+        <InputGroup>
+          <InputButton type="button" onClick={() => handleSubmit(comment, token, addComment, clearComment)}>Post Comment</InputButton>
+        </InputGroup>
+      </article>
+    )
+  }
+
+  return null
+
 };
 
 const mapStateToProps = state => state.user
