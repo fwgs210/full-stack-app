@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -272,9 +272,7 @@ var InputLabel = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.label(
 var InputField = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.input(_templateObject3());
 var InputTextarea = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.textarea(_templateObject4());
 var InputButton = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.button(_templateObject5());
-var LineButton = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.a.attrs({
-  type: 'button'
-})(_templateObject6());
+var LineButton = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.button(_templateObject6());
 var WhiteLink = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.a.attrs({
   type: 'button'
 })(_templateObject7());
@@ -616,7 +614,10 @@ var Comment = function Comment(props) {
     __self: this
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     width: "32",
-    src: profileImg ? profileImg : '/assets/images/avatar-default.png',
+    style: {
+      'border-radius': '100%'
+    },
+    src: profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png',
     __source: {
       fileName: _jsxFileName,
       lineNumber: 127
@@ -1154,6 +1155,10 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UserForm).call(this, props)); //function
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
+      customProfile: false
+    });
+
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "sessionLogin", function () {
       _this.loadingStart();
 
@@ -1436,6 +1441,22 @@ function (_Component) {
       }());
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "uploadFile", function (e) {
+      var files = e.target.files;
+      var data = new FormData();
+      data.append('file', files[0]);
+      data.append('upload_preset', 'user_profile');
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('https://api.cloudinary.com/v1_1/fwgs210/image/upload', data).then(function (res) {
+        if (res.status === 200) {
+          _this.chooseProfile(res.data.secure_url);
+        } else {
+          _this.setError('Fail to upload your image.');
+        }
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    });
+
     _this.login = props.login;
     _this.logout = props.logout;
     _this.clearInput = props.clearInput;
@@ -1474,8 +1495,6 @@ function (_Component) {
       if (window.sessionStorage['token']) {
         this.sessionLogin();
       }
-
-      console.log('mounted');
     }
   }, {
     key: "componentWillReceiveProps",
@@ -1503,13 +1522,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 249
+            lineNumber: 269
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 250
+            lineNumber: 270
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -1518,181 +1537,227 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 251
+            lineNumber: 271
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+        }, this.state.customProfile ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 252
+            lineNumber: 274
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 253
+            lineNumber: 275
+          },
+          __self: this
+        }, "Upload profile picture"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
+          type: "file",
+          onChange: this.uploadFile,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 276
+          },
+          __self: this
+        }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
+          onClick: function onClick(e) {
+            e.preventDefault();
+
+            _this2.setState({
+              customProfile: false
+            });
+          },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 277
+          },
+          __self: this
+        }, "Use default picture")) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 285
+          },
+          __self: this
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 286
           },
           __self: this
         }, "choose your avatar"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 254
+            lineNumber: 287
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar1",
-          src: "/assets/images/avatar-default.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 254
+            lineNumber: 287
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-default.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 254
+            lineNumber: 287
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 255
+            lineNumber: 288
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar2",
-          src: "/assets/images/avatar-yellow.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 255
+            lineNumber: 288
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-yellow.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 255
+            lineNumber: 288
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 256
+            lineNumber: 289
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar3",
-          src: "/assets/images/avatar-glasses-1.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 256
+            lineNumber: 289
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-glasses-1.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 256
+            lineNumber: 289
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 257
+            lineNumber: 290
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar4",
-          src: "/assets/images/avatar-glasses-2.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 257
+            lineNumber: 290
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-glasses-2.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 257
+            lineNumber: 290
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 291
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar5",
-          src: "/assets/images/avatar-beared.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 291
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-beared.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 258
+            lineNumber: 291
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 292
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           alt: "avatar6",
-          src: "/assets/images/avatar-brown.png",
+          src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 292
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           name: "selectMyAvatar",
           onChange: function onChange() {
-            return _this2.chooseProfile('/static/assets/images/avatar-brown.png');
+            return _this2.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png');
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 259
+            lineNumber: 292
           },
           __self: this
-        }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+        })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
+          onClick: function onClick(e) {
+            e.preventDefault();
+
+            _this2.setState({
+              customProfile: true
+            });
+          },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 261
+            lineNumber: 293
+          },
+          __self: this
+        }, "Use custom picture")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 302
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 262
+            lineNumber: 303
           },
           __self: this
         }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1702,19 +1767,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 263
+            lineNumber: 304
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 265
+            lineNumber: 306
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 266
+            lineNumber: 307
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1724,19 +1789,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 267
+            lineNumber: 308
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 269
+            lineNumber: 310
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 270
+            lineNumber: 311
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1746,19 +1811,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 271
+            lineNumber: 312
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 273
+            lineNumber: 314
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 274
+            lineNumber: 315
           },
           __self: this
         }, "Re-type password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1768,20 +1833,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 275
+            lineNumber: 316
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 277
+            lineNumber: 318
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 278
+            lineNumber: 319
           },
           __self: this
         }, "Register"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
@@ -1790,13 +1855,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 279
+            lineNumber: 320
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 283
+            lineNumber: 324
           },
           __self: this
         }, this.errorMessage));
@@ -1806,13 +1871,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 290
+            lineNumber: 331
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 291
+            lineNumber: 332
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -1821,19 +1886,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 292
+            lineNumber: 333
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 293
+            lineNumber: 334
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 294
+            lineNumber: 335
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1843,20 +1908,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 295
+            lineNumber: 336
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 297
+            lineNumber: 338
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 298
+            lineNumber: 339
           },
           __self: this
         }, "Submit"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
@@ -1865,13 +1930,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 299
+            lineNumber: 340
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 303
+            lineNumber: 344
           },
           __self: this
         }, this.errorMessage));
@@ -1881,13 +1946,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 310
+            lineNumber: 351
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 311
+            lineNumber: 352
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -1896,19 +1961,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 312
+            lineNumber: 353
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 313
+            lineNumber: 354
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 314
+            lineNumber: 355
           },
           __self: this
         }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1918,19 +1983,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 315
+            lineNumber: 356
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 358
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 359
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputField"], {
@@ -1940,20 +2005,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 360
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 321
+            lineNumber: 362
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 322
+            lineNumber: 363
           },
           __self: this
         }, "login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
@@ -1962,7 +2027,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 323
+            lineNumber: 364
           },
           __self: this
         }, "Register here"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
@@ -1971,13 +2036,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 324
+            lineNumber: 365
           },
           __self: this
         }, "forgot password?")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 328
+            lineNumber: 369
           },
           __self: this
         }, this.errorMessage));
@@ -2094,7 +2159,7 @@ var Home = function Home() {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

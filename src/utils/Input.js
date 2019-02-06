@@ -71,7 +71,7 @@ export const InputButton = styled.button`
     cursor: pointer;
 `
 
-export const LineButton = styled.a.attrs({ type: 'button' })`
+export const LineButton = styled.button`
     width: 100%;
     background: none;
     border: none;

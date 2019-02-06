@@ -88,6 +88,11 @@ class UserForm extends Component {
         this.userRole = props.userRole
         this.loaded = props.loaded
         this.errorMessage = props.errorMessage
+
+    }
+
+    state = {
+        customProfile: false
     }
 
     sessionLogin = () => {
@@ -216,11 +221,26 @@ class UserForm extends Component {
         })       
     }
 
+    uploadFile = e => {
+        const files = e.target.files
+        const data = new FormData();
+        data.append('file', files[0])
+        data.append('upload_preset', 'user_profile')
+
+        axios.post('https://api.cloudinary.com/v1_1/fwgs210/image/upload', data)
+            .then(res => {
+                if (res.status === 200) {
+                    this.chooseProfile(res.data.secure_url)
+                } else {
+                    this.setError('Fail to upload your image.')
+                }
+            }).catch(err => console.log(err))
+    }
+
     componentDidMount() {
         if (window.sessionStorage['token']) {
             this.sessionLogin()
         }
-        console.log('mounted')
     }
     
 
@@ -249,15 +269,36 @@ class UserForm extends Component {
                 <React.Fragment>
                     <UserLogin>
                         <form onSubmit={e => this.createNewUser(e)}>
-                            <InputGroup>
-                                <InputLabel>choose your avatar</InputLabel>
-                                <RadioOption><img alt="avatar1" src='/assets/images/avatar-default.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-default.png')} /></RadioOption>
-                                <RadioOption><img alt="avatar2" src='/assets/images/avatar-yellow.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-yellow.png')} /></RadioOption>
-                                <RadioOption><img alt="avatar3" src='/assets/images/avatar-glasses-1.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-glasses-1.png')} /></RadioOption>
-                                <RadioOption><img alt="avatar4" src='/assets/images/avatar-glasses-2.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-glasses-2.png')} /></RadioOption>
-                                <RadioOption><img alt="avatar5" src='/assets/images/avatar-beared.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-beared.png')} /></RadioOption>
-                                <RadioOption><img alt="avatar6" src='/assets/images/avatar-brown.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('/static/assets/images/avatar-brown.png')} /></RadioOption>
-                            </InputGroup>
+                            {
+                                this.state.customProfile ? (
+                                    <InputGroup>
+                                        <InputLabel>Upload profile picture</InputLabel>
+                                        <InputField type="file" onChange={this.uploadFile} />
+                                        <LineButton onClick={e => {
+                                            e.preventDefault()
+                                            this.setState({
+                                                customProfile: false
+                                            })
+                                        }}>Use default picture</LineButton>
+                                    </InputGroup>
+                                ) : (
+                                <InputGroup>
+                                    <InputLabel>choose your avatar</InputLabel>
+                                    <RadioOption><img alt="avatar1" src='https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png')} /></RadioOption>
+                                    <RadioOption><img alt="avatar2" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png')} /></RadioOption>
+                                    <RadioOption><img alt="avatar3" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png')} /></RadioOption>
+                                    <RadioOption><img alt="avatar4" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png')} /></RadioOption>
+                                    <RadioOption><img alt="avatar5" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png')} /></RadioOption>
+                                    <RadioOption><img alt="avatar6" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png')} /></RadioOption>
+                                    <LineButton onClick={e => {
+                                        e.preventDefault()
+                                        this.setState({
+                                            customProfile: true
+                                        })
+                                    }}>Use custom picture</LineButton>
+                                </InputGroup>
+                                )
+                            }
                             <InputGroup>
                                 <InputLabel>username</InputLabel>
                                 <InputField value={this.username} onChange={this.typeUsername} type="text" required />
