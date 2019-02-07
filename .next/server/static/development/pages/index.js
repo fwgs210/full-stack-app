@@ -781,14 +781,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "axios");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_placeholder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-placeholder */ "react-placeholder");
-/* harmony import */ var react_placeholder__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_placeholder__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Comment */ "./src/views/components/Comment/index.js");
-/* harmony import */ var _utils_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../utils/Input */ "./src/utils/Input.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions */ "./src/views/components/ShowComment/actions.js");
-/* harmony import */ var _controllers_Actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../controllers/Actions */ "./src/controllers/Actions.js");
+/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Comment */ "./src/views/components/Comment/index.js");
+/* harmony import */ var _utils_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../utils/Input */ "./src/utils/Input.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "react-redux");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions */ "./src/views/components/ShowComment/actions.js");
+/* harmony import */ var _controllers_Actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../controllers/Actions */ "./src/controllers/Actions.js");
 
 var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\components\\ShowComment\\index.js";
 
@@ -817,7 +815,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -981,17 +978,14 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_placeholder__WEBPACK_IMPORTED_MODULE_3___default.a, {
-        type: "media",
-        rows: 5,
-        ready: this.loaded,
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 90
+          lineNumber: 89
         },
         __self: this
       }, this.allComments.slice(0, this.state.displayComments).map(function (comment) {
-        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_3__["default"], {
           description: comment.description,
           profileImg: comment.userId.profileImg ? comment.userId.profileImg : '',
           id: comment._id,
@@ -999,11 +993,11 @@ function (_Component) {
           userPosted: comment.userId.username,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 92
+            lineNumber: 91
           },
           __self: this
         });
-      }), this.state.displayComments >= this.allComments.length ? '' : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_5__["LineButton"], {
+      }), this.state.displayComments >= this.allComments.length ? '' : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_4__["LineButton"], {
         style: {
           "display": "block",
           "margin": "20px auto 5px"
@@ -1015,7 +1009,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 100
+          lineNumber: 99
         },
         __self: this
       }, "Load More"));
@@ -1033,24 +1027,24 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     //this method is used to pass function down functions
     loadComments: function loadComments(allComments) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["loadComments"])(allComments));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_6__["loadComments"])(allComments));
     },
     loadingStart: function loadingStart() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_8__["startLoading"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["startLoading"])());
     },
     loadingEnd: function loadingEnd() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_8__["finishLoading"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["finishLoading"])());
     },
     setError: function setError(errorMessage) {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_8__["setError"])(errorMessage));
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["setError"])(errorMessage));
     },
     clearError: function clearError() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_8__["clearError"])());
+      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["clearError"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps, mapDispatchToProps)(ShowComments));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(ShowComments));
 
 /***/ }),
 
@@ -2405,17 +2399,6 @@ module.exports = require("prop-types");
 /***/ (function(module, exports) {
 
 module.exports = require("react");
-
-/***/ }),
-
-/***/ "react-placeholder":
-/*!************************************!*\
-  !*** external "react-placeholder" ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("react-placeholder");
 
 /***/ }),
 
