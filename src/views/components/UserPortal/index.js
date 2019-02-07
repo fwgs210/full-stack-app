@@ -19,6 +19,7 @@ const UserPortalContainer = styled.summary`
   background: #34495e;
   border-radius: .5rem;
   padding: 1rem;
+  box-sizing: border-box;
 `;
 
 const LeftPanel = styled.aside` 
@@ -63,7 +64,7 @@ const UserPortal = props => {
         return (
             <UserPortalContainer>
                 <LeftPanel>
-                    <img style={{ 'border-radius': '100%' }} width="64" alt="Profile Image" src={profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png'} />
+                    <img style={{ 'borderRadius': '100%' }} width="64" alt="Profile Image" src={profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png'} />
                     <h3>{username}</h3>
                 </LeftPanel>
                 <RightPanel>

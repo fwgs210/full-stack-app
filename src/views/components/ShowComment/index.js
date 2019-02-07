@@ -97,7 +97,7 @@ class ShowComments extends Component {
             userPosted={comment.userId.username}
           />
         ))}
-        {this.state.displayComments >= this.allComments.length ? '' : <LineButton onClick={() => {
+        {this.state.displayComments >= this.allComments.length ? '' : <LineButton style={{ "display": "block", "margin": "20px auto 5px"}} onClick={() => {
           this.setState({
             displayComments: this.state.displayComments + 5
           })

@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import Router from 'next/router'
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Loader from '../Loader';
 import {
     InputGroup,
     InputLabel,
@@ -52,6 +56,17 @@ const ErrorMessage = styled.div`
   text-align: center;
   font-size: .875rem;
 `;
+
+const StyledFormGroup = styled(FormGroup)`
+    label > span {
+        font-weight: 500;
+        line-height: 1;
+        text-transform: uppercase;
+        letter-spacing: .2em;
+        color: rgba(0,0,0,0.6);
+        font-size: 12px;
+    }
+`
 
 class UserForm extends Component {
 
@@ -162,15 +177,39 @@ class UserForm extends Component {
             return null
         }
         this.loadingStart()
+
+        // upload profile image
+        if (this.state.customProfile) {
+            const data = new FormData();
+            data.append('file', this.profileImg[0])
+            data.append('upload_preset', 'user_profile')
+
+            axios.post('https://api.cloudinary.com/v1_1/fwgs210/image/upload', data)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.chooseProfile(res.data.secure_url)
+                        this.registerUser()
+                    } else {
+                        this.setError('Fail to upload your image.')
+                        this.loadingEnd()
+                        return null
+                    }
+                }).catch(err => console.log(err))
+        } else {
+            this.registerUser()
+        }
+    }
+
+    registerUser = () => {
         axios.post('/api/newuser', {
             username: stripSpaces(this.username),
             email: stripSpaces(this.email),
             password: stripSpaces(this.password),
             profileImg: this.profileImg
-        }).then(async res => {
+        }).then(res => {
             if (res.status === 200) {
                 const { _id, role, profileImg } = res.data.user
-                await this.login({
+                this.login({
                     loggedInAs: _id,
                     token: res.data.token,
                     profileImg,
@@ -188,7 +227,6 @@ class UserForm extends Component {
             }
         })
     }
-
 
     forgetPassRequest = e => {
         e.preventDefault()
@@ -221,21 +259,7 @@ class UserForm extends Component {
         })       
     }
 
-    uploadFile = e => {
-        const files = e.target.files
-        const data = new FormData();
-        data.append('file', files[0])
-        data.append('upload_preset', 'user_profile')
-
-        axios.post('https://api.cloudinary.com/v1_1/fwgs210/image/upload', data)
-            .then(res => {
-                if (res.status === 200) {
-                    this.chooseProfile(res.data.secure_url)
-                } else {
-                    this.setError('Fail to upload your image.')
-                }
-            }).catch(err => console.log(err))
-    }
+    uploadFile = e => this.chooseProfile(e.target.files)
 
     componentDidMount() {
         if (window.sessionStorage['token']) {
@@ -269,33 +293,31 @@ class UserForm extends Component {
                 <React.Fragment>
                     <UserLogin>
                         <form onSubmit={e => this.createNewUser(e)}>
+                            <StyledFormGroup row>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={this.state.customProfile}
+                                            onChange={(event) => this.setState({ 'customProfile': event.target.checked })}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Custom profile picture"
+                                />
+                            </StyledFormGroup>
                             {
                                 this.state.customProfile ? (
                                     <InputGroup>
-                                        <InputLabel>Upload profile picture</InputLabel>
                                         <InputField type="file" onChange={this.uploadFile} />
-                                        <LineButton onClick={e => {
-                                            e.preventDefault()
-                                            this.setState({
-                                                customProfile: false
-                                            })
-                                        }}>Use default picture</LineButton>
                                     </InputGroup>
                                 ) : (
-                                <InputGroup>
-                                    <InputLabel>choose your avatar</InputLabel>
+                                <InputGroup style={{'flexDirection': 'row'}}>
                                     <RadioOption><img alt="avatar1" src='https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png')} /></RadioOption>
                                     <RadioOption><img alt="avatar2" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png')} /></RadioOption>
                                     <RadioOption><img alt="avatar3" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png')} /></RadioOption>
                                     <RadioOption><img alt="avatar4" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png')} /></RadioOption>
                                     <RadioOption><img alt="avatar5" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png')} /></RadioOption>
                                     <RadioOption><img alt="avatar6" src='https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png' /><input type="radio" name="selectMyAvatar" onChange={() => this.chooseProfile('https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png')} /></RadioOption>
-                                    <LineButton onClick={e => {
-                                        e.preventDefault()
-                                        this.setState({
-                                            customProfile: true
-                                        })
-                                    }}>Use custom picture</LineButton>
                                 </InputGroup>
                                 )
                             }
@@ -322,6 +344,7 @@ class UserForm extends Component {
                         </form>
                     </UserLogin>
                     <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                    <Loader loaded={this.loaded} />
                 </React.Fragment>
             )
         }
@@ -342,6 +365,7 @@ class UserForm extends Component {
                         </form>
                     </UserLogin>
                     <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                    <Loader loaded={this.loaded} />
                 </React.Fragment>            
             )
         }
@@ -367,11 +391,12 @@ class UserForm extends Component {
                         </form>
                     </UserLogin>
                     <ErrorMessage>{this.errorMessage}</ErrorMessage>
+                    <Loader loaded={this.loaded} />
                 </React.Fragment>
             )
         }
 
-        return null
+        return <Loader loaded={this.loaded} />
     }
 }
 

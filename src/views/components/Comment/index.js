@@ -124,7 +124,8 @@ const Comment = props => {
     }
       </IconContainer>
       <AuthorContainer>
-        <img width="32" style={{ 'border-radius': '100%' }} src={profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png'} />&nbsp;&nbsp;By {userPosted}
+        {profileImg && <img width="32" style={{ 'borderRadius': '100%' }} src={profileImg} />}
+        &nbsp;&nbsp;By {userPosted}
       </AuthorContainer>
     </CommentContainer>
   )

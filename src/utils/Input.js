@@ -6,6 +6,7 @@ export const InputGroup = styled.label`
   justify-content: space-between;
   margin: 0 0 20px;
   align-items: center;
+  flex-direction: column;
 `
 
 export const InputLabel = styled.label`
@@ -72,7 +73,6 @@ export const InputButton = styled.button`
 `
 
 export const LineButton = styled.button`
-    width: 100%;
     background: none;
     border: none;
     color: #999;

@@ -145,7 +145,7 @@ class ChatBox extends Component {
                 <ChatContainer>
                     {this.state.chats.map(chat => (
                         <Chat key={chat._id}>
-                            <img style={{ 'border-radius': '100%' }} width="32" alt="Profile Image" className="profile" src={chat.userId.profileImg} />
+                            {chat.userId.profileImg && <img style={{ 'borderRadius': '100%' }} width="32" alt="Profile Image" className="profile" src={chat.userId.profileImg} />}
                             <aside>
                                 <p className="user">{chat.userId.username} <span className="time">{this.convertDate(chat.date)}</span></p>
                                 <p className="message">{chat.description}</p>
