@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux';
 import { confirmPopUp } from '../../../utils/globalFunc'
 import { logout } from './actions'
+import { startLoading, finishLoading } from '../../../controllers/Actions'
 
 const UserPortalContainer = styled.summary`
   width: 100%;
@@ -53,12 +54,17 @@ const userLogout = dispatch => {
     if (confirmPopUp("Are you sure you want to logout?")) {
         Router.push(`/`)
         dispatch(logout())
+        dispatch(startLoading())
         window.sessionStorage.setItem('token', '');
     }
 }
 
 const UserPortal = props => {
     const { dispatch, loggedInAs, loggedIn, profileImg, username, token } = props;
+
+    if (loggedIn) {
+        dispatch(finishLoading())
+    }
 
     if (loggedInAs && loggedIn) {
         return (

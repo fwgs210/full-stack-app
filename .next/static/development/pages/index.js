@@ -32647,7 +32647,7 @@ function (_Component) {
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(res.status === 200)) {
-                    _context.next = 10;
+                    _context.next = 18;
                     break;
                   }
 
@@ -32662,22 +32662,42 @@ function (_Component) {
                   });
 
                 case 4:
-                  _this.loadAllComments();
+                  _context.next = 6;
+                  return _this.loadAllComments();
 
-                  _this.clearInput();
+                case 6:
+                  _context.next = 8;
+                  return _this.clearInput();
 
-                  _this.loadingEnd();
-
-                  role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id)) : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
-                  _context.next = 12;
-                  break;
+                case 8:
+                  _context.next = 10;
+                  return role;
 
                 case 10:
+                  _context.t0 = _context.sent;
+
+                  if (!(_context.t0 === 'administrator')) {
+                    _context.next = 15;
+                    break;
+                  }
+
+                  next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id));
+                  _context.next = 16;
+                  break;
+
+                case 15:
+                  next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
+
+                case 16:
+                  _context.next = 20;
+                  break;
+
+                case 18:
                   _this.setError(res.data.message);
 
                   _this.loadingEnd();
 
-                case 12:
+                case 20:
                 case "end":
                   return _context.stop();
               }
@@ -32693,6 +32713,9 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "userLogin", function (e) {
       e.preventDefault();
+
+      _this.loadingStart();
+
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/login', {
         username: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_14__["stripSpaces"])(_this.username),
         password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_14__["stripSpaces"])(_this.password)
@@ -32806,37 +32829,73 @@ function (_Component) {
         email: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_14__["stripSpaces"])(_this.email),
         password: Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_14__["stripSpaces"])(_this.password),
         profileImg: _this.profileImg
-      }).then(function (res) {
-        if (res.status === 200) {
-          var _res$data$user3 = res.data.user,
-              _id = _res$data$user3._id,
-              role = _res$data$user3.role,
-              profileImg = _res$data$user3.profileImg;
+      }).then(
+      /*#__PURE__*/
+      function () {
+        var _ref3 = _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(res) {
+          var _res$data$user3, _id, role, profileImg;
 
-          _this.login({
-            loggedInAs: _id,
-            token: res.data.token,
-            profileImg: profileImg,
-            userRole: role
-          });
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  if (!(res.status === 200)) {
+                    _context3.next = 16;
+                    break;
+                  }
 
-          _this.loadAllComments();
+                  _res$data$user3 = res.data.user, _id = _res$data$user3._id, role = _res$data$user3.role, profileImg = _res$data$user3.profileImg;
+                  _context3.next = 4;
+                  return _this.login({
+                    loggedInAs: _id,
+                    token: res.data.token,
+                    profileImg: profileImg,
+                    userRole: role
+                  });
 
-          window.sessionStorage.setItem('token', res.data.token);
+                case 4:
+                  _context3.next = 6;
+                  return _this.loadAllComments();
 
-          _this.clearInput();
+                case 6:
+                  _context3.next = 8;
+                  return window.sessionStorage.setItem('token', res.data.token);
 
-          _this.clearError();
+                case 8:
+                  _context3.next = 10;
+                  return _this.clearInput();
 
-          _this.loadingEnd();
+                case 10:
+                  _context3.next = 12;
+                  return _this.clearError();
 
-          next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/userdashboard?userId=".concat(_id), "/user/".concat(_id));
-        } else {
-          _this.setError(res.data.message);
+                case 12:
+                  _context3.next = 14;
+                  return next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/userdashboard?userId=".concat(_id), "/user/".concat(_id));
 
-          _this.loadingEnd();
-        }
-      });
+                case 14:
+                  _context3.next = 18;
+                  break;
+
+                case 16:
+                  _this.setError(res.data.message);
+
+                  _this.loadingEnd();
+
+                case 18:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, this);
+        }));
+
+        return function (_x3) {
+          return _ref3.apply(this, arguments);
+        };
+      }());
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "forgetPassRequest", function (e) {
@@ -32869,23 +32928,23 @@ function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/all-comments').then(
       /*#__PURE__*/
       function () {
-        var _ref3 = _asyncToGenerator(
+        var _ref4 = _asyncToGenerator(
         /*#__PURE__*/
-        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(res) {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(res) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context3.prev = _context3.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
                   if (!(res.data.payload && res.status === 200)) {
-                    _context3.next = 5;
+                    _context4.next = 5;
                     break;
                   }
 
-                  _context3.next = 3;
+                  _context4.next = 3;
                   return _this.loadComments(res.data.payload);
 
                 case 3:
-                  _context3.next = 7;
+                  _context4.next = 7;
                   break;
 
                 case 5:
@@ -32895,14 +32954,14 @@ function (_Component) {
 
                 case 7:
                 case "end":
-                  return _context3.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee3, this);
+          }, _callee4, this);
         }));
 
-        return function (_x3) {
-          return _ref3.apply(this, arguments);
+        return function (_x4) {
+          return _ref4.apply(this, arguments);
         };
       }());
     });
@@ -32948,6 +33007,8 @@ function (_Component) {
     value: function componentDidMount() {
       if (window.sessionStorage['token']) {
         this.sessionLogin();
+      } else {
+        this.loadingEnd();
       }
     }
   }, {
@@ -32976,13 +33037,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 293
+            lineNumber: 294
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 294
+            lineNumber: 295
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -32991,14 +33052,14 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 295
+            lineNumber: 296
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(StyledFormGroup, {
           row: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 296
+            lineNumber: 297
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_6___default.a, {
@@ -33012,20 +33073,20 @@ function (_Component) {
             color: "primary",
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 299
+              lineNumber: 300
             },
             __self: this
           }),
           label: "Custom profile picture",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 297
+            lineNumber: 298
           },
           __self: this
         })), this.state.customProfile ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 310
+            lineNumber: 311
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33033,7 +33094,7 @@ function (_Component) {
           onChange: this.uploadFile,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 311
+            lineNumber: 312
           },
           __self: this
         })) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
@@ -33042,13 +33103,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 314
+            lineNumber: 315
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 315
+            lineNumber: 316
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33056,7 +33117,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 315
+            lineNumber: 316
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33067,13 +33128,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 315
+            lineNumber: 316
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 316
+            lineNumber: 317
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33081,7 +33142,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 316
+            lineNumber: 317
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33092,13 +33153,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 316
+            lineNumber: 317
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 318
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33106,7 +33167,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 318
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33117,13 +33178,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 318
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 319
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33131,7 +33192,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 319
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33142,13 +33203,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 319
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 320
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33156,7 +33217,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 320
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33167,13 +33228,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 320
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 321
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -33181,7 +33242,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 321
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -33192,19 +33253,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 321
           },
           __self: this
         }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 324
+            lineNumber: 325
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 325
+            lineNumber: 326
           },
           __self: this
         }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33214,19 +33275,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 326
+            lineNumber: 327
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 328
+            lineNumber: 329
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 329
+            lineNumber: 330
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33236,19 +33297,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 330
+            lineNumber: 331
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 332
+            lineNumber: 333
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 333
+            lineNumber: 334
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33258,19 +33319,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 334
+            lineNumber: 335
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 336
+            lineNumber: 337
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 337
+            lineNumber: 338
           },
           __self: this
         }, "Re-type password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33280,20 +33341,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 338
+            lineNumber: 339
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 340
+            lineNumber: 341
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 341
+            lineNumber: 342
           },
           __self: this
         }, "Register"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -33302,20 +33363,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 342
+            lineNumber: 343
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 346
+            lineNumber: 347
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 347
+            lineNumber: 348
           },
           __self: this
         }));
@@ -33325,13 +33386,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 354
+            lineNumber: 355
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 355
+            lineNumber: 356
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -33340,19 +33401,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 356
+            lineNumber: 357
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 357
+            lineNumber: 358
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 358
+            lineNumber: 359
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33362,20 +33423,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 359
+            lineNumber: 360
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 361
+            lineNumber: 362
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 362
+            lineNumber: 363
           },
           __self: this
         }, "Submit"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -33384,20 +33445,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 363
+            lineNumber: 364
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 367
+            lineNumber: 368
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 368
+            lineNumber: 369
           },
           __self: this
         }));
@@ -33407,13 +33468,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 375
+            lineNumber: 376
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 376
+            lineNumber: 377
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -33422,19 +33483,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 377
+            lineNumber: 378
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 378
+            lineNumber: 379
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 379
+            lineNumber: 380
           },
           __self: this
         }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33444,19 +33505,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 380
+            lineNumber: 381
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 382
+            lineNumber: 383
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 383
+            lineNumber: 384
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -33466,20 +33527,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 384
+            lineNumber: 385
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 386
+            lineNumber: 387
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 387
+            lineNumber: 388
           },
           __self: this
         }, "login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -33488,7 +33549,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 388
+            lineNumber: 389
           },
           __self: this
         }, "Register here"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -33497,20 +33558,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 389
+            lineNumber: 390
           },
           __self: this
         }, "forgot password?")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 393
+            lineNumber: 394
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 394
+            lineNumber: 395
           },
           __self: this
         }));
@@ -33520,7 +33581,7 @@ function (_Component) {
         loaded: this.loaded,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 399
+          lineNumber: 400
         },
         __self: this
       });

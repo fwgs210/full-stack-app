@@ -1,7 +1,7 @@
 import App, { Container } from 'next/app';
 import Page from '../src/views/Page'
 import { Provider } from 'react-redux';
-import { store } from '../src/Store'
+import { store } from '../src/models/Store'
 
 
 class MyApp extends App {

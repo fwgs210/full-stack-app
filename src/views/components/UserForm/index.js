@@ -125,10 +125,9 @@ class UserForm extends Component {
                     profileImg,
                     userRole: role
                 })
-                this.loadAllComments()
-                this.clearInput()
-                this.loadingEnd()
-                role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
+                await this.loadAllComments()
+                await this.clearInput()
+                await role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -138,6 +137,7 @@ class UserForm extends Component {
 
     userLogin = e => {
         e.preventDefault();
+        this.loadingStart();
         axios.post('/api/login', {
             username: stripSpaces(this.username),
             password: stripSpaces(this.password)
@@ -206,21 +206,20 @@ class UserForm extends Component {
             email: stripSpaces(this.email),
             password: stripSpaces(this.password),
             profileImg: this.profileImg
-        }).then(res => {
+        }).then(async res => {
             if (res.status === 200) {
                 const { _id, role, profileImg } = res.data.user
-                this.login({
+                await this.login({
                     loggedInAs: _id,
                     token: res.data.token,
                     profileImg,
                     userRole: role
                 })
-                this.loadAllComments()
-                window.sessionStorage.setItem('token', res.data.token);
-                this.clearInput()
-                this.clearError()
-                this.loadingEnd()
-                Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
+                await this.loadAllComments()
+                await window.sessionStorage.setItem('token', res.data.token);
+                await this.clearInput()
+                await this.clearError()
+                await Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -264,6 +263,8 @@ class UserForm extends Component {
     componentDidMount() {
         if (window.sessionStorage['token']) {
             this.sessionLogin()
+        } else {
+            this.loadingEnd()
         }
     }
     

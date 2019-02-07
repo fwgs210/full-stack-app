@@ -25067,7 +25067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_app__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_app__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_views_Page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src/views/Page */ "./src/views/Page.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _src_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../src/Store */ "./src/Store.js");
+/* harmony import */ var _src_models_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../src/models/Store */ "./src/models/Store.js");
 var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\_app.js";
 
 
@@ -25116,7 +25116,7 @@ function (_App) {
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
-        store: _src_Store__WEBPACK_IMPORTED_MODULE_4__["store"],
+        store: _src_models_Store__WEBPACK_IMPORTED_MODULE_4__["store"],
         __source: {
           fileName: _jsxFileName,
           lineNumber: 14
@@ -25161,57 +25161,6 @@ function (_App) {
     })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/_app")
   
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/Store.js":
-/*!**********************!*\
-  !*** ./src/Store.js ***!
-  \**********************/
-/*! exports provided: store */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _models_Reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./models/Reducers */ "./src/models/Reducers.js");
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-
-
-
-var defaultState = {
-  user: {
-    profileImg: '',
-    registering: false,
-    loggedIn: false,
-    loggedInAs: '',
-    comment: '',
-    allComments: [],
-    displayComments: 5,
-    editing: false,
-    editingComment: '',
-    editingCommentId: null,
-    username: '',
-    email: '',
-    password: '',
-    rePassword: '',
-    token: '',
-    forgetPass: false,
-    userRole: ''
-  },
-  admin: {
-    users: []
-  },
-  loading: {
-    loaded: false,
-    userError: false,
-    errorMessage: ''
-  }
-};
-var composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_0__["compose"];
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_models_Reducers__WEBPACK_IMPORTED_MODULE_1__["default"], defaultState, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"])));
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -25432,6 +25381,57 @@ var combinedReducers = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducer
   loading: loading
 });
 /* harmony default export */ __webpack_exports__["default"] = (combinedReducers);
+
+/***/ }),
+
+/***/ "./src/models/Store.js":
+/*!*****************************!*\
+  !*** ./src/models/Store.js ***!
+  \*****************************/
+/*! exports provided: store */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _Reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Reducers */ "./src/models/Reducers.js");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+
+
+
+var defaultState = {
+  user: {
+    profileImg: '',
+    registering: false,
+    loggedIn: false,
+    loggedInAs: '',
+    comment: '',
+    allComments: [],
+    displayComments: 5,
+    editing: false,
+    editingComment: '',
+    editingCommentId: null,
+    username: '',
+    email: '',
+    password: '',
+    rePassword: '',
+    token: '',
+    forgetPass: false,
+    userRole: ''
+  },
+  admin: {
+    users: []
+  },
+  loading: {
+    loaded: false,
+    userError: false,
+    errorMessage: ''
+  }
+};
+var composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_0__["compose"];
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_Reducers__WEBPACK_IMPORTED_MODULE_1__["default"], defaultState, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"])));
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

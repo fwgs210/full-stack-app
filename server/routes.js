@@ -1,26 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
-// const nodemailer = require("nodemailer");
 const { User, Comment, Chat } = require('./models/user')
-const token = require('./config/emailToken')
-const mailer = require('sendgrid')(token.SENDGRID_API_KEY);
-const helper = require('sendgrid').mail;
 const auth = require('./middleware/auth')
 const verifyAdmin = require('./middleware/verifyAdmin')
 const { sign } = require('./utils/tokenService')
-
-// const mailConnectionAuth = {
-//     service: "gmail",
-//     auth: {
-//         type: "OAuth2",
-//         user: "tracywebconsultant@gmail.com",
-//         clientId: token.clientId,
-//         clientSecret: token.clientSecret,
-//         refreshToken: token.refreshToken,
-//         accessToken: token.accessToken
-//     }
-// };
+const { transport, mailTemplate } = require('./mail')
 
 router.route('/retrieve-user-info').post((req, res) => {
 
@@ -29,109 +14,15 @@ router.route('/retrieve-user-info').post((req, res) => {
     User.findOne({ email })
         .then(doc => {
             if (doc) {
+                transport.sendMail(mailTemplate(doc))
 
-                const from_email = new helper.Email('donotreply@fullstackapp.com');
-                const to_email = new helper.Email(email);
-                const subject = 'Password Recovery';
-                const content = new helper.Content('text/plain', 'Hello, Email!');
-                const mail = new helper.Mail(from_email, subject, to_email, content);
-
-                const generatedEmail = mailer.emptyRequest({
-                    method: 'POST',
-                    path: '/v3/mail/send',
-                    body: mail.toJSON(),
-                });
-
-                sg.API(generatedEmail, function (error, response) {
-                    console.log(response.statusCode);
-                    console.log(response.body);
-                    console.log(response.headers);
-                    
+                transport.verify(error => {
                     if (error) {
                         res.status(203).json({ message: 'There was an error sending the email' })
                     } else {
                         res.status(200).json({ message: 'Your username and password are sent to your email.' })
                     }
                 });
-
-
-
-                // const generatedEmail = mailer.emptyRequest({
-                //     method: 'POST',
-                //     path: '/v3/mail/send',
-                //     body: {
-                //         personalizations: [
-                //             {
-                //                 to: [
-                //                     {
-                //                         email: doc.email,
-                //                     },
-                //                 ],
-                //                 subject: 'Password Recovery',
-                //             },
-                //         ],
-                //         from: {
-                //             email: 'donotreply@tracy-su-full-stack-app.com',
-                //         },
-                //         subject: 'Password Recovery',
-                //         content: [
-                //             {
-                //                 type: 'text/html',
-                //                 value: `<h1>Here are your login info</h1>
-                //                     <p>Username: ${doc.username}</p>
-                //                     <p>Password: ${doc.password}</p>
-                //                     `
-                //             },
-                //         ],
-                //     }
-                // });
-
-                // mailer.API(generatedEmail)
-                //     .then(response => {
-                //         console.log(response);
-                //         res.status(200).json({ message: 'Your username and password are sent to your email.' })
-                //     })
-                //     .catch(error => {
-                //         //error is an instance of SendGridError
-                //         //The full response is attached to error.response
-                //         console.log(error.response);
-                //         res.status(203).json({ message: 'There was an error sending the email' })
-                //     });
-
-
-
-
-            //     async function setupMailer() {
-            //         // create reusable transporter object using the default SMTP transport
-            //         const transporter = await nodemailer.createTransport(mailConnectionAuth);
-
-            //         // setup email data with unicode symbols
-            //         const mailOptions = {
-            //             from: '"Password Recovery" <donotreply@tracy-su-full-stack-app.com>', // sender address
-            //             to: email, // list of receivers
-            //             subject: "User Information", // Subject line
-            //             generateTextFromHTML: true,
-            //             html: `<h1>Here are your login info</h1>
-            // <p>Username: ${doc.username}</p>
-            // <p>Password: ${doc.password}</p>
-            // ` // html body
-            //         };
-
-            //         // send mail with defined transport object
-            //         await transporter.sendMail(mailOptions)
-
-            //         // verify connection configuration
-            //         transporter.verify(error => {
-            //             if (error) {
-            //                 res.status(203).json({ message: 'There was an error sending the email' })
-            //             } else {
-            //                 res.status(200).json({ message: 'Your username and password are sent to your email.' })
-            //             }
-            //         });
-            //     }
-
-            //     setupMailer().catch(console.error);
-
             } else {
                 res.status(203).json({ message: 'Your email does not exist in our database.' })
             }
@@ -221,15 +112,15 @@ router.route('/newuser').post(async (req, res) => {
         user
             .save()
             .then(doc => {
-                const newComment = new Comment({
-                    userId: user._id,
-                    userPosted: user.username,
-                    description: 'this is your first comment!',
-                    userProfileImg: user.profileImg
-                })
-                newComment.save() // save first comment
-                user.comments.push(newComment); // push new comment
-                user.save(); // save new comment
+                // const newComment = new Comment({
+                //     userId: user._id,
+                //     userPosted: user.username,
+                //     description: 'this is your first comment!',
+                //     userProfileImg: user.profileImg
+                // })
+                // newComment.save() // save first comment
+                // user.comments.push(newComment); // push new comment
+                // user.save(); // save new comment
 
                 const token = sign({ userInfo: doc });
                 res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
