@@ -21,7 +21,7 @@ router.route('/retrieve-user-info').post((req, res) => {
                     if (error) {
                         res.status(203).json({ message: 'There was an error sending the email' })
                     } else {
-                        res.status(200).json({ message: 'Your username and password are sent to your email.' })
+                        res.status(200).json({ message: 'Your password reset link is sent to your email.' })
                     }
                 });
             } else {

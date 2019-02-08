@@ -149,7 +149,7 @@ const UserTable = props => {
                                     {user.role}
                                 </td>
                                 <td>
-                                    <LineButton style={{'display': 'inline'}} onClick={() => {
+                                    <LineButton style={{'display': 'inline', 'margin': '0'}} onClick={() => {
                                         handleChange('editingUser', true)
                                         handleChange('editingUserId', user._id)
                                         handleChange('editingUsername', user.username)
@@ -161,7 +161,7 @@ const UserTable = props => {
                                     </LineButton>
                                 </td>
                                 <td>
-                                    <LineButton style={{ 'display': 'inline' }} onClick={() => {
+                                    <LineButton style={{ 'display': 'inline', 'margin': '0' }} onClick={() => {
                                         deleteUser(user._id)
                                     }}>
                                         Delete

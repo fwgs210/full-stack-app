@@ -9,7 +9,7 @@ export const logout = () => ({
 
 export const typeUsername = username => ({
     type: 'INPUT_USERNAME',
-    username: username.target.value
+    username: username.target.value.toLowerCase()
 })
 
 export const typePassword = password => ({

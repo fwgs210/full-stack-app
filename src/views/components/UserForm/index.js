@@ -158,6 +158,7 @@ class UserForm extends Component {
                 role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
             } else {
                 this.setError(res.data.message)
+                this.loadingEnd()
             }
         })
     }
@@ -323,7 +324,7 @@ class UserForm extends Component {
                                 )
                             }
                             <InputGroup>
-                                <InputLabel>username</InputLabel>
+                                <InputLabel>username (no upper case)</InputLabel>
                                 <InputField value={this.username} onChange={this.typeUsername} type="text" required />
                             </InputGroup>
                             <InputGroup>
