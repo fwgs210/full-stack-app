@@ -5,5 +5,7 @@
     "EMAIL_ACCESSTOKEN": "ya29.GluTBv3QHQWuGTVLoGHCbZNqtWtRrMqnN-RnDjzlzjGWrvfn_oGUgHAjbYo2ojXKLVl_O2aKER3poVPYXHUYtzEeP-jPGHoPKpSGb9fBoh147QuFSX-NGpm83VRK",
     "EMAIL_HOST": "gmail",
     "EMAIL_CONNECTION_TYPE": "OAuth2",
-    "EMAIL_USERNAME": "tracywebconsultant@gmail.com"
+    "EMAIL_USERNAME": "tracywebconsultant@gmail.com",
+    "POSTMARK_API_KEY": "8341629e-fe14-4c3d-a8bc-ba446ceae2f9",
+    "POSTMARK_FROM_EMAIL": "info@tracysu.com"
 }

@@ -5,7 +5,7 @@ const { User, Comment, Chat } = require('./models/user')
 const auth = require('./middleware/auth')
 const verifyAdmin = require('./middleware/verifyAdmin')
 const { sign } = require('./utils/tokenService')
-const { transport, mailTemplate } = require('./mail')
+const { client, mailTemplate } = require('./mail')
 
 router.route('/retrieve-user-info').post((req, res) => {
 
@@ -13,17 +13,29 @@ router.route('/retrieve-user-info').post((req, res) => {
 
     User.findOne({ email })
         .then(doc => {
-            if (doc) {
-                const token = sign({ userInfo: doc });
-                transport.sendMail(mailTemplate({ toEmail: email, token }))
 
-                transport.verify(error => {
+            if (doc) {
+                const token = sign({ userInfo: doc });                
+
+                client.sendEmail(mailTemplate({ toEmail: email, resetToken: token }), error => {
                     if (error) {
                         res.status(203).json({ message: 'There was an error sending the email' })
                     } else {
                         res.status(200).json({ message: 'Your password reset link is sent to your email.' })
                     }
-                });
+                })
+
+                /* Gmail way below */
+
+                // transport.sendMail(mailTemplate({ toEmail: email, token }))
+
+                // transport.verify(error => {
+                //     if (error) {
+                //         res.status(203).json({ message: 'There was an error sending the email' })
+                //     } else {
+                //         res.status(200).json({ message: 'Your password reset link is sent to your email.' })
+                //     }
+                // });
             } else {
                 res.status(203).json({ message: 'Your email does not exist in our database.' })
             }
