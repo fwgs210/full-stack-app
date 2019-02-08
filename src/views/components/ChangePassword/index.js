@@ -67,8 +67,6 @@ class ChangePassword extends React.Component {
         } 
 
         axios.post('/api/user/change-password', {
-            userId: this.state.loggedInAs,
-            oldPassword: stripSpaces(this.state.currentPass),
             newPassword: stripSpaces(this.state.newPass)
             }, {
             headers: { 'Authorization': 'bearer ' + this.state.token }

@@ -35,12 +35,16 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/user')
   })
 
+  app.get('/reset-password/:token', (req, res) => {
+    nextApp.render(req, res, '/reset-password', { token: req.params.token } )
+  })
+
   app.get('*', (req, res) => {
     return handle(req, res) // for all the react stuff
   })
 
   app.listen(PORT, err => {
     if (err) throw err;
-    console.log(`Server listening on port ${PORT}.`)
+    console.log(`✅  Server is up and running on port ${PORT}.`)
   })
 })

@@ -14,7 +14,8 @@ router.route('/retrieve-user-info').post((req, res) => {
     User.findOne({ email })
         .then(doc => {
             if (doc) {
-                transport.sendMail(mailTemplate(doc))
+                const token = sign({ userInfo: doc });
+                transport.sendMail(mailTemplate({ toEmail: email, token }))
 
                 transport.verify(error => {
                     if (error) {
@@ -84,12 +85,13 @@ router.route('/addComment').post(auth, (req, res) => {
 
 // change password
 router.route('/user/change-password').post(auth, (req, res) => {
-    const { userId, oldPassword, newPassword } = req.body;
-    const { username } = req.token.userInfo
+    const { newPassword } = req.body;
+    const { username, _id } = req.token.userInfo
 
-    User.findOneAndUpdate({ _id: userId, username, password: oldPassword }, { password: newPassword })
+    User.findOneAndUpdate({ _id, username }, { password: newPassword })
         .then(doc => {
-            res.status(200).json({ message: 'Password updated' })
+            const token = sign({ userInfo: doc });
+            res.status(200).json({ message: 'Password updated.', token })
         })
         .catch(err => {
             res.status(500).json({ message: err.message })
@@ -123,7 +125,7 @@ router.route('/newuser').post(async (req, res) => {
                 // user.save(); // save new comment
 
                 const token = sign({ userInfo: doc });
-                res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token: token })
+                res.status(200).json({ user: { _id: doc._id, profileImg: doc.profileImg, role: doc.role }, token })
             })
             .catch(err => {
                 res.status(500).json({ message: err.message })

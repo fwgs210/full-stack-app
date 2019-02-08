@@ -8,12 +8,12 @@ class MyApp extends App {
 
     render() {
 
-        const { Component } = this.props
+        const { Component, router } = this.props
         return (
             <Container>
                 <Provider store={store}>
                     <Page>
-                        <Component />
+                        <Component { ...router } />
                     </Page>
                 </Provider>
             </Container>

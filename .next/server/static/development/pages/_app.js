@@ -110,10 +110,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _src_models_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../src/models/Store */ "./src/models/Store.js");
-var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\_app.js";
+var _jsxFileName = "/Users/User/full-stack-app/pages/_app.js";
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -150,7 +152,9 @@ function (_App) {
   _createClass(MyApp, [{
     key: "render",
     value: function render() {
-      var Component = this.props.Component;
+      var _this$props = this.props,
+          Component = _this$props.Component,
+          router = _this$props.router;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_1__["Container"], {
         __source: {
           fileName: _jsxFileName,
@@ -170,13 +174,13 @@ function (_App) {
           lineNumber: 15
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, _extends({}, router, {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 16
         },
         __self: this
-      }))));
+      })))));
     }
   }]);
 
@@ -481,10 +485,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "@fortawesome/free-solid-svg-icons");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__);
-var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\Page.js";
+var _jsxFileName = "/Users/User/full-stack-app/src/views/Page.js";
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  width: 100%;\n  max-width: 800px;\n  margin: 20px auto 80px;\n  background: #fff;\n  box-shadow: 0 20px 50px 0 rgba(34,43,55,.1);\n  padding: 20px 40px;\n  border-radius: 5px;\n  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; \n"]);
+  var data = _taggedTemplateLiteral(["\n  width: 100%;\n  max-width: 800px;\n  margin: 20px auto 80px;\n  background: #fff;\n  box-shadow: 0 20px 50px 0 rgba(34,43,55,.1);\n  padding: 20px 40px;\n  border-radius: 5px;\n  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; \n  box-sizing: border-box;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -509,13 +513,13 @@ var Page = function Page(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AppContainer, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 24
     },
     __self: this
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_2___default.a, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 25
     },
     __self: this
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
@@ -523,20 +527,20 @@ var Page = function Page(props) {
     content: "width=device-width, initial-scale=1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 26
     },
     __self: this
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
     charSet: "utf-8",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26
+      lineNumber: 27
     },
     __self: this
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("title", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 28
     },
     __self: this
   }, "Full Stack App"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("link", {
@@ -544,7 +548,7 @@ var Page = function Page(props) {
     href: "http://www.tracysu.com/wp-content/uploads/2015/01/faviconapple.png",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 29
     },
     __self: this
   })), props.children);

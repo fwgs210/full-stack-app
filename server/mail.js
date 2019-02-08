@@ -13,14 +13,15 @@ const transport = nodemailer.createTransport({
     }
 });
 
-const mailTemplate = data => ({
-    from: '"Password Recovery" <donotreply@fullstackapp.com>',
-    to: data.email,
-    subject: "Password Recovery",
+const mailTemplate = ({ toEmail, token }) => ({
+    from: '"Password Reset" <donotreply@fullstackapp.com>',
+    to: toEmail,
+    subject: "Password Reset",
     generateTextFromHTML: true,
-    html: `<h1>Here are your login info</h1>
-        <p>Username: ${data.username}</p>
-        <p>Password: ${data.password}</p>
+    html: `<h1>Below is your password reset link:</h1>
+           <p><a href="https://tracysu.herokuapp.com/reset-password/${token}">Reset your password now</a></p>
+           <p>&nbsp;</p>
+           <p> - Tracy Su</p>
         ` 
 })
 

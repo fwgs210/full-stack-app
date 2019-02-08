@@ -1,13 +1,13 @@
-((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static\\development\\pages\\_error.js"],{
+((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/_error.js"],{
 
 /***/ "./node_modules/react/index.js":
 /*!*******************************************************************************************!*\
-  !*** delegated ./node_modules/react/index.js from dll-reference dll_87199d8fc0875f6de062 ***!
+  !*** delegated ./node_modules/react/index.js from dll-reference dll_ea92b26618a5e8aa3a89 ***!
   \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(/*! dll-reference dll_87199d8fc0875f6de062 */ "dll-reference dll_87199d8fc0875f6de062"))("./node_modules/react/index.js");
+module.exports = (__webpack_require__(/*! dll-reference dll_ea92b26618a5e8aa3a89 */ "dll-reference dll_ea92b26618a5e8aa3a89"))("./node_modules/react/index.js");
 
 /***/ }),
 
@@ -57,7 +57,7 @@ module.exports = function(originalModule) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\_error.js";
+var _jsxFileName = "/Users/User/full-stack-app/pages/_error.js";
 
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -104,14 +104,14 @@ return { page: module.exports.default }});
 
 /***/ }),
 
-/***/ "dll-reference dll_87199d8fc0875f6de062":
+/***/ "dll-reference dll_ea92b26618a5e8aa3a89":
 /*!*******************************************!*\
-  !*** external "dll_87199d8fc0875f6de062" ***!
+  !*** external "dll_ea92b26618a5e8aa3a89" ***!
   \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = dll_87199d8fc0875f6de062;
+module.exports = dll_ea92b26618a5e8aa3a89;
 
 /***/ })
 
