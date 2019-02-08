@@ -4,6 +4,8 @@ import axios from 'axios'
 import Router from 'next/router'
 import { InputGroup, InputLabel, InputField, InputButton } from '../../utils/Input'
 import { stripSpaces, validatePassword } from '../../utils/globalFunc'
+import { connect } from 'react-redux';
+import { updatedToken } from '../../controllers/Actions';
 
 const ErrorMessage = styled.div`
   color: #D31C1D;
@@ -70,14 +72,13 @@ class ResetPass extends React.Component {
         }).then(res => {
             if (res.status === 200) {
                 this.clearInput()
+                this.props.dispatch(updatedToken(res.data.token))
                 window.alert(res.data.message + ' And now you will be redirected.')
-                window.sessionStorage.setItem('token', res.data.token);
                 Router.push('/')
             } else {
                 this.setState({ userError: true, errorMessage: res.data.message })
             }
-
-        })
+        }).catch(() => this.setState({ userError: true, errorMessage: 'Either your token is expired or you are unauthorized.' }))
     }
 
     componentDidMount() {
@@ -107,4 +108,6 @@ class ResetPass extends React.Component {
     }
 } 
 
-export default ResetPass
+const mapStateToProps = state => state.user
+
+export default connect(mapStateToProps)(ResetPass)

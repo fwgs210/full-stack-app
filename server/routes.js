@@ -88,8 +88,9 @@ router.route('/user/change-password').post(auth, (req, res) => {
     const { newPassword } = req.body;
     const { username, _id } = req.token.userInfo
 
-    User.findOneAndUpdate({ _id, username }, { password: newPassword })
+    User.findOneAndUpdate({ _id, username }, { password: newPassword }, { new: true }) // set new true to get the updated content
         .then(doc => {
+            console.log(doc)
             const token = sign({ userInfo: doc });
             res.status(200).json({ message: 'Password updated.', token })
         })

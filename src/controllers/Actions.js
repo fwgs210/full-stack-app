@@ -23,3 +23,20 @@ export const login = userData => ({
 export const clearInput = () => ({
     type: 'CLEAR_USER_INPUT'
 })
+
+export const updatedToken = token => {
+    window.sessionStorage.setItem('token', token);
+    
+    return {
+        type: 'UPDATE_TOKEN',
+        token
+    }
+}
+
+export const removeToken = () => {
+    window.sessionStorage.setItem('token', '');
+
+    return {
+        type: 'REMOVE_TOKEN'
+    }
+}

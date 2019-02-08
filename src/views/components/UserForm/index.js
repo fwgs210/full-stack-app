@@ -26,7 +26,7 @@ import {
     setForgetPass
 } from './actions'
 import { loadComments } from '../ShowComment/actions';
-import { setError, startLoading, finishLoading, clearError, clearInput } from '../../../controllers/Actions'
+import { setError, startLoading, finishLoading, clearError, clearInput, updatedToken } from '../../../controllers/Actions'
 import { stripSpaces, validatePassword, validateEmail } from '../../../utils/globalFunc'
 
 const UserLogin = styled.div`
@@ -88,6 +88,7 @@ class UserForm extends Component {
         this.setRegistering = props.setRegistering
         this.setForgetPass = props.setForgetPass
         this.loadComments = props.loadComments
+        this.updatedToken = props.updatedToken
 
         //data
         this.forgetPass = props.forgetPass
@@ -121,7 +122,6 @@ class UserForm extends Component {
                 await this.login({
                     username,
                     loggedInAs: _id,
-                    token,
                     profileImg,
                     userRole: role
                 })
@@ -144,14 +144,13 @@ class UserForm extends Component {
         }).then(async res => {
             if (res.status === 200) {
                 const { _id, profileImg, role, username } = res.data.user
-                window.sessionStorage.setItem('token', res.data.token);
                 await this.login({
                     username,
                     loggedInAs: _id,
-                    token: res.data.token,
                     profileImg,
                     userRole: role
                 })
+                await this.updatedToken(res.data.token)
                 this.loadAllComments()
                 this.clearInput()
                 this.clearError()
@@ -216,8 +215,8 @@ class UserForm extends Component {
                     profileImg,
                     userRole: role
                 })
+                await this.updatedToken(res.data.token)
                 await this.loadAllComments()
-                await window.sessionStorage.setItem('token', res.data.token);
                 await this.clearInput()
                 await this.clearError()
                 await Router.push(`/userdashboard?userId=${_id}`, `/user/${_id}`)
@@ -420,7 +419,8 @@ const mapDispatchToProps = dispatch => ({ //this method is used to pass function
     loadingStart: () => dispatch(startLoading()),
     loadingEnd: () => dispatch(finishLoading()),
     setRegistering: bool => dispatch(setRegistering(bool)), 
-    setForgetPass: bool => dispatch(setForgetPass(bool))
+    setForgetPass: bool => dispatch(setForgetPass(bool)),
+    updatedToken: token => dispatch(updatedToken(token))
 })
 
 

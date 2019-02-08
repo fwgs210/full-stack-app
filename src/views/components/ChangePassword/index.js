@@ -4,6 +4,8 @@ import axios from 'axios'
 import { LineButton, WhiteLink, InputGroup, InputLabel, InputField, InputButton } from '../../../utils/Input'
 import { stripSpaces, validatePassword } from '../../../utils/globalFunc'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { connect } from 'react-redux';
+import { updatedToken } from '../../../controllers/Actions';
 
 const ErrorMessage = styled.div`
   color: #D31C1D;
@@ -73,6 +75,7 @@ class ChangePassword extends React.Component {
         }).then(res => {
             if (res.status === 200) {
                 this.clearInput()
+                this.props.dispatch(updatedToken(res.data.token))
                 window.alert(res.data.message)
             } else {
                 this.setState({ userError: true, errorMessage: res.data.message })
@@ -121,4 +124,6 @@ class ChangePassword extends React.Component {
     }
 } 
 
-export default ChangePassword
+const mapStateToProps = state => state.user
+
+export default connect(mapStateToProps)(ChangePassword)

@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _src_models_Store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../src/models/Store */ "./src/models/Store.js");
-var _jsxFileName = "/Users/User/full-stack-app/pages/_app.js";
+var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\pages\\_app.js";
 
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -258,14 +258,12 @@ var user = function user() {
     case 'USER_LOGIN':
       var _action$userData = action.userData,
           loggedInAs = _action$userData.loggedInAs,
-          token = _action$userData.token,
           profileImg = _action$userData.profileImg,
           userRole = _action$userData.userRole,
           username = _action$userData.username;
       return _objectSpread({}, state, {
         loggedIn: true,
         loggedInAs: loggedInAs,
-        token: token,
         profileImg: profileImg,
         userRole: userRole,
         username: username
@@ -346,6 +344,16 @@ var user = function user() {
     case 'INPUT_EDITING_COMMENT':
       return _objectSpread({}, state, {
         editingComment: action.editingComment
+      });
+
+    case 'UPDATE_TOKEN':
+      return _objectSpread({}, state, {
+        token: action.token
+      });
+
+    case 'REMOVE_TOKEN':
+      return _objectSpread({}, state, {
+        token: ''
       });
 
     default:
@@ -485,7 +493,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "@fortawesome/free-solid-svg-icons");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__);
-var _jsxFileName = "/Users/User/full-stack-app/src/views/Page.js";
+var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\Page.js";
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  width: 100%;\n  max-width: 800px;\n  margin: 20px auto 80px;\n  background: #fff;\n  box-shadow: 0 20px 50px 0 rgba(34,43,55,.1);\n  padding: 20px 40px;\n  border-radius: 5px;\n  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; \n  box-sizing: border-box;\n"]);

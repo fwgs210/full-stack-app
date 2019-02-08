@@ -13,8 +13,8 @@ const user = (state = {}, action) => { // this name has to match the default sta
         case 'LOAD_COMMENTS':
             return { ...state, allComments: action.allComments }
         case 'USER_LOGIN':
-            const { loggedInAs, token, profileImg, userRole, username } = action.userData
-            return { ...state, loggedIn: true, loggedInAs, token, profileImg, userRole, username }
+            const { loggedInAs, profileImg, userRole, username } = action.userData
+            return { ...state, loggedIn: true, loggedInAs, profileImg, userRole, username }
         case 'USER_LOGOUT':
             return { ...state, username: '', loggedInAs: '', token: '', profileImg: '', userRole: '', registering: false, loggedIn: false, }
         case 'INPUT_USERNAME' :
@@ -42,6 +42,10 @@ const user = (state = {}, action) => { // this name has to match the default sta
             return { ...state, forgetPass: action.forgetPass }
         case 'INPUT_EDITING_COMMENT':
             return { ...state, editingComment: action.editingComment }
+        case 'UPDATE_TOKEN':
+            return { ...state, token: action.token }
+        case 'REMOVE_TOKEN':
+            return { ...state, token: '' }
         default: 
             return state;
     }
