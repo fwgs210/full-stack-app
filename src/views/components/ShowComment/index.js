@@ -11,7 +11,7 @@ class ShowComments extends Component {
   constructor(props) {
     super(props)
 
-    this.allComments = props.allComments
+    this.allComments = props.allComments || []
     this.userRole = props.userRole
     this.loadingStart = props.loadingStart
     this.loadingEnd = props.loadingEnd
@@ -107,7 +107,7 @@ class ShowComments extends Component {
 }
 
 
-const mapStateToProps = state => ({ ...state.user, ...state.loading})
+const mapStateToProps = state => ({ ...state.get('user').toJS(), ...state.get('loading').toJS() })
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
   loadComments: allComments => dispatch(loadComments(allComments)),

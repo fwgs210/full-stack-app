@@ -138,11 +138,11 @@ Comment.propTypes = {
 }
 
 const mapStateToProps = state => ({ 
-  editing: state.user.editing,
-  editingComment: state.user.editingComment,
-  editingCommentId: state.user.editingCommentId,
-  loggedIn: state.user.loggedIn,
-  userRole: state.user.userRole
+  editing: state.getIn(['user', 'editing']),
+  editingComment: state.getIn(['user', 'editingComment']),
+  editingCommentId: state.getIn(['user', 'editingCommentId']),
+  loggedIn: state.getIn(['user', 'loggedIn']),
+  userRole: state.getIn(['user', 'userRole'])
 })
 //this method is used to pass state down functions
 

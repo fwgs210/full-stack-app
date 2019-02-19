@@ -125,6 +125,7 @@ class UserForm extends Component {
                     profileImg,
                     userRole: role
                 })
+                await this.updatedToken(token)
                 await this.loadAllComments()
                 await this.clearInput()
                 await role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
@@ -401,7 +402,7 @@ class UserForm extends Component {
     }
 }
 
-const mapStateToProps = state => ({ ...state.user, ...state.loading })
+const mapStateToProps = state => ({ ...state.get('user').toJS(), ...state.get('loading').toJS() })
 //this method is used to pass state down functions
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions

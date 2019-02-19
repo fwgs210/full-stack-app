@@ -55,10 +55,11 @@ class Dashboard extends Component {
 
     constructor(props) {
         super(props);
-        this.token = props.user.token
-        this.userRole = props.user.userRole
-        this.users = props.admin.users
-        this.loggedInAs = props.user.loggedInAs
+
+        this.token = props.token
+        this.userRole = props.userRole
+        this.users = props.users
+        this.loggedInAs = props.loggedInAs
     }
 
     state = {
@@ -73,10 +74,10 @@ class Dashboard extends Component {
     }
     
     componentWillReceiveProps(nextProps) {
-        this.token = nextProps.user.token
-        this.userRole = nextProps.user.userRole
-        this.users = nextProps.admin.users
-        this.loggedInAs = nextProps.user.loggedInAs
+        this.token = nextProps.token
+        this.userRole = nextProps.userRole
+        this.users = nextProps.users
+        this.loggedInAs = nextProps.loggedInAs
 
         if (this.userRole === 'administrator' && this.token) {
             this.loadUsers()
@@ -196,6 +197,10 @@ class Dashboard extends Component {
 
 };
 
-const mapStateToProps = state => state
+const mapStateToProps = state => ({
+    ...state.get('admin').toJS(),
+    ...state.get('user').toJS(),
+    ...state.get('loading').toJS(),
+})
 
 export default connect(mapStateToProps)(Dashboard);

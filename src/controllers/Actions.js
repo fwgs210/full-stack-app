@@ -26,7 +26,6 @@ export const clearInput = () => ({
 
 export const updatedToken = token => {
     window.sessionStorage.setItem('token', token);
-    
     return {
         type: 'UPDATE_TOKEN',
         token

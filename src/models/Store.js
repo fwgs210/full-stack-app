@@ -1,8 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux';
 import combinedReducers from './Reducers';
 import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { fromJS } from 'immutable';
 
-const defaultState = {
+const defaultState = fromJS({
     user: {
         profileImg: '',
         registering: false,
@@ -30,7 +31,7 @@ const defaultState = {
         userError: false,
         errorMessage: ''
     }
-}
+})
 
 const composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(combinedReducers, defaultState, composeEnhancers(

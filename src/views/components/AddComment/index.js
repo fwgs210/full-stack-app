@@ -39,7 +39,7 @@ const AddComment = ({ comment, newComment, token, addComment, clearComment, logg
 
 };
 
-const mapStateToProps = state => state.user
+const mapStateToProps = state => state.get('user').toJS()
 //this method is used to pass state down functions
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions

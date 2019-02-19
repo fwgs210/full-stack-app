@@ -108,6 +108,6 @@ class ResetPass extends React.Component {
     }
 } 
 
-const mapStateToProps = state => state.user
+const mapStateToProps = state => state.get('user').toJS()
 
 export default connect(mapStateToProps)(ResetPass)

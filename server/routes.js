@@ -76,7 +76,7 @@ router.route('/user-comments').post(auth, (req, res) => {
         });
 })
 
-router.route('/addComment').post(auth, (req, res) => {
+router.route('/addComment').post(auth, async (req, res) => {
     const { comment } = req.body
     const { _id } = req.token.userInfo
     const newComment = new Comment({
@@ -84,15 +84,16 @@ router.route('/addComment').post(auth, (req, res) => {
         description: comment
     })
 
-    newComment
-        .save()
-        .then(async doc => {
-            await User.findByIdAndUpdate(_id, { $push: { comments: newComment } })
-            res.status(201).json({ payload: doc })
-        })
-        .catch(err => {
+    await newComment.save()
+    await User.findByIdAndUpdate(_id, { $push: { comments: newComment } })
+
+    Comment.populate(newComment, { path: "userId" }, (err, populatedNewCom) => {
+        if (err) {
             res.status(500).json({ message: err.message })
-        })
+            return null
+        }
+        res.status(201).json({ payload: populatedNewCom })
+    })
 })
 
 // change password

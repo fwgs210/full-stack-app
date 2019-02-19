@@ -164,7 +164,7 @@ class ChatBox extends Component {
 }
 
 
-const mapStateToProps = state => ({ ...state.user, ...state.loading})
+const mapStateToProps = state => ({ ...state.get('user').toJS(), ...state.get('loading').toJS() })
 
 
 export default connect(mapStateToProps)(ChatBox)

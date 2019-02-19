@@ -200,42 +200,38 @@ function (_App) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "redux");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
+/* harmony import */ var redux_immutable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-immutable */ "redux-immutable");
+/* harmony import */ var redux_immutable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_immutable__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! immutable */ "immutable");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_1__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
+
 var user = function user() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
-
   // this name has to match the default state property name, otherwise won't load default state
+  state = Object(immutable__WEBPACK_IMPORTED_MODULE_1__["fromJS"])(state);
+
   switch (action.type) {
     case 'EDITING_COMMENT':
-      return _objectSpread({}, state, {
+      return state.merge({
         editing: true,
         editingComment: action.description,
         editingCommentId: action.id
       });
 
     case 'UPDATE_COMMENT':
-      var updatedComments = state.allComments.map(function (e) {
-        return e._id === state.editingCommentId ? _objectSpread({}, e, {
-          description: state.editingComment
+      var updatedComments = state.get('allComments').map(function (e) {
+        return e._id === state.get('editingCommentId') ? _objectSpread({}, e, {
+          description: state.get('editingComment')
         }) : e;
       });
-      return _objectSpread({}, state, {
+      return state.merge({
         editing: false,
         editingComment: '',
         editingCommentId: '',
@@ -243,17 +239,13 @@ var user = function user() {
       });
 
     case 'DELETE_COMMENT':
-      var afterDeletedComments = state.allComments.filter(function (e) {
+      var afterDeletedComments = state.get('allComments').filter(function (e) {
         return e._id !== action.id;
       });
-      return _objectSpread({}, state, {
-        allComments: afterDeletedComments
-      });
+      return state.set('allComments', afterDeletedComments);
 
     case 'LOAD_COMMENTS':
-      return _objectSpread({}, state, {
-        allComments: action.allComments
-      });
+      return state.set('allComments', action.allComments);
 
     case 'USER_LOGIN':
       var _action$userData = action.userData,
@@ -261,7 +253,7 @@ var user = function user() {
           profileImg = _action$userData.profileImg,
           userRole = _action$userData.userRole,
           username = _action$userData.username;
-      return _objectSpread({}, state, {
+      return state.merge({
         loggedIn: true,
         loggedInAs: loggedInAs,
         profileImg: profileImg,
@@ -270,7 +262,7 @@ var user = function user() {
       });
 
     case 'USER_LOGOUT':
-      return _objectSpread({}, state, {
+      return state.merge({
         username: '',
         loggedInAs: '',
         token: '',
@@ -281,32 +273,22 @@ var user = function user() {
       });
 
     case 'INPUT_USERNAME':
-      return _objectSpread({}, state, {
-        username: action.username
-      });
+      return state.set('username', action.username);
 
     case 'INPUT_PASSWORD':
-      return _objectSpread({}, state, {
-        password: action.password
-      });
+      return state.set('password', action.password);
 
     case 'INPUT_CONFIRM_PASSWORD':
-      return _objectSpread({}, state, {
-        rePassword: action.rePassword
-      });
+      return state.set('rePassword', action.rePassword);
 
     case 'INPUT_EMAIL':
-      return _objectSpread({}, state, {
-        email: action.email
-      });
+      return state.set('email', action.email);
 
     case 'INPUT_PROFILE_IMAGE':
-      return _objectSpread({}, state, {
-        profileImg: action.profileImg
-      });
+      return state.set('profileImg', action.profileImg);
 
     case 'CLEAR_USER_INPUT':
-      return _objectSpread({}, state, {
+      return state.merge({
         password: '',
         rePassword: '',
         email: '',
@@ -316,45 +298,30 @@ var user = function user() {
       });
 
     case 'INPUT_COMMENT':
-      return _objectSpread({}, state, {
-        comment: action.comment
-      });
+      return state.set('comment', action.comment);
 
     case 'CLEAR_COMMENT':
-      return _objectSpread({}, state, {
-        comment: ''
-      });
+      return state.set('comment', '');
 
     case 'ADD_COMMENT':
-      var allComments = state.allComments;
-      return _objectSpread({}, state, {
-        allComments: [].concat(_toConsumableArray(allComments), [action.newComment])
+      return state.update('allComments', function (arr) {
+        return arr.concat([action.newComment]);
       });
 
     case 'SET_REGISTERING':
-      return _objectSpread({}, state, {
-        registering: action.registering
-      });
+      return state.set('registering', action.registering);
 
     case 'SET_FORGETPASS':
-      return _objectSpread({}, state, {
-        forgetPass: action.forgetPass
-      });
+      return state.set('forgetPass', action.forgetPass);
 
     case 'INPUT_EDITING_COMMENT':
-      return _objectSpread({}, state, {
-        editingComment: action.editingComment
-      });
+      return state.set('editingComment', action.editingComment);
 
     case 'UPDATE_TOKEN':
-      return _objectSpread({}, state, {
-        token: action.token
-      });
+      return state.set('token', action.token);
 
     case 'REMOVE_TOKEN':
-      return _objectSpread({}, state, {
-        token: ''
-      });
+      return state.set('token', '');
 
     default:
       return state;
@@ -364,13 +331,12 @@ var user = function user() {
 var admin = function admin() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
-
   // this name has to match the default state property name, otherwise won't load default state
+  state = Object(immutable__WEBPACK_IMPORTED_MODULE_1__["fromJS"])(state);
+
   switch (action.type) {
     case 'LOAD_USERS':
-      return _objectSpread({}, state, {
-        users: action.allUsers
-      });
+      return state.set('users', action.allUsers);
 
     default:
       return state;
@@ -380,28 +346,27 @@ var admin = function admin() {
 var loading = function loading() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
+  state = Object(immutable__WEBPACK_IMPORTED_MODULE_1__["fromJS"])(state);
 
   switch (action.type) {
     case 'SET_LOADED_TRUE':
-      return _objectSpread({}, state, {
-        loaded: true
-      });
+      return state.set('loaded', true);
 
     case 'SET_LOADED_FALSE':
-      return _objectSpread({}, state, {
+      return state.merge({
         loaded: false,
         userError: false,
         errorMessage: ''
       });
 
     case 'SET_ERROR':
-      return _objectSpread({}, state, {
+      return state.merge({
         userError: true,
         errorMessage: action.errorMessage
       });
 
     case 'CLEAR_ERROR':
-      return _objectSpread({}, state, {
+      return state.merge({
         userError: false,
         errorMessage: ''
       });
@@ -411,7 +376,7 @@ var loading = function loading() {
   }
 };
 
-var combinedReducers = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+var combinedReducers = Object(redux_immutable__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   user: user,
   admin: admin,
   loading: loading
@@ -430,15 +395,18 @@ var combinedReducers = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducer
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "redux");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Reducers */ "./src/models/Reducers.js");
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "redux-thunk");
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(redux_thunk__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Reducers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Reducers */ "./src/models/Reducers.js");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "redux-thunk");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(redux_thunk__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "redux");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! immutable */ "immutable");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
-var defaultState = {
+
+var defaultState = Object(immutable__WEBPACK_IMPORTED_MODULE_3__["fromJS"])({
   user: {
     profileImg: '',
     registering: false,
@@ -466,9 +434,9 @@ var defaultState = {
     userError: false,
     errorMessage: ''
   }
-};
-var composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_0__["compose"];
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_Reducers__WEBPACK_IMPORTED_MODULE_1__["default"], defaultState, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2___default.a)));
+});
+var composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_2__["compose"];
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_2__["createStore"])(_Reducers__WEBPACK_IMPORTED_MODULE_0__["default"], defaultState, composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_2__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1___default.a)));
 
 /***/ }),
 
@@ -611,6 +579,17 @@ module.exports = require("@fortawesome/free-solid-svg-icons");
 
 /***/ }),
 
+/***/ "immutable":
+/*!****************************!*\
+  !*** external "immutable" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("immutable");
+
+/***/ }),
+
 /***/ "next/app":
 /*!***************************!*\
   !*** external "next/app" ***!
@@ -663,6 +642,17 @@ module.exports = require("react-redux");
 /***/ (function(module, exports) {
 
 module.exports = require("redux");
+
+/***/ }),
+
+/***/ "redux-immutable":
+/*!**********************************!*\
+  !*** external "redux-immutable" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-immutable");
 
 /***/ }),
 
