@@ -41313,16 +41313,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _UserTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UserTable */ "./src/views/components/Dashboard/UserTable.js");
-/* harmony import */ var _ChatBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ChatBox */ "./src/views/components/ChatBox/index.js");
-/* harmony import */ var _ShowComment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ShowComment */ "./src/views/components/ShowComment/index.js");
-/* harmony import */ var _AddComment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../AddComment */ "./src/views/components/AddComment/index.js");
-/* harmony import */ var _utils_globalFunc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../utils/globalFunc */ "./src/utils/globalFunc.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./actions */ "./src/views/components/Dashboard/actions.js");
-/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
-/* harmony import */ var _utils_Input__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../utils/Input */ "./src/utils/Input.js");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/router */ "./node_modules/next/router.js");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _UserTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserTable */ "./src/views/components/Dashboard/UserTable.js");
+/* harmony import */ var _utils_globalFunc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../utils/globalFunc */ "./src/utils/globalFunc.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions */ "./src/views/components/Dashboard/actions.js");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 var _jsxFileName = "C:\\Users\\TSu\\Desktop\\github\\full-stack-app\\src\\views\\components\\Dashboard\\index.js";
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -41347,18 +41345,8 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n    display: flex;\n    flex-wrap: wrap;\n    min-height: 400px;\n    padding: 2rem 0;\n    box-sizing: border-box;\n\n    .app {\n        box-shadow: 0 3px 3px 0 rgba(203,203,203,0.5);\n        width: 32%;\n        margin: calc(4% / 6);\n        height: 8rem;\n        display: flex;\n        flex-direction: column;\n        border-radius: 6px;\n        justify-content: center;\n        align-items: center;\n        border: 0;\n        border-top: 1px solid #F0F0F0;\n        text-decoration: none;\n        color: #333;\n        font-size: 1rem;\n        background-color: #fff;\n\n        &:hover {\n            box-shadow: 0 3px 30px 0 rgba(203,203,203,1);\n        }\n    }\n    .app-icon {\n        font-size: 2.5rem;\n        color: #4285F4;\n        margin-bottom: 10px;\n    }\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  margin-top: 3rem;\n"]);
+  var data = _taggedTemplateLiteral(["\n    display: flex;\n    flex-wrap: wrap;\n    min-height: 400px;\n    padding: 2rem 0;\n    box-sizing: border-box;\n\n    .app {\n        box-shadow: 0 3px 3px 0 rgba(203,203,203,0.5);\n        width: 32%;\n        margin: calc(4% / 6);\n        height: 8rem;\n        display: flex;\n        flex-direction: column;\n        border-radius: 6px;\n        justify-content: center;\n        align-items: center;\n        border: 0;\n        border-top: 1px solid #F0F0F0;\n        text-decoration: none;\n        color: #333;\n        font-size: 1rem;\n        background-color: #fff;\n\n        &:hover {\n            box-shadow: 0 3px 30px 0 rgba(203,203,203,1);\n        }\n    }\n    .app-icon {\n        font-size: 2.5rem;\n        color: #4285F4;\n        margin-bottom: 10px;\n    }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -41378,11 +41366,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-
-
-
-var NewPostContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(_templateObject());
-var UserApp = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].section(_templateObject2());
+var UserApp = styled_components__WEBPACK_IMPORTED_MODULE_3__["default"].section(_templateObject());
 
 var Dashboard =
 /*#__PURE__*/
@@ -41402,9 +41386,7 @@ function (_Component) {
       editingUsername: '',
       editingEmail: '',
       editingProfileImg: '',
-      editingRole: '',
-      chatroom: false,
-      commentsBoard: false
+      editingRole: ''
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleChange", function (nameToUpdate, value) {
@@ -41447,7 +41429,7 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "deleteUser", function (UserId) {
-      if (Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_7__["confirmPopUp"])("Are you sure?")) {
+      if (Object(_utils_globalFunc__WEBPACK_IMPORTED_MODULE_5__["confirmPopUp"])("Are you sure?")) {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.delete("/api/users/".concat(UserId), {
           headers: {
             'Authorization': 'bearer ' + _this.token
@@ -41471,17 +41453,29 @@ function (_Component) {
         }
       }).then(function (res) {
         if (res.status === 200) {
-          _this.props.dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_9__["loadUsers"])(res.data.users));
+          _this.props.dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["loadUsers"])(res.data.users));
         } else {
           console.log("error", res);
         }
       });
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "openApp", function (e) {
+      e.preventDefault();
+      next_router__WEBPACK_IMPORTED_MODULE_2___default.a.push("/".concat(e.target.value), "/".concat(e.target.value, "/").concat(_this.loggedInAs));
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "backToDash", function (e) {
+      e.preventDefault();
+
+      _this.props.dispatch(deactivateApps());
+    });
+
     _this.token = props.token;
     _this.userRole = props.userRole;
     _this.users = props.users;
     _this.loggedInAs = props.loggedInAs;
+    _this.activeApp = props.active;
     return _this;
   }
 
@@ -41492,6 +41486,7 @@ function (_Component) {
       this.userRole = nextProps.userRole;
       this.users = nextProps.users;
       this.loggedInAs = nextProps.loggedInAs;
+      this.activeApp = nextProps.active;
 
       if (this.userRole === 'administrator' && this.token) {
         this.loadUsers();
@@ -41500,17 +41495,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       if (this.userRole === 'administrator') {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
           className: "admin-dashboard",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 156
+            lineNumber: 158
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserTable__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserTable__WEBPACK_IMPORTED_MODULE_4__["default"], {
           state: this.state,
           users: this.users,
           handleChange: this.handleChange,
@@ -41518,131 +41511,56 @@ function (_Component) {
           deleteUser: this.deleteUser,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 157
+            lineNumber: 159
           },
           __self: this
         }));
       }
 
       if (this.userRole !== '') {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-          className: "user-dashboard",
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(UserApp, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 163
+            lineNumber: 165
           },
           __self: this
-        }, this.state.chatroom ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: this.openApp,
+          value: "comment-board",
+          className: "app",
           __source: {
             fileName: _jsxFileName,
             lineNumber: 166
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_11__["LineButton"], {
-          onClick: function onClick() {
-            return _this2.setState({
-              chatroom: false,
-              commentsBoard: false
-            });
-          },
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 167
-          },
-          __self: this
-        }, "back to dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ChatBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 168
-          },
-          __self: this
-        })) : this.state.commentsBoard ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 171
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_11__["LineButton"], {
-          onClick: function onClick() {
-            return _this2.setState({
-              chatroom: false,
-              commentsBoard: false
-            });
-          },
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 172
-          },
-          __self: this
-        }, "back to dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ShowComment__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 173
-          },
-          __self: this
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NewPostContainer, {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 174
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddComment__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 175
-          },
-          __self: this
-        }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(UserApp, {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 179
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: function onClick() {
-            return _this2.setState({
-              chatroom: false,
-              commentsBoard: true
-            });
-          },
-          className: "app",
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 180
-          },
-          __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_10__["FontAwesomeIcon"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_8__["FontAwesomeIcon"], {
           prefix: "fas",
           icon: "edit",
           className: "app-icon",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 181
+            lineNumber: 167
           },
           __self: this
         }), "Comments Board"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: function onClick() {
-            return _this2.setState({
-              chatroom: true,
-              commentsBoard: false
-            });
-          },
+          onClick: this.openApp,
+          value: "chatroom",
           className: "app",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 184
+            lineNumber: 170
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_10__["FontAwesomeIcon"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_8__["FontAwesomeIcon"], {
           prefix: "far",
           icon: "comments",
           className: "app-icon",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 185
+            lineNumber: 171
           },
           __self: this
-        }), "Chatroom")));
+        }), "Chatroom"));
       }
 
       return null;
@@ -41658,7 +41576,7 @@ var mapStateToProps = function mapStateToProps(state) {
   return _objectSpread({}, state.get('admin').toJS(), state.get('user').toJS(), state.get('loading').toJS());
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_8__["connect"])(mapStateToProps)(Dashboard));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["connect"])(mapStateToProps)(Dashboard));
 
 /***/ }),
 
@@ -41836,8 +41754,6 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadAllComments", function () {
-      _this.loadingStart();
-
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/all-comments').then(
       /*#__PURE__*/
       function () {
@@ -41849,7 +41765,7 @@ function (_Component) {
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(res.data.payload && res.status === 200)) {
-                    _context.next = 7;
+                    _context.next = 6;
                     break;
                   }
 
@@ -41858,17 +41774,13 @@ function (_Component) {
                   return _this.loadComments(res.data.payload);
 
                 case 4:
-                  _this.loadingEnd();
-
-                  _context.next = 9;
+                  _context.next = 7;
                   break;
 
-                case 7:
+                case 6:
                   _this.setError('Server Error');
 
-                  _this.loadingEnd();
-
-                case 9:
+                case 7:
                 case "end":
                   return _context.stop();
               }
@@ -41883,8 +41795,6 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadUserComments", function () {
-      _this.loadingStart();
-
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/user-comments', {}, {
         headers: {
           'Authorization': 'bearer ' + _this.token
@@ -41900,7 +41810,7 @@ function (_Component) {
               switch (_context2.prev = _context2.next) {
                 case 0:
                   if (!(res.data.payload && res.status === 200)) {
-                    _context2.next = 7;
+                    _context2.next = 6;
                     break;
                   }
 
@@ -41909,17 +41819,13 @@ function (_Component) {
                   return _this.loadComments(res.data.payload);
 
                 case 4:
-                  _this.loadingEnd();
-
-                  _context2.next = 9;
+                  _context2.next = 7;
                   break;
 
-                case 7:
+                case 6:
                   _this.setError('Server Error');
 
-                  _this.loadingEnd();
-
-                case 9:
+                case 7:
                 case "end":
                   return _context2.stop();
               }
@@ -41935,8 +41841,6 @@ function (_Component) {
 
     _this.allComments = props.allComments || [];
     _this.userRole = props.userRole;
-    _this.loadingStart = props.loadingStart;
-    _this.loadingEnd = props.loadingEnd;
     _this.loadComments = props.loadComments;
     _this.loggedInAs = props.loggedInAs;
     _this.loggedIn = props.loggedIn;
@@ -41948,14 +41852,23 @@ function (_Component) {
   }
 
   _createClass(ShowComments, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.userRole !== this.props.userRole) {
+        console.log('called');
+
+        if (this.userRole === 'administrator') {
+          this.loadAllComments();
+        } else {
+          this.loadUserComments();
+        }
+      }
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       if (!window.sessionStorage['token']) {
         this.loadAllComments();
-      }
-
-      if (this.loggedIn) {
-        this.loadUserComments();
       }
     }
   }, {
@@ -41976,7 +41889,7 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 89
+          lineNumber: 84
         },
         __self: this
       }, this.allComments.slice(0, this.state.displayComments).map(function (comment) {
@@ -41988,7 +41901,7 @@ function (_Component) {
           userPosted: comment.userId.username,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 91
+            lineNumber: 86
           },
           __self: this
         });
@@ -42004,7 +41917,7 @@ function (_Component) {
         },
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 99
+          lineNumber: 94
         },
         __self: this
       }, "Load More"));
@@ -42023,12 +41936,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     //this method is used to pass function down functions
     loadComments: function loadComments(allComments) {
       return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_6__["loadComments"])(allComments));
-    },
-    loadingStart: function loadingStart() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["startLoading"])());
-    },
-    loadingEnd: function loadingEnd() {
-      return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["finishLoading"])());
     },
     setError: function setError(errorMessage) {
       return dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_7__["setError"])(errorMessage));
@@ -42275,7 +42182,7 @@ function (_Component) {
               switch (_context.prev = _context.next) {
                 case 0:
                   if (!(res.status === 200)) {
-                    _context.next = 20;
+                    _context.next = 13;
                     break;
                   }
 
@@ -42301,34 +42208,19 @@ function (_Component) {
                   return _this.clearInput();
 
                 case 10:
-                  _context.next = 12;
-                  return role;
-
-                case 12:
-                  _context.t0 = _context.sent;
-
-                  if (!(_context.t0 === 'administrator')) {
-                    _context.next = 17;
-                    break;
+                  if (!_this.loggedIn) {
+                    role === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id)) : next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
                   }
 
-                  next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push('/admin', "/admin/".concat(_id));
-                  _context.next = 18;
+                  _context.next = 15;
                   break;
 
-                case 17:
-                  next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push("/user", "/user/".concat(_id));
-
-                case 18:
-                  _context.next = 22;
-                  break;
-
-                case 20:
+                case 13:
                   _this.setError(res.data.message);
 
                   _this.loadingEnd();
 
-                case 22:
+                case 15:
                 case "end":
                   return _context.stop();
               }
@@ -42641,7 +42533,7 @@ function (_Component) {
   _createClass(UserForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (window.sessionStorage['token']) {
+      if (window.sessionStorage['token'] && !this.loggedIn) {
         this.sessionLogin();
       } else {
         this.loadingEnd();
@@ -42673,13 +42565,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 295
+            lineNumber: 297
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 296
+            lineNumber: 298
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -42688,14 +42580,14 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 297
+            lineNumber: 299
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(StyledFormGroup, {
           row: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 298
+            lineNumber: 300
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_6___default.a, {
@@ -42709,20 +42601,20 @@ function (_Component) {
             color: "primary",
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 301
+              lineNumber: 303
             },
             __self: this
           }),
           label: "Custom profile picture",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 299
+            lineNumber: 301
           },
           __self: this
         })), this.state.customProfile ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 312
+            lineNumber: 314
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -42730,7 +42622,7 @@ function (_Component) {
           onChange: this.uploadFile,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 313
+            lineNumber: 315
           },
           __self: this
         })) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
@@ -42739,13 +42631,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 316
+            lineNumber: 318
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 319
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42753,7 +42645,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 319
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42764,13 +42656,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 317
+            lineNumber: 319
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 320
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42778,7 +42670,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489254/user_profile/vrahhosrv2davfyigrl9.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 320
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42789,13 +42681,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 318
+            lineNumber: 320
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 321
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42803,7 +42695,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489062/user_profile/atkyy6u92kvm3n69kxns.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 321
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42814,13 +42706,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 319
+            lineNumber: 321
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 322
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42828,7 +42720,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489268/user_profile/oi25fck46ihcur6qeflm.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 322
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42839,13 +42731,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 320
+            lineNumber: 322
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 321
+            lineNumber: 323
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42853,7 +42745,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489251/user_profile/nv0mmscejjfjmchxpjxn.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 321
+            lineNumber: 323
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42864,13 +42756,13 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 321
+            lineNumber: 323
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RadioOption, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 322
+            lineNumber: 324
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
@@ -42878,7 +42770,7 @@ function (_Component) {
           src: "https://res.cloudinary.com/fwgs210/image/upload/v1549489271/user_profile/gszzb66osbypomnsrbht.png",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 322
+            lineNumber: 324
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -42889,19 +42781,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 322
+            lineNumber: 324
           },
           __self: this
         }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 326
+            lineNumber: 328
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 327
+            lineNumber: 329
           },
           __self: this
         }, "username (no upper case)"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -42911,19 +42803,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 328
+            lineNumber: 330
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 330
+            lineNumber: 332
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 331
+            lineNumber: 333
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -42933,19 +42825,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 332
+            lineNumber: 334
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 334
+            lineNumber: 336
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 335
+            lineNumber: 337
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -42955,19 +42847,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 336
+            lineNumber: 338
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 338
+            lineNumber: 340
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 339
+            lineNumber: 341
           },
           __self: this
         }, "Re-type password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -42977,20 +42869,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 340
+            lineNumber: 342
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 342
+            lineNumber: 344
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 343
+            lineNumber: 345
           },
           __self: this
         }, "Register"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -42999,20 +42891,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 344
+            lineNumber: 346
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 348
+            lineNumber: 350
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 349
+            lineNumber: 351
           },
           __self: this
         }));
@@ -43022,13 +42914,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 356
+            lineNumber: 358
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 357
+            lineNumber: 359
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -43037,19 +42929,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 358
+            lineNumber: 360
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 359
+            lineNumber: 361
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 360
+            lineNumber: 362
           },
           __self: this
         }, "email"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -43059,20 +42951,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 361
+            lineNumber: 363
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 363
+            lineNumber: 365
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 364
+            lineNumber: 366
           },
           __self: this
         }, "Submit"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -43081,20 +42973,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 365
+            lineNumber: 367
           },
           __self: this
         }, "Login")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 369
+            lineNumber: 371
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 370
+            lineNumber: 372
           },
           __self: this
         }));
@@ -43104,13 +42996,13 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 377
+            lineNumber: 379
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(UserLogin, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 378
+            lineNumber: 380
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
@@ -43119,19 +43011,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 379
+            lineNumber: 381
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 380
+            lineNumber: 382
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 381
+            lineNumber: 383
           },
           __self: this
         }, "username"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -43141,19 +43033,19 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 382
+            lineNumber: 384
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 384
+            lineNumber: 386
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputLabel"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 385
+            lineNumber: 387
           },
           __self: this
         }, "password"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputField"], {
@@ -43163,20 +43055,20 @@ function (_Component) {
           required: true,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 386
+            lineNumber: 388
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputGroup"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 388
+            lineNumber: 390
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["InputButton"], {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 389
+            lineNumber: 391
           },
           __self: this
         }, "login"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -43185,7 +43077,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 390
+            lineNumber: 392
           },
           __self: this
         }, "Register here"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_9__["LineButton"], {
@@ -43194,20 +43086,20 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 391
+            lineNumber: 393
           },
           __self: this
         }, "forgot password?")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(ErrorMessage, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 395
+            lineNumber: 397
           },
           __self: this
         }, this.errorMessage), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_8__["default"], {
           loaded: this.loaded,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 396
+            lineNumber: 398
           },
           __self: this
         }));
@@ -43217,7 +43109,7 @@ function (_Component) {
         loaded: this.loaded,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 401
+          lineNumber: 403
         },
         __self: this
       });
@@ -43386,12 +43278,17 @@ var userLogout = function userLogout(dispatch) {
   }
 };
 
+var backToDashBoard = function backToDashBoard(loggedInAs, userRole) {
+  return userRole === 'administrator' ? next_router__WEBPACK_IMPORTED_MODULE_2___default.a.push('/admin', "/admin/".concat(loggedInAs)) : next_router__WEBPACK_IMPORTED_MODULE_2___default.a.push("/user", "/user/".concat(loggedInAs));
+};
+
 var UserPortal = function UserPortal(props) {
   var dispatch = props.dispatch,
       loggedInAs = props.loggedInAs,
       loggedIn = props.loggedIn,
       profileImg = props.profileImg,
-      username = props.username;
+      username = props.username,
+      userRole = props.userRole;
 
   if (loggedIn) {
     dispatch(Object(_controllers_Actions__WEBPACK_IMPORTED_MODULE_9__["finishLoading"])());
@@ -43401,13 +43298,13 @@ var UserPortal = function UserPortal(props) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(UserPortalContainer, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 71
+        lineNumber: 73
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LeftPanel, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 72
+        lineNumber: 74
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -43419,25 +43316,46 @@ var UserPortal = function UserPortal(props) {
       src: profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png',
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 73
+        lineNumber: 75
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 74
+        lineNumber: 76
       },
       __self: this
-    }, username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RightPanel, {
+    }, username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_4__["WhiteLink"], {
+      style: {
+        margin: "0 0 0 1.5rem",
+        width: "auto"
+      },
+      onClick: function onClick() {
+        return backToDashBoard(loggedInAs, userRole);
+      },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
+        lineNumber: 77
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_5__["FontAwesomeIcon"], {
+      prefix: "fas",
+      icon: "home",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 78
+      },
+      __self: this
+    }), " Dashboard")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RightPanel, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 81
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ChangePassword__WEBPACK_IMPORTED_MODULE_3__["default"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
+        lineNumber: 82
       },
       __self: this
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_utils_Input__WEBPACK_IMPORTED_MODULE_4__["WhiteLink"], {
@@ -43446,7 +43364,7 @@ var UserPortal = function UserPortal(props) {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
+        lineNumber: 83
       },
       __self: this
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_5__["FontAwesomeIcon"], {
@@ -43454,7 +43372,7 @@ var UserPortal = function UserPortal(props) {
       icon: "sign-out-alt",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
+        lineNumber: 84
       },
       __self: this
     }), " Logout")));

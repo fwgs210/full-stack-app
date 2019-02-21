@@ -128,7 +128,9 @@ class UserForm extends Component {
                 await this.updatedToken(token)
                 await this.loadAllComments()
                 await this.clearInput()
-                await role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
+                if (!this.loggedIn) {
+                    role === 'administrator' ? Router.push('/admin', `/admin/${_id}`) : Router.push(`/user`, `/user/${_id}`)
+                }
             } else {
                 this.setError(res.data.message)
                 this.loadingEnd()
@@ -262,7 +264,7 @@ class UserForm extends Component {
     uploadFile = e => this.chooseProfile(e.target.files)
 
     componentDidMount() {
-        if (window.sessionStorage['token']) {
+        if (window.sessionStorage['token'] && !this.loggedIn) {
             this.sessionLogin()
         } else {
             this.loadingEnd()

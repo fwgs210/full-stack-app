@@ -4,7 +4,7 @@ import Comment from '../Comment'
 import { LineButton } from '../../../utils/Input'
 import { connect } from 'react-redux';
 import { loadComments } from './actions';
-import { startLoading, finishLoading, setError, clearError } from '../../../controllers/Actions'
+import { setError, clearError } from '../../../controllers/Actions'
 
 class ShowComments extends Component {
 
@@ -13,8 +13,6 @@ class ShowComments extends Component {
 
     this.allComments = props.allComments || []
     this.userRole = props.userRole
-    this.loadingStart = props.loadingStart
-    this.loadingEnd = props.loadingEnd
     this.loadComments = props.loadComments
     this.loggedInAs = props.loggedInAs
     this.loggedIn = props.loggedIn
@@ -29,52 +27,48 @@ class ShowComments extends Component {
   }
 
   loadAllComments = () => {
-    this.loadingStart();
-
     axios.get('/api/all-comments').then(async res => {
       if (res.data.payload && res.status === 200) {
         this.allComments = res.data.payload
         await this.loadComments(res.data.payload)
-        
-        this.loadingEnd();
       }
       else {
         this.setError('Server Error')
-        this.loadingEnd()
       }
     })
   }
 
   loadUserComments = () => {
-    this.loadingStart();
-
     axios.post('/api/user-comments', {}, {
       headers: { 'Authorization': 'bearer ' + this.token }
     }).then(async res => {
       if (res.data.payload && res.status === 200) {
         this.allComments = res.data.payload
         await this.loadComments(res.data.payload)
-
-        this.loadingEnd();
       }
       else {
         this.setError('Server Error')
-        this.loadingEnd()
       }
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.userRole !== this.props.userRole) {
+      if (this.userRole === 'administrator') {
+        this.loadAllComments()
+      } else {
+        this.loadUserComments()
+      }
+    }
   }
 
   componentDidMount() {
     if (!window.sessionStorage['token']) {
       this.loadAllComments()
     }
-    if(this.loggedIn) {
-      this.loadUserComments()
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    
     this.allComments = nextProps.allComments
     this.loggedIn = nextProps.loggedIn
     this.userRole = nextProps.userRole
@@ -111,8 +105,6 @@ const mapStateToProps = state => ({ ...state.get('user').toJS(), ...state.get('l
 
 const mapDispatchToProps = dispatch => ({ //this method is used to pass function down functions
   loadComments: allComments => dispatch(loadComments(allComments)),
-  loadingStart: () => dispatch(startLoading()),
-  loadingEnd: () => dispatch(finishLoading()),
   setError: errorMessage => dispatch(setError(errorMessage)),
   clearError: () => dispatch(clearError())
 })

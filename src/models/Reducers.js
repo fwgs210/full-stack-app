@@ -81,7 +81,7 @@ const loading = (state = {}, action) => {
 const combinedReducers = combineReducers({
         user,
         admin,
-        loading
+        loading,
     });
 
 export default combinedReducers;

@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Router from 'next/router'
 import styled from 'styled-components'
 import UserTable from './UserTable'
-import ChatBox from '../ChatBox'
-import ShowComments from '../ShowComment'
-import AddComment from '../AddComment'
 import { confirmPopUp } from '../../../utils/globalFunc'
 import { connect } from 'react-redux';
 import { loadUsers } from './actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { LineButton } from '../../../utils/Input'
-
-
-const NewPostContainer = styled.div`
-  margin-top: 3rem;
-`;
 
 const UserApp = styled.section`
     display: flex;
@@ -60,6 +52,7 @@ class Dashboard extends Component {
         this.userRole = props.userRole
         this.users = props.users
         this.loggedInAs = props.loggedInAs
+        this.activeApp = props.active
     }
 
     state = {
@@ -68,9 +61,7 @@ class Dashboard extends Component {
         editingUsername: '', 
         editingEmail: '', 
         editingProfileImg: '', 
-        editingRole: '' ,
-        chatroom: false,
-        commentsBoard: false
+        editingRole: ''
     }
     
     componentWillReceiveProps(nextProps) {
@@ -78,6 +69,7 @@ class Dashboard extends Component {
         this.userRole = nextProps.userRole
         this.users = nextProps.users
         this.loggedInAs = nextProps.loggedInAs
+        this.activeApp = nextProps.active
 
         if (this.userRole === 'administrator' && this.token) {
             this.loadUsers()
@@ -149,6 +141,16 @@ class Dashboard extends Component {
         })
     }
 
+    openApp = e => {
+        e.preventDefault()
+        Router.push(`/${e.target.value}`, `/${e.target.value}/${this.loggedInAs}`)
+    }
+
+    backToDash = e => {
+        e.preventDefault()
+        this.props.dispatch(deactivateApps())
+    }
+
     render() {
         
         if (this.userRole === 'administrator') {
@@ -160,35 +162,16 @@ class Dashboard extends Component {
         }
         if (this.userRole !== '') {
             return (
-                <section className="user-dashboard">
-                    {
-                        this.state.chatroom ? (
-                            <React.Fragment>
-                                <LineButton onClick={() => this.setState({chatroom: false, commentsBoard: false})}>back to dashboard</LineButton>
-                                <ChatBox />
-                            </React.Fragment>
-                        ) : this.state.commentsBoard ? (
-                            <React.Fragment>
-                                <LineButton onClick={() => this.setState({chatroom: false, commentsBoard: false})}>back to dashboard</LineButton>
-                                <ShowComments />
-                                <NewPostContainer>
-                                    <AddComment />
-                                </NewPostContainer>
-                            </React.Fragment>
-                        ) : (
-                            <UserApp>
-                                <button onClick={() => this.setState({chatroom: false, commentsBoard: true})} className="app">
-                                    <FontAwesomeIcon prefix="fas" icon="edit" className="app-icon" />
-                                    Comments Board
+                <UserApp>
+                    <button onClick={this.openApp} value="comment-board" className="app">
+                        <FontAwesomeIcon prefix="fas" icon="edit" className="app-icon" />
+                        Comments Board
                                 </button>
-                                <button onClick={() => this.setState({chatroom: true, commentsBoard: false})} className="app">
-                                    <FontAwesomeIcon prefix="far" icon="comments" className="app-icon" />
-                                    Chatroom
+                    <button onClick={this.openApp} value="chatroom" className="app">
+                        <FontAwesomeIcon prefix="far" icon="comments" className="app-icon" />
+                        Chatroom
                                 </button>
-                            </UserApp>
-                        )
-                    }
-                </section>
+                </UserApp>
             )
         }
         return null
@@ -200,7 +183,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
     ...state.get('admin').toJS(),
     ...state.get('user').toJS(),
-    ...state.get('loading').toJS(),
+    ...state.get('loading').toJS()
 })
 
 export default connect(mapStateToProps)(Dashboard);

@@ -21,7 +21,7 @@ const defaultState = fromJS({
         rePassword: '',
         token: '',
         forgetPass: false,
-        userRole: ''
+        userRole: '',
     },
     admin: {
         users: []

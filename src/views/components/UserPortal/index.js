@@ -59,8 +59,10 @@ const userLogout = dispatch => {
     }
 }
 
+const backToDashBoard = (loggedInAs, userRole) => userRole === 'administrator' ? Router.push('/admin', `/admin/${loggedInAs}`) : Router.push(`/user`, `/user/${loggedInAs}`)
+
 const UserPortal = props => {
-    const { dispatch, loggedInAs, loggedIn, profileImg, username } = props;
+    const { dispatch, loggedInAs, loggedIn, profileImg, username, userRole } = props;
 
     if (loggedIn) {
         dispatch(finishLoading())
@@ -72,6 +74,9 @@ const UserPortal = props => {
                 <LeftPanel>
                     <img style={{ 'borderRadius': '100%' }} width="64" alt="Profile Image" src={profileImg ? profileImg : 'https://res.cloudinary.com/fwgs210/image/upload/v1549488926/user_profile/resoxynwrkrn1jvwbpee.png'} />
                     <h3>{username}</h3>
+                    <WhiteLink style={{ margin: "0 0 0 1.5rem", width: "auto"}} onClick={() => backToDashBoard(loggedInAs, userRole)}>
+                        <FontAwesomeIcon prefix="fas" icon="home" /> Dashboard
+                    </WhiteLink>
                 </LeftPanel>
                 <RightPanel>
                     <ChangePassword />

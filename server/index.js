@@ -35,6 +35,14 @@ nextApp.prepare().then(() => {
     nextApp.render(req, res, '/user')
   })
 
+  app.get('/comment-board/:id', (req, res) => {
+    nextApp.render(req, res, '/comment-board')
+  })
+
+  app.get('/chatroom/:id', (req, res) => {
+    nextApp.render(req, res, '/chatroom')
+  })
+
   app.get('/reset-password/:token', (req, res) => {
     nextApp.render(req, res, '/reset-password', { token: req.params.token } )
   })
