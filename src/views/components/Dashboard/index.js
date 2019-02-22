@@ -141,14 +141,9 @@ class Dashboard extends Component {
         })
     }
 
-    openApp = e => {
+    openApp = (e, appLink) => {
         e.preventDefault()
-        Router.push(`/${e.target.value}`, `/${e.target.value}/${this.loggedInAs}`)
-    }
-
-    backToDash = e => {
-        e.preventDefault()
-        this.props.dispatch(deactivateApps())
+        Router.push(`/${appLink}`, `/${appLink}/${this.loggedInAs}`)
     }
 
     render() {
@@ -163,11 +158,11 @@ class Dashboard extends Component {
         if (this.userRole !== '') {
             return (
                 <UserApp>
-                    <button onClick={this.openApp} value="comment-board" className="app">
+                    <button onClick={e => this.openApp(e, 'comment-board')} className="app">
                         <FontAwesomeIcon prefix="fas" icon="edit" className="app-icon" />
                         Comments Board
                                 </button>
-                    <button onClick={this.openApp} value="chatroom" className="app">
+                    <button onClick={e => this.openApp(e, 'chatroom')} className="app">
                         <FontAwesomeIcon prefix="far" icon="comments" className="app-icon" />
                         Chatroom
                                 </button>
