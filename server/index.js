@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const enforce = require('express-sslify');
 const next = require('next')
-const nextApp = next({ dev: process.env.NODE_DEV !== 'production' })
+const isDev = process.env.NODE_ENV !== 'production'
+const nextApp = next({ dev: isDev })
 const handle = nextApp.getRequestHandler() //part of next config
 
 const { uri, PORT } = require('./config/serverSetup')
@@ -16,7 +17,7 @@ nextApp.prepare().then(() => {
   // express code here
   const app = express()
   
-  if (process.env.NODE_DEV === 'production') { // PROD setup
+  if (isDev) { // PROD setup
     initAdminUser()
 
     app.use(enforce.HTTPS({ trustProtoHeader: true })) // set trustProtoHeader TRUE for heroku
